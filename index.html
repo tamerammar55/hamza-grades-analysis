@@ -442,6 +442,46 @@ svg .tp:hover,svg .tp-on{opacity:.78;cursor:pointer}
   .pb{break-before:page}
   .t tr.click:hover td{background:inherit}
 }
+
+/* ===== دعم القرار والتشغيل ===== */
+.ins{margin:14px 0 4px;border:1px solid var(--line);border-inline-start:4px solid var(--navy-2);border-radius:var(--r);background:var(--paper-2);padding:10px 14px;break-inside:avoid}
+.ins-h{font-weight:700;color:var(--navy);margin-bottom:4px}.ins-h small{font-weight:400;color:var(--muted);margin-inline-start:6px;font-size:11.5px}
+.ins ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.ins li{display:flex;gap:9px;align-items:flex-start;padding:5px 6px;border-radius:6px;font-size:13px}
+.ins li.click{cursor:pointer}.ins li.click:hover{background:var(--navy-soft)}
+.ins li i{font-style:normal;flex:0 0 20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-weight:700;margin-top:1px}
+.ins li.i-pos i{background:var(--exc-soft);color:var(--exc)}.ins li.i-neg i{background:var(--fail-soft);color:var(--fail)}.ins li.i-warn i{background:var(--weak-soft);color:var(--weak)}
+.dvb{display:flex;flex-direction:column;gap:6px}
+.dvr{display:grid;grid-template-columns:minmax(110px,220px) 1fr 58px;gap:10px;align-items:center;font-size:12.5px}
+.dvr .lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}
+.dvr .tr{height:14px;position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:3px;direction:ltr}
+.dvr .tr::after{content:"";position:absolute;left:50%;inset-block:-3px;border-left:1.5px solid var(--ink-2)}
+.dvr .tr i{position:absolute;inset-block:0}.dvr .tr i.pos{background:var(--exc)}.dvr .tr i.neg{background:var(--fail)}
+.dvr .vl{font-weight:700;text-align:end;font-variant-numeric:tabular-nums}.dvr.click{cursor:pointer}
+.srisk{margin:14px 0 0;padding:10px 14px;border-radius:var(--r);border:1px solid var(--line);display:grid;gap:3px;font-size:13px;break-inside:avoid}
+.srisk.fail{background:var(--fail-soft);border-color:var(--fail)}.srisk.weak{background:var(--weak-soft);border-color:var(--weak)}.srisk.mid{background:var(--mid-soft)}.srisk.exc{background:var(--exc-soft)}
+.ul{margin:4px 0 10px;padding-inline-start:20px}.ul li{margin:2px 0}
+tr.cur td{background:var(--navy-soft);font-weight:600}
+.tasks{display:grid;gap:8px}
+.task{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper-2);break-inside:avoid}
+.task b{display:block}.task small{color:var(--muted)}
+.qb{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.qb.bad{border-inline-start:4px solid var(--fail)}.qb.mid{border-inline-start:4px solid var(--weak)}.qb.ok{border-inline-start:4px solid var(--exc)}
+kbd{font:600 10.5px/1 var(--font);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:2px 5px;color:var(--muted);background:var(--paper)}
+.pal-btn kbd{margin-inline-start:4px}
+#pal{position:fixed;inset:0;background:rgba(10,20,35,.45);z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:10vh 16px 16px}
+.pal-box{width:min(640px,100%);background:var(--paper);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.3);overflow:hidden;border:1px solid var(--line)}
+.pal-in{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.pal-in svg{width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.8}
+.pal-in input{flex:1;border:0;outline:0;background:transparent;font:500 15px var(--font);color:var(--ink)}
+.pal-list{max-height:52vh;overflow:auto;padding:6px}
+.pal-it{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer}
+.pal-it svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:var(--navy-2);stroke-width:1.7}
+.pal-it span{flex:1;min-width:0}.pal-it b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pal-it small{color:var(--muted)}
+.pal-it em{font-style:normal;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:0 8px}
+.pal-it.on,.pal-it:hover{background:var(--navy-soft)}
+.pal-ft{padding:7px 14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+@media screen and (max-width:960px){ .pal-btn kbd{display:none} .task{flex-direction:column;align-items:flex-start} .dvr{grid-template-columns:minmax(90px,130px) 1fr 50px} }
+@media print{ #pal,.pal-btn{display:none!important} .ins li.click:hover{background:none} }
 </style>
 </head>
 <body>
@@ -894,7 +934,7 @@ function progression(list, labels, pkA, pkB){
 
 // درجة الخطورة 0–100 للإنذار المبكر
 function riskOf(s, D, pk){
-  const sm=studentSum(s,pk); if(!sm.counted) return {score:0, sm, reasons:[]};
+  const sm=studentSum(s,pk); if(!sm.counted) return {score:0, sm, reasons:[], edge:[], drop:[]};
   let score=0; const reasons=[];
   if(sm.fails>=3){score+=50; reasons.push(`راسب في ${sm.fails} مواد`);} else if(sm.fails===2){score+=35; reasons.push('راسب في مادتين');} else if(sm.fails===1){score+=20; reasons.push('راسب في مادة');}
   const weakOnly = sm.weak - sm.fails;
@@ -906,7 +946,17 @@ function riskOf(s, D, pk){
     if(first!=null && last!=null && last<first-5){ score+=15; reasons.push(`تراجع ${(first-last).toFixed(1)} نقطة`); }
   }
   if(sm.special){ score+=5; reasons.push('غياب/عذر'); }
-  return {score:Math.min(100,score), sm, reasons};
+  // إنذار استباقي: على حافة الرسوب (50–55%) أو تراجع حاد في مادة عن الاختبار السابق
+  const seq=D.availPkgs.filter(k=>k!=='year'), pv = pk==='year' ? seq[seq.length-1] : seq[seq.indexOf(pk)-1];
+  const edge=[], drop=[];
+  for(const [l,R] of Object.entries(s.subj)){
+    const p=R.pkg&&R.pkg[pk]; if(!p||!p.counted) continue;
+    if(p.pass && p.pct<PASS+5) edge.push(l);
+    const q=pv&&R.pkg&&R.pkg[pv]; if(q&&q.counted&&p.pct-q.pct<=-15) drop.push(l);
+  }
+  if(edge.length){ score+=Math.min(16,edge.length*8); reasons.push(`على حافة الرسوب في ${edge.join('، ')}`); }
+  if(drop.length){ score+=10; reasons.push(`تراجع حاد (15 نقطة فأكثر) في ${drop.join('، ')}`); }
+  return {score:Math.min(100,score), sm, reasons, edge, drop, pv};
 }
 
 /*CORE-END*/
@@ -987,10 +1037,11 @@ const ICON = {
 const ico = k => `<svg viewBox="0 0 24 24">${ICON[k]||''}</svg>`;
 
 const NAV = [
-  {g:'البيانات', items:[['data','الأعوام والملفات','upload'],['settings','الإعدادات والأهداف','gear']]},
+  {g:'الرئيسية', items:[['my','مهامي','check']]},
+  {g:'البيانات', items:[['data','الأعوام والملفات','upload'],['quality','جودة البيانات','shield'],['audit','سجل العمليات','history'],['settings','الإعدادات والأهداف','gear']]},
   {g:'تقارير عامة', items:[['exec','لوحة القياس','gauge'],['committee','تقرير لجنة التحصيل','report'],['final','نتائج الدور الأول من 100','sheet'],['compare','مقارنة الصفوف والشعب','layers'],['years','مقارنة الأعوام الدراسية','cal']]},
   {g:'المواد', items:[['subjects','تحليل المواد','book'],['tiers','تصنيف الطلاب','tiers'],['dist','توزيع الدرجات','dist'],['progress','تطور الأداء','trend']]},
-  {g:'الشعب والمعلمون', items:[['class','تقرير شعبة','cls'],['qd','التقرير الكمي والوصفي','report'],['plan','خطة تحسين الأداء','trend'],['teachers','تقارير المعلمين','user']]},
+  {g:'الشعب والمعلمون', items:[['class','تقرير شعبة','cls'],['qd','التقرير الكمي والوصفي','report'],['plan','خطة تحسين الأداء','trend'],['growth','تحليل النمو','growth'],['teachers','تقارير المعلمين','user']]},
   {g:'الطلاب', items:[['honor','لوحة الشرف','star'],['range','الطلاب حسب نطاق النسبة','dist'],['risk','الإنذار المبكر','alert'],['student','بطاقة طالب','id']]},
   {g:'المشاركة', items:[['export','التصدير والإرسال','send']]},
 ];
@@ -1004,7 +1055,7 @@ function RH(title, sub, meta){
       <div class="ttl"><h1>${esc(title)}</h1>${sub?`<p>${sub}</p>`:''}</div>
       <div class="meta">${m.map(([k,v])=>`<span>${esc(k)}</span><span><bdi>${esc(v)}</bdi></span>`).join('')}</div>
     </div>
-    <div class="basis">أساس الحساب: ${(st.page==='final'||(st.page==='years'?(st.ycPk==='year'||st.ycPk==='auto'):st.pk==='year'))?'درجات الدور الأول من 100 كما وردت في الملف الرسمي':'التقييم الرئيسي'}. نسب التحصيل والنجاح للطلاب الحاضرين فقط، ويُستبعد منها الغائب والمعذور والمحروم.</div>
+    ${['audit','quality'].includes(st.page)?'':`<div class="basis">أساس الحساب: ${(st.page==='final'||(st.page==='years'?(st.ycPk==='year'||st.ycPk==='auto'):st.pk==='year'))?'درجات الدور الأول من 100 كما وردت في الملف الرسمي':'التقييم الرئيسي'}. نسب التحصيل والنجاح للطلاب الحاضرين فقط، ويُستبعد منها الغائب والمعذور والمحروم.</div>`}
   </div>`;
 }
 let SEC_NO=0;
@@ -1163,7 +1214,7 @@ function renderNav(){
   let risk=0; if(d){ try{ risk=scope().filter(s=>riskOf(s,d,st.pk).score>=60).length; }catch(e){} }
   if(!me()){ $('#nav').innerHTML=''; return; }
   $('#nav').innerHTML = NAV.map(g=>({...g, items:g.items.filter(([id])=>canSee(id))})).filter(g=>g.items.length).map(g=>`<h4>${g.g}</h4>${g.items.map(([id,l,ic])=>{
-    const dis = !d && !['data','years','settings'].includes(id) && isFull();
+    const dis = !d && !['data','years','settings','audit'].includes(id) && isFull();
     const cnt = id==='risk' && risk ? `<span class="cnt">${risk}</span>` : '';
     return `<button data-act="nav" data-v="${id}" class="${st.page===id?'on':''}" ${dis?'disabled':''}>${ico(ic)}<span>${l}</span>${cnt}</button>`;
   }).join('')}`).join('');
@@ -1192,8 +1243,8 @@ function renderView(){
   if(!canSee(st.page)) st.page='exec';
   const d=D();
   if(!d && !isFull()){ $('#view').innerHTML=`<div class="sheet">${empty('لا توجد بيانات ضمن صلاحيتك', `<br>${esc(scopeMissing())}<br>اختر عاماً دراسياً آخر من الشريط العلوي، أو راجع مدير النظام.`)}</div>`; return; }
-  if(!d && !['data','years','settings'].includes(st.page)) st.page = canSee('data') ? 'data' : 'settings';
-  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent};
+  if(!d && !['data','years','settings','audit'].includes(st.page)) st.page = canSee('data') ? 'data' : 'settings';
+  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent, my:pMy, growth:pGrowth, quality:pQuality, audit:pAudit};
   let html;
   try{ html=P[st.page](); }catch(e){ console.error(e); html=`<div class="sheet">${empty('تعذّر إنشاء التقرير', `<br><small>${esc(e.message)}</small>`)}</div>`; }
   $('#view').innerHTML=html;
@@ -1301,7 +1352,9 @@ function pData(){
         <span class="addy"><input id="newYear" placeholder="2024-2025" inputmode="numeric"><button class="btn sm" data-act="addyear">إضافة عام</button></span>
       </div></div>
     <div class="panel"><h3>ملفات عام <bdi dir="ltr">${esc(currentYear)}</bdi></h3><div class="ups">${cards}</div></div>
+    ${qualityBanner()}
     ${summary}
+    ${typeof versionsPanel==='function'?versionsPanel():''}
     ${backupPanel()}
   </div>`;
 }
@@ -1324,6 +1377,7 @@ function pExec(){
     ${kpi('ضعيف &lt;65%', pc(A.weakRate), `${A.weak} نتيجة`, 'weak')}
     ${kpi('راسب', A.fail, `${S.withFail} طالباً`, 'fail')}
   </div>
+  ${insightsBox(d,list,st.pk)}
   ${sec('أداء المواد', `<div class="cols"><div>${rankBars(subs.map(x=>({label:x.l, v:x.a.ach, act:'subject', key:x.l})))}</div><div>
     ${T('<th class="l">المادة</th><th>التحصيل</th><th>النجاح</th><th>التكوين</th>', subs.map(x=>`<tr class="click" data-act="subject" data-v="${esc(x.l)}"><td class="l">${esc(x.l)}</td><td class="${toneCls(x.a.ach)}">${pc(x.a.ach)}</td><td>${pc(x.a.passRate)}</td><td>${stack(x.a)}</td></tr>`).join(''))}${LEG_TIERS}</div></div>`, 'اضغط مادة لتقريرها')}
   ${sec('تطور المؤشرات عبر الاختبارات', `<div class="cols"><div>${lineChart([{name:'نسبة التحصيل',data:trend.map(a=>a.ach),color:'var(--navy-2)'},{name:'نسبة النجاح',data:trend.map(a=>a.passRate),color:'var(--exc)'}], d.availPkgs.map(k=>PK_SHORT[k]))}</div><div>
@@ -1649,9 +1703,10 @@ function pRisk(){
   let fRows=''; let last=null;
   fails.forEach(x=>{ if(x.st.cls!==last){ last=x.st.cls; fRows+=`<tr class="grp-row"><td colspan="5">الشعبة ${esc(last)}</td></tr>`; } fRows+=`<tr class="click" data-act="student" data-v="${esc(x.st.id)}"><td class="nm">${esc(x.st.name)}</td><td class="l">${esc(x.label)}</td><td><bdi dir="ltr">${nf(x.p.total)} / ${x.p.max}</bdi></td><td class="c-fail">${pc(x.p.pct)}</td><td>${nf(x.p.max*PASS/100 - x.p.total)}</td></tr>`; });
   return `<div class="sheet">${RH('الإنذار المبكر','الطلاب الذين يحتاجون تدخّلاً أكاديمياً')}
-  <div class="kpis">${kpi('خطورة عالية (60+)',hi.length,'طالباً','fail')}${kpi('خطورة متوسطة (30–59)',md.length,'طالباً','weak')}${kpi('خطورة منخفضة',lo.length,'طالباً','mid')}${kpi('نتائج راسبة',fails.length,`${new Set(fails.map(x=>x.st.id)).size} طالباً`,'fail')}</div>
-  <p class="note">درجة الخطورة (0–100) تجمع: عدد مواد الرسوب، عدد المواد الضعيفة، المتوسط العام، تراجع المتوسط بين أول وآخر اختبار، والغياب.</p>
+  <div class="kpis">${kpi('خطورة عالية (60+)',hi.length,'طالباً','fail')}${kpi('خطورة متوسطة (30–59)',md.length,'طالباً','weak')}${kpi('خطورة منخفضة',lo.length,'طالباً','mid')}${kpi('نتائج راسبة',fails.length,`${new Set(fails.map(x=>x.st.id)).size} طالباً`,'fail')}${kpi('على حافة الرسوب',R.filter(x=>!x.r.sm.fails&&x.r.edge.length).length,'ناجحون الآن','weak')}</div>
+  <p class="note">درجة الخطورة (0–100) تجمع: عدد مواد الرسوب، عدد المواد الضعيفة، المتوسط العام، تراجع المتوسط بين أول وآخر اختبار، الغياب، والإنذار الاستباقي: النجاح بنسبة 50–55% (حافة الرسوب)، والتراجع 15 نقطة فأكثر في مادة عن الاختبار السابق.</p>
   ${sec('خطورة عالية ومتوسطة', (hi.length+md.length)?rTable([...hi,...md]):'<p class="note">لا توجد حالات.</p>')}
+  ${proactiveSection(d, list, st.pk)}
   ${sec('النتائج الراسبة حسب الشعبة', fails.length?T('<th class="l">اسم الطالب</th><th class="l">المادة</th><th>الدرجة</th><th>النسبة</th><th>ينقصه للنجاح</th>', fRows):'<p class="note">لا توجد نتائج راسبة.</p>')}
   </div>`;
 }
@@ -1681,6 +1736,7 @@ function pStudent(){
       return `<tr><td class="l">${esc(l)}</td>${ps.map(k=>{ const q=R.pkg&&R.pkg[k]; if(!q) return '<td class="c-mut">–</td>'; if(q.special) return `<td class="c-mut">${esc(q.special)}</td>`; return `<td class="${q.counted&&!q.pass?'c-fail':''}">${q.total==null?'–':nf(q.total)}</td>`; }).join('')}<td class="${p?toneCls(p.pct):''}">${p?pc(p.pct):'–'}</td><td>${tierTag(p)}</td></tr>`; }).join(''),
     `<tr><td class="l">المتوسط</td>${ps.map(k=>`<td>${pc(studentSum(s,k).avg)}</td>`).join('')}<td>${pc(m.avg)}</td><td></td></tr>`))}
   ${sec('مقارنة بمتوسط الشعبة والصف', lineChart(series, ps.map(k=>PK_SHORT[k])) + T('<th class="l"></th>'+ps.map(k=>`<th>${PK_SHORT[k]}</th>`).join(''), series.map(x=>`<tr><td class="l">${x.name}</td>${x.data.map(v=>`<td>${pc(v)}</td>`).join('')}</tr>`).join('')))}
+  ${studentExtras(s, d, cL)}
   ${sig([['النائب الأكاديمي',SETTINGS.deputy],['ولي الأمر','']])}</div>`;
 }
 
@@ -1793,10 +1849,10 @@ if(/^https?:$/.test(location.protocol)){
 // ===================================================================
 const ROLES = {
   admin:     {label:'مدير النظام',      deny:[]},
-  principal: {label:'مدير المدرسة',     deny:['data']},
-  vp:        {label:'النائب الأكاديمي',  deny:['data']},
-  coord:     {label:'منسق مادة',        deny:['data','settings']},
-  teacher:   {label:'معلم',             deny:['data','settings','committee']},
+  principal: {label:'مدير المدرسة',     deny:['data','audit']},
+  vp:        {label:'النائب الأكاديمي',  deny:['data','audit']},
+  coord:     {label:'منسق مادة',        deny:['data','settings','quality','audit']},
+  teacher:   {label:'معلم',             deny:['data','settings','committee','quality','audit']},
 };
 const FULL_ROLES = ['admin','principal','vp'];
 const EMERGENCY = {u:'admin', n:'مدير النظام (حساب الطوارئ)', r:'admin', s:'', emergency:true};
@@ -1832,6 +1888,7 @@ const userKey = u => String(u||'').trim().toLowerCase();
 
 // ---------- الجلسة ----------
 const AUTH = {user:null, view:null};
+let LOGOUT_REASON=null;
 const me = () => AUTH.view || AUTH.user;
 const role = () => (me()||{}).r;
 const isFull = () => FULL_ROLES.includes(role());
@@ -1844,8 +1901,8 @@ function checkLogin(u,p){
 }
 const SS = { get(){ try{ return JSON.parse(sessionStorage.getItem('gp-session')||'null'); }catch(e){ return null; } }, set(v){ try{ v?sessionStorage.setItem('gp-session',JSON.stringify(v)):sessionStorage.removeItem('gp-session'); }catch(e){} } };
 function restoreSession(){ const s=SS.get(); const u=s&&findUser(s.u); if(!u) return false; AUTH.user=u; AUTH.view=null; document.body.classList.add('authed'); return true; }
-function startSession(u){ AUTH.user=u; AUTH.view=null; SS.set({u:u.u}); document.body.classList.add('authed'); $('#login')?.remove(); st.page = canSee('exec') ? (D()?'exec':(canSee('data')?'data':'exec')) : 'exec'; if(role()==='admin' && !D()) st.page='data'; syncFilters(); renderAll(); }
-async function logout(){ if(CLOUD) await cloudLogout(); AUTH.user=null; AUTH.view=null; SS.set(null); document.body.classList.remove('authed'); $('#view').innerHTML=''; showLogin(); }
+function startSession(u){ AUTH.user=u; AUTH.view=null; SS.set({u:u.u}); document.body.classList.add('authed'); $('#login')?.remove(); st.page = canSee('exec') ? (D()?'exec':(canSee('data')?'data':'exec')) : 'exec'; if(role()==='admin' && !D()) st.page='data'; if(['teacher','coord'].includes(role()) && D()) st.page='my'; syncFilters(); if(typeof applyHash==='function') applyHash(); renderAll(); if(typeof audit==='function') audit('تسجيل الدخول'); }
+async function logout(){ if(typeof audit==='function' && AUTH.user) await audit(LOGOUT_REASON||'تسجيل الخروج'); LOGOUT_REASON=null; try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} if(CLOUD) await cloudLogout(); AUTH.user=null; AUTH.view=null; SS.set(null); document.body.classList.remove('authed'); $('#view').innerHTML=''; showLogin(); }
 
 // ---------- شاشة الدخول ----------
 function showLogin(msg=''){
@@ -2083,8 +2140,9 @@ async function cloudDetect(){
 const AUTH_ERR = {'auth/invalid-credential':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/wrong-password':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/user-not-found':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/invalid-email':'اسم المستخدم غير صالح.','auth/too-many-requests':'محاولات كثيرة؛ انتظر قليلاً ثم أعد المحاولة.','auth/network-request-failed':'لا يوجد اتصال بالإنترنت.','auth/user-disabled':'هذا الحساب موقوف.'};
 // Firebase يشترط 6 أحرف على الأقل؛ نضيف لاحقة ثابتة لكلمات المرور التي تنشئها المنصة فيقبل أي طول
 const fbPw = p => String(p) + '#Hz-26';
+let CLOUD_LOGIN_FLAG=false;
 async function cloudSignIn(u,p){
-  const e=toEmail(u);
+  const e=toEmail(u); CLOUD_LOGIN_FLAG=true;
   try{ await CLOUD.auth.signInWithEmailAndPassword(e, fbPw(p)); }
   catch(err){ if(String(p).length<6) throw err; await CLOUD.auth.signInWithEmailAndPassword(e, p); }   // حسابات أُنشئت من لوحة Firebase (مثل حساب المالك)
 }
@@ -2105,8 +2163,9 @@ function cloudBoot(){
       if(!p){ await CLOUD.auth.signOut(); busy(''); showLogin('حسابك غير مسجّل في المنصة. راجع مدير النظام.'); return; }
       AUTH.user=p; AUTH.view=null; document.body.classList.add('authed'); $('#login')?.remove();
       await Promise.race([cloudLoadAll(), new Promise((_,rej)=>setTimeout(()=>rej(new Error('TIMEOUT')),25000))]);
-      st.page = role()==='admin' && !D() ? 'data' : 'exec';
-      syncFilters(); renderAll();
+      st.page = role()==='admin' && !D() ? 'data' : (['teacher','coord'].includes(role()) && D() ? 'my' : 'exec');
+      syncFilters(); if(typeof applyHash==='function') applyHash(); renderAll();
+      if(CLOUD_LOGIN_FLAG){ CLOUD_LOGIN_FLAG=false; audit('تسجيل الدخول'); }
     }catch(e){ console.error(e); try{ await CLOUD.auth.signOut(); }catch(_){}
       const c=String(e.code||e.message||e);
       const why = /TIMEOUT|unavailable|offline/i.test(c) ? 'لا يوجد رد من قاعدة البيانات. تأكد من إنشاء Firestore Database في المشروع (Build ← Firestore Database ← Create database)، ومن أن الشبكة لا تحجب firestore.googleapis.com.'
@@ -2237,7 +2296,7 @@ async function cloudPublishYear(y){
 async function cloudDeleteYear(y){
   if(!CLOUD || role()!=='admin') return;
   const yref=CLOUD.db.collection('years').doc(y), ops=[];
-  for(const sub of ['units','finals','blob','meta']) (await yref.collection(sub).get()).docs.forEach(x=>ops.push({del:true, ref:x.ref}));
+  for(const sub of ['units','finals','blob','meta','versions','vmeta']) (await yref.collection(sub).get()).docs.forEach(x=>ops.push({del:true, ref:x.ref}));
   ops.push({del:true, ref:yref}); await cloudCommit(ops);
 }
 let CLOUD_SET_T=null;
@@ -3606,6 +3665,457 @@ document.addEventListener('change', e=>{
 });
 
 // ===================================================================
+// دعم القرار: أبرز الملاحظات، ملف الطالب الشامل، الإنذار الاستباقي،
+// تحليل النمو، جودة البيانات، مهامي
+// ===================================================================
+Object.assign(ICON,{
+  check:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/>',
+  shield:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+  history:'<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  growth:'<path d="M4 20h16"/><path d="M6 16l4-5 3 3 5-7"/><path d="M14 7h4v4"/>',
+});
+const fx = x => x==null ? '–' : (x>0?'+':'')+r1(x);
+const prevOf = (d, pk) => { const seq=d.availPkgs.filter(k=>k!=='year'); return pk==='year' ? seq[seq.length-1] : seq[seq.indexOf(pk)-1]; };
+
+// أشرطة موجبة/سالبة حول الصفر
+function divBars(items, opt={}){
+  if(!items.length) return '<p class="note">لا توجد بيانات.</p>';
+  const mx = opt.max || Math.max(5, ...items.map(x=>Math.abs(x.v||0)));
+  return `<div class="dvb">${items.map(x=>{ const w=Math.min(50, Math.abs(x.v||0)/mx*50);
+    return `<div class="dvr tp ${x.act?'click':''}" data-tip="${esc(x.label)}: ${fx(x.v)}" ${x.act?`data-act="${x.act}" data-v="${esc(x.key)}"`:''}><span class="lb" title="${esc(x.label)}">${esc(x.label)}</span>
+      <span class="tr"><i class="${(x.v||0)>=0?'pos':'neg'}" style="${(x.v||0)>=0?'left:50%':'left:'+(50-w)+'%'};width:${w}%"></i></span>
+      <span class="vl ${(x.v||0)>=0?'c-exc':'c-fail'}"><bdi dir="ltr">${fx(x.v)}</bdi></span></div>`; }).join('')}</div>`;
+}
+
+// ---------- أبرز الملاحظات ----------
+function insights(d, list, pk){
+  const out=[], labels=labelsIn(list,pk), pv=prevOf(d,pk), A=aggAll(list,labels,pk), P=x=>'\u2066'+r1(x)+'%\u2069';
+  const grades=[...new Set(list.map(s=>s.grade))].filter(g=>g!=null).sort();
+  if(pv){
+    const B=aggAll(list,labelsIn(list,pv),pv);
+    if(A.ach!=null && B.ach!=null){ const dd=A.ach-B.ach; if(Math.abs(dd)>=1) out.push({w:Math.abs(dd)*1.5, t:dd>0?'pos':'neg', text:`نسبة التحصيل العامة ${dd>0?'ارتفعت':'انخفضت'} ${r1(Math.abs(dd))} نقطة عن ${PK_SHORT[pv]} (من ${P(B.ach)} إلى ${P(A.ach)}).`}); }
+    const ch=[];
+    for(const g of grades){ const L=list.filter(s=>s.grade===g); for(const l of labels){ const a=aggSubject(L,l,pk), b=aggSubject(L,l,pv); if(a.n>=10 && b.n>=10 && a.ach!=null && b.ach!=null) ch.push({g,l,dd:a.ach-b.ach,a:a.ach}); } }
+    const dn=ch.filter(x=>x.dd<=-3).sort((x,y)=>x.dd-y.dd), up=ch.filter(x=>x.dd>=3).sort((x,y)=>y.dd-x.dd);
+    if(dn.length) out.push({w:-dn[0].dd*1.3, t:'neg', act:'subject', v:dn[0].l, text:`أكبر تراجع: ${dn[0].l} للصف ${dn[0].g} انخفضت ${r1(-dn[0].dd)} نقطة عن ${PK_SHORT[pv]}${dn.length>1?`، ومعها ${dn.length-1} ${dn.length-1===1?'مادة أخرى':'مواد أخرى'} تراجعت 3 نقاط فأكثر`:''}.`});
+    if(up.length) out.push({w:up[0].dd*1.0, t:'pos', act:'subject', v:up[0].l, text:`أكبر تحسّن: ${up[0].l} للصف ${up[0].g} ارتفعت ${r1(up[0].dd)} نقطة عن ${PK_SHORT[pv]}.`});
+  }
+  // الفجوة بين شعب الصف الواحد في المادة نفسها
+  const gaps=[];
+  for(const g of grades){ const L=list.filter(s=>s.grade===g), cs=[...new Set(L.map(s=>s.cls))];
+    if(cs.length<2) continue;
+    for(const l of labels){ const v=cs.map(c=>({c, a:aggSubject(L.filter(s=>s.cls===c),l,pk)})).filter(x=>x.a.n>=5 && x.a.ach!=null).sort((x,y)=>y.a.ach-x.a.ach);
+      if(v.length>=2){ const gp=v[0].a.ach-v[v.length-1].a.ach; if(gp>=10) gaps.push({g,l,hi:v[0],lo:v[v.length-1],gp}); } } }
+  gaps.sort((x,y)=>y.gp-x.gp).slice(0,2).forEach(x=>out.push({w:x.gp*0.7, t:'warn', act:'cls', v:x.lo.c, text:`فجوة بين الشعب في ${x.l} للصف ${x.g}: الشعبة ${x.hi.c} (${P(x.hi.a.ach)}) والشعبة ${x.lo.c} (${P(x.lo.a.ach)})، بفارق ${r1(x.gp)} نقطة.`}));
+  // المستهدفات
+  const below=labels.map(l=>({l,a:aggSubject(list,l,pk),t:targetOf(l)})).filter(x=>x.a.n && x.a.passRate!=null && x.a.passRate<x.t.pass).sort((x,y)=>(x.a.passRate-x.t.pass)-(y.a.passRate-y.t.pass));
+  if(below.length) out.push({w:(below[0].t.pass-below[0].a.passRate)*1.4+below.length, t:'neg', act:'subject', v:below[0].l, text:`${below.length===1?'مادة واحدة':below.length+' مواد'} دون مستهدف النجاح، أبعدها ${below[0].l}: ${P(below[0].a.passRate)} مقابل ${below[0].t.pass}%${below[0].a.fail?` (${below[0].a.fail} نتيجة راسبة)`:''}.`});
+  else if(labels.length && A.n) out.push({w:3, t:'pos', text:`جميع المواد حققت مستهدف النجاح في ${PK_SHORT[pk]}.`});
+  // الإنذار المبكر
+  const R=list.map(s=>({s, r:riskOf(s,d,pk)}));
+  const hi=R.filter(x=>x.r.score>=60), edge=R.filter(x=>x.r.edge.length && !x.r.sm.fails);
+  if(hi.length){ let fresh=0; if(pv) fresh=hi.filter(x=>riskOf(x.s,d,pv).score<60).length;
+    out.push({w:Math.min(20,hi.length*0.8), t:'neg', act:'nav', v:'risk', text:`${hi.length} طالباً في الخطورة العالية بالإنذار المبكر${fresh?`، منهم ${fresh} لم يكونوا فيها في ${PK_SHORT[pv]}`:''}.`}); }
+  if(edge.length) out.push({w:Math.min(14,edge.length*0.6), t:'warn', act:'nav', v:'risk', text:`${edge.length} طالباً ناجحون الآن لكنهم على حافة الرسوب (50–55%) في مادة واحدة على الأقل؛ التدخل قبل الاختبار القادم يمنع رسوبهم.`});
+  // ملاحظة على صحة الرصد
+  if(pk!=='year'){ const fm=[]; for(const l of labels){ const rs=results(list,l,pk).filter(x=>x.p.counted); if(rs.length>=20){ const full=rs.filter(x=>x.p.pct>=99.99).length/rs.length*100; if(full>=50) fm.push({l,full}); } }
+    fm.sort((a,b)=>b.full-a.full);
+    if(fm.length) out.push({w:8+fm.length, t:'warn', act:'nav', v:'quality', text:`نسبة الدرجة الكاملة غير معتادة في ${fm.length===1?'مادة':fm.length+' مواد'}: ${fm.slice(0,5).map(x=>`${x.l} (${r1(x.full)}%)`).join('، ')}${fm.length>5?'…':''}. يُستحسن التأكد من صحة الرصد قبل اعتماد النتائج.`}); }
+  // أفضل شعبة
+  const cs=[...new Set(list.map(s=>s.cls))].map(c=>({c,a:aggAll(list.filter(s=>s.cls===c),labels,pk)})).filter(x=>x.a.ach!=null).sort((x,y)=>y.a.ach-x.a.ach);
+  if(cs.length>2) out.push({w:2.5, t:'pos', act:'cls', v:cs[0].c, text:`الشعبة ${cs[0].c} الأعلى تحصيلاً (${P(cs[0].a.ach)})، والشعبة ${cs[cs.length-1].c} الأدنى (${P(cs[cs.length-1].a.ach)}).`});
+  return out.sort((x,y)=>y.w-x.w).slice(0,6);
+}
+function insightsBox(d, list, pk){
+  let items=[]; try{ items=insights(d,list,pk); }catch(e){ console.error(e); }
+  if(!items.length) return '';
+  const I={pos:'▲',neg:'▼',warn:'!'};
+  return `<div class="ins"><div class="ins-h">أبرز الملاحظات <small>تُستخرج تلقائياً من البيانات · ${esc(PKG[pk].label)} · ${esc(scopeName())}</small></div>
+    <ol>${items.map(x=>`<li class="i-${x.t} ${x.act?'click':''}" ${x.act?`data-act="${x.act}" data-v="${esc(x.v)}"`:''}><i>${I[x.t]}</i><span>${esc(x.text)}</span></li>`).join('')}</ol></div>`;
+}
+
+// ---------- الإنذار الاستباقي (داخل صفحة الإنذار المبكر) ----------
+function proactiveSection(d, list, pk){
+  const R=list.map(s=>({s, r:riskOf(s,d,pk)})).filter(x=>!x.r.sm.fails && (x.r.edge.length || x.r.drop.length)).sort((a,b)=>b.r.score-a.r.score||byCls(a.s.cls,b.s.cls));
+  const cell=(s,l)=>{ const p=s.subj[l].pkg[pk]; return `${esc(l)} <b class="${toneCls(p.pct)}">${pc(p.pct)}</b>`; };
+  const dcell=(s,l,pv)=>{ const p=s.subj[l].pkg[pk], q=s.subj[l].pkg[pv]; return `${esc(l)} <span class="c-fail"><bdi dir="ltr">${r1(p.pct-q.pct)}</bdi></span>`; };
+  return sec(`إنذار استباقي: ناجحون الآن ويحتاجون متابعة (${R.length})`, R.length ? T('<th>م</th><th class="l">اسم الطالب</th><th>الشعبة</th><th class="l">على حافة الرسوب (50–55%)</th><th class="l">تراجع حاد عن الاختبار السابق</th><th>المتوسط</th>',
+    R.map((x,i)=>`<tr class="click" data-act="student" data-v="${esc(x.s.id)}"><td>${i+1}</td><td class="nm">${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td class="l" style="white-space:normal">${x.r.edge.map(l=>cell(x.s,l)).join('، ')||'—'}</td><td class="l" style="white-space:normal">${x.r.drop.map(l=>dcell(x.s,l,x.r.pv)).join('، ')||'—'}</td><td class="${toneCls(x.r.sm.avg)}">${pc(x.r.sm.avg)}</td></tr>`).join(''), '', 'dense')
+    + '<p class="note">هؤلاء لم يرسبوا في أي مادة، لكن نتيجتهم قريبة من حد النجاح أو انخفضت 15 نقطة فأكثر في مادة. التدخل معهم الآن أسهل وأقل كلفة من علاج الرسوب بعد وقوعه.</p>'
+    : '<p class="note">لا يوجد طلاب على حافة الرسوب أو بتراجع حاد.</p>');
+}
+
+// ---------- ملف الطالب الشامل ----------
+function studentExtras(s, d, cL){
+  const pk=st.pk, r=riskOf(s,d,pk);
+  const lvl = r.score>=60?['fail','عالية']:r.score>=30?['weak','متوسطة']:r.score>0?['mid','منخفضة']:['exc','لا يوجد'];
+  const riskBox = `<div class="srisk ${lvl[0]}"><div><b>الإنذار المبكر: ${lvl[1]}</b>${r.score?` <small>(${r.score} من 100)</small>`:''}</div>${r.reasons.length?`<div>${esc(r.reasons.join(' · '))}</div>`:'<div>لا توجد مؤشرات خطر في هذا الاختبار.</div>'}</div>`;
+  // القوة والضعف مقارنة بمتوسط الشعبة
+  const rows=d.subjects.filter(l=>s.subj[l]).map(l=>{ const p=s.subj[l].pkg&&s.subj[l].pkg[pk]; if(!p||!p.counted) return null; const ca=aggSubject(cL,l,pk).ach; return {l, p:p.pct, ca, df:ca==null?null:p.pct-ca}; }).filter(Boolean).sort((a,b)=>b.df-a.df);
+  const strong=rows.filter(x=>x.df>=2 && x.p>=80).slice(0,3), weak=rows.filter(x=>x.df<0 || x.p<WEAK).slice(-3).reverse();
+  const sw = rows.length ? sec('نقاط القوة والضعف مقارنة بمتوسط الشعبة', `<div class="cols"><div>${divBars(rows.map(x=>({label:x.l, v:x.df})))}<p class="note">الفرق بالنقاط بين نسبة الطالب ومتوسط شعبته في كل مادة (${esc(PK_SHORT[pk])}).</p></div><div>
+      <div class="sub-h">نقاط القوة</div>${strong.length?`<ul class="ul">${strong.map(x=>`<li>${esc(x.l)}: ${pc(x.p)} <small class="c-exc">(<bdi dir="ltr">${fx(x.df)}</bdi> عن الشعبة)</small></li>`).join('')}</ul>`:'<p class="note">لا توجد مادة يتفوق فيها على متوسط شعبته بوضوح.</p>'}
+      <div class="sub-h">تحتاج دعماً</div>${weak.length?`<ul class="ul">${weak.map(x=>`<li>${esc(x.l)}: ${pc(x.p)} <small class="c-fail">(<bdi dir="ltr">${fx(x.df)}</bdi> عن الشعبة)</small></li>`).join('')}</ul>`:'<p class="note">لا توجد مادة دون متوسط الشعبة.</p>'}</div></div>`) : '';
+  // عبر الأعوام الدراسية (بالرقم نفسه)
+  const ys=Object.keys(YEARS).sort(), hist=[];
+  for(const y of ys){ let dd=null; try{ dd=y===currentYear?d:DY(y); }catch(e){} if(!dd) continue; const x=dd.students.find(q=>q.id===s.id); if(!x) continue;
+    const row={y, cls:x.cls, pk:{}}; for(const k of ['mid1','end1','mid2','end2','year']) if(dd.availPkgs.includes(k)){ const m=studentSum(x,k); row.pk[k]=m.counted?(k==='year'&&m.offAvg!=null?m.offAvg:m.avg):null; }
+    const fm=dd.availPkgs.includes('year')?studentSum(x,'year'):null; row.status=fm&&fm.status||''; hist.push(row); }
+  const KS=['mid1','end1','mid2','end2','year'];
+  const yearsSec = hist.length>1 ? sec('الأداء عبر الأعوام الدراسية', lineChart([{name:'متوسط الطالب',data:hist.map(h=>{ const v=KS.map(k=>h.pk[k]).filter(v=>v!=null); return v.length?v[v.length-1]:null; }),color:'var(--navy-2)'}], hist.map(h=>h.y))
+      + T('<th>العام</th><th>الشعبة</th>'+KS.map(k=>`<th>${PK_SHORT[k]}</th>`).join('')+'<th>النتيجة</th>', hist.map(h=>`<tr${h.y===currentYear?' class="cur"':''}><td><bdi dir="ltr">${esc(h.y)}</bdi></td><td>${esc(h.cls)}</td>${KS.map(k=>`<td class="${toneCls(h.pk[k])}">${h.pk[k]===undefined?'<span class="c-mut">—</span>':pc(h.pk[k])}</td>`).join('')}<td>${esc(h.status)||'—'}</td></tr>`).join(''))
+      + '<p class="note">يُربط الطالب بين الأعوام برقمه. المتوسط في الرسم هو آخر اختبار متاح في كل عام.</p>') : '';
+  return riskBox + sw + yearsSec;
+}
+
+// ---------- تحليل النمو ----------
+function pGrowth(){
+  const d=D(), seq=d.availPkgs.filter(k=>k!=='year');
+  if(seq.length<2) return `<div class="sheet">${RH('تحليل النمو','')}${empty('يحتاج تحليل النمو اختبارين على الأقل','<br>ارفع ملف اختبار ثانٍ لهذا العام.')}</div>`;
+  if(!seq.includes(st.gA)) st.gA=seq[0];
+  if(!seq.includes(st.gB) || st.gB===st.gA) st.gB=seq.filter(k=>k!==st.gA).slice(-1)[0];
+  const A=st.gA, B=st.gB, list=scope(), labels=labelsIn(list,B), teacherRole=role()==='teacher';
+  const pair=(s,l)=>{ const R=s.subj[l], a=R&&R.pkg&&R.pkg[A], b=R&&R.pkg&&R.pkg[B]; return a&&b&&a.counted&&b.counted ? {a:a.pct,b:b.pct,g:b.pct-a.pct} : null; };
+  const stat=ps=>({n:ps.length, a:avg(ps.map(x=>x.a)), b:avg(ps.map(x=>x.b)), g:avg(ps.map(x=>x.g)), up:ps.length?ps.filter(x=>x.g>1).length/ps.length*100:null, down:ps.length?ps.filter(x=>x.g<-1).length/ps.length*100:null, wg:avg(ps.filter(x=>x.a<WEAK).map(x=>x.g)), wn:ps.filter(x=>x.a<WEAK).length});
+  const subj={}; for(const l of labels) subj[l]=stat(list.map(s=>pair(s,l)).filter(Boolean));
+  const TG=teacherAgg(d,list,B).map(g=>{ const ps=g.items.map(x=>pair(x.st,g.subject)).filter(Boolean); const S=stat(ps); const sg=subj[g.subject]&&subj[g.subject].g;
+    return {...g, S, va:(S.g!=null&&sg!=null)?S.g-sg:null, cls:g.classes.map(c=>({cls:c.cls, S:stat(c.items.map(x=>pair(x.st,g.subject)).filter(Boolean))}))}; }).filter(g=>g.S.n);
+  const units=TG.flatMap(g=>g.cls.filter(c=>c.S.n).map(c=>({t:g.name, l:g.subject, cls:c.cls, S:c.S, va:(c.S.g!=null&&subj[g.subject].g!=null)?c.S.g-subj[g.subject].g:null})));
+  const opt=k=>seq.map(x=>`<option value="${x}" ${k===x?'selected':''}>${PK_SHORT[x]}</option>`).join('');
+  const tools=`<div class="r-tools noprint"><label class="f">من <select data-set="gA">${opt(A)}</select></label><label class="f">إلى <select data-set="gB">${opt(B)}</select></label></div>`;
+  const head='<th>طلاب</th><th>البداية</th><th>الآن</th><th>النمو</th><th>تحسّن</th><th>تراجع</th><th>نمو الضعاف</th>';
+  const cells=S=>`<td>${S.n}</td><td>${pc(S.a)}</td><td class="${toneCls(S.b)}">${pc(S.b)}</td><td class="${S.g>=0?'c-exc':'c-fail'}"><b>${sgn(S.g)}</b></td><td>${pc(S.up)}</td><td>${pc(S.down)}</td><td>${S.wn?`${sgn(S.wg)} <small class="c-mut">(${S.wn})</small>`:'<span class="c-mut">—</span>'}</td>`;
+  const vaSorted=[...TG].sort((x,y)=>(y.va??-99)-(x.va??-99));
+  return `<div class="sheet">${RH('تحليل النمو', `تقدّم الطلاب أنفسهم من ${PK_SHORT[A]} إلى ${PK_SHORT[B]}`, [['العام الدراسي',currentYear],['الفترة',`${PK_SHORT[A]} ← ${PK_SHORT[B]}`],['النطاق',scopeName()],['تاريخ الإصدار',TODAY]])}
+  ${tools}
+  <p class="note">النمو = متوسط تغيّر نسبة الطالب نفسه بين الاختبارين، ولا يدخل فيه إلا الطالب الذي له نتيجة في الاختبارين. ${teacherRole?'':'<b>الأثر المضاف</b> = نمو طلاب المعلم ناقص نمو المادة نفسها في المدرسة؛ وهو أعدل من الدرجة المطلقة لأنه يلغي اختلاف صعوبة الاختبارين ومستوى الطلاب عند البداية.'} "نمو الضعاف" لمن بدأ أقل من 65%.</p>
+  ${sec('النمو حسب المادة', T('<th class="l">المادة</th>'+head, labels.filter(l=>subj[l].n).map(l=>`<tr class="click" data-act="subject" data-v="${esc(l)}"><td class="l">${esc(l)}</td>${cells(subj[l])}</tr>`).join('')))}
+  ${!teacherRole && TG.length>1 ? sec('الأثر المضاف للمعلمين', divBars(vaSorted.filter(g=>g.va!=null).map(g=>({label:`${g.name} — ${g.subject}`, v:g.va, act:'teacher', key:g.name}))) + '<p class="note">يمين الخط: نمو طلاب المعلم أعلى من نمو المادة في المدرسة. يسار الخط: أقل منه. الفرق أقل من نقطتين لا يُعد فارقاً حقيقياً.</p>') : ''}
+  ${sec('النمو حسب المعلم', T('<th class="l">المعلم</th><th class="l">المادة</th><th>الشعب</th>'+head+(teacherRole?'':'<th>الأثر المضاف</th>'), vaSorted.map(g=>`<tr class="click" data-act="teacher" data-v="${esc(g.name)}"><td class="nm">${esc(g.name)}</td><td class="l">${esc(g.subject)}</td><td>${esc(g.cls.map(c=>c.cls).join('، '))}</td>${cells(g.S)}${teacherRole?'':`<td class="${g.va==null?'':g.va>=2?'c-exc':g.va<=-2?'c-fail':''}"><b>${sgn(g.va)}</b></td>`}</tr>`).join(''), '', 'dense'))}
+  ${sec('النمو حسب الشعبة والمادة', T('<th>الشعبة</th><th class="l">المادة</th><th class="l">المعلم</th>'+head+(teacherRole?'':'<th>الأثر المضاف</th>'), units.sort((x,y)=>(y.S.g??-99)-(x.S.g??-99)).map(u=>`<tr class="click" data-act="cls" data-v="${esc(u.cls)}"><td><b>${esc(u.cls)}</b></td><td class="l">${esc(u.l)}</td><td class="l">${esc(u.t)}</td>${cells(u.S)}${teacherRole?'':`<td class="${u.va==null?'':u.va>=2?'c-exc':u.va<=-2?'c-fail':''}">${sgn(u.va)}</td>`}</tr>`).join(''), '', 'dense'))}
+  </div>`;
+}
+
+// ---------- جودة البيانات ----------
+const Q_SEV={high:['fail','عالية'],mid:['weak','متوسطة'],low:['mid','منخفضة']};
+function qualityChecks(d){
+  const out=[], add=(sev,cat,pk,l,cls,text)=>out.push({sev,cat,pk,l,cls,text});
+  const seq=d.availPkgs.filter(k=>k!=='year');
+  for(const pk of d.availPkgs){
+    for(const l of d.subjects){
+      const rs=results(d.students,l,pk); if(!rs.length) continue;
+      const byC={}, fullC=[]; rs.forEach(x=>(byC[x.st.cls]=byC[x.st.cls]||[]).push(x));
+      for(const [c,xs] of Object.entries(byC)){
+        const miss=xs.filter(x=>!x.p.counted && !x.p.special);
+        if(miss.length) add(miss.length/xs.length>0.2?'high':'mid','درجات غير مرصودة',pk,l,c,`${miss.length} من ${xs.length} طالباً دون درجة: ${miss.slice(0,4).map(x=>x.st.name.split(' ').slice(0,2).join(' ')).join('، ')}${miss.length>4?'…':''}`);
+        const bad=xs.filter(x=>x.p.total!=null && (x.p.total>x.p.max+1e-9 || x.p.total<0));
+        if(bad.length) add('high','درجة خارج المدى',pk,l,c,`${bad.length} درجة أكبر من ${xs[0].p.max} أو سالبة: ${bad.slice(0,3).map(x=>`${x.st.name.split(' ')[0]} (${nf(x.p.total)})`).join('، ')}`);
+        if(pk==='year') continue;
+        const cn=xs.filter(x=>x.p.counted);
+        if(cn.length>=8){
+          const full=cn.filter(x=>x.p.pct>=99.99).length/cn.length*100;
+          if(full>=60) fullC.push({c, full});
+          const sd=stddev(cn.map(x=>x.p.pct)); if(sd!=null && sd<0.01 && cn[0].p.pct<99.99) add('mid','درجات متطابقة',pk,l,c,`كل الطلاب (${cn.length}) لهم الدرجة نفسها ${nf(cn[0].p.total)} من ${cn[0].p.max}`);
+        }
+      }
+      if(fullC.length){ const nc=Object.keys(byC).length; fullC.sort((a,b)=>byCls(a.c,b.c));
+        add(fullC.length/nc>=0.8?'low':'mid','نسبة درجات كاملة مرتفعة',pk,l,'',`في ${fullC.length} من ${nc} شعبة حصل 60% فأكثر من الطلاب على الدرجة الكاملة: ${fullC.slice(0,10).map(x=>`${x.c} (${r1(x.full)}%)`).join('، ')}${fullC.length>10?'…':''}. إن كان هذا طبيعياً في المادة فلا إجراء.`); }
+      // تغيّر مفاجئ عن الاختبار السابق في الشعبة
+      const i=seq.indexOf(pk); if(i>0){ const pv=seq[i-1];
+        for(const c of Object.keys(byC)){ const L=d.students.filter(s=>s.cls===c), a=aggSubject(L,l,pk), b=aggSubject(L,l,pv);
+          if(a.n>=8 && b.n>=8 && a.ach!=null && b.ach!=null && Math.abs(a.ach-b.ach)>=20) add('low','تغيّر مفاجئ',pk,l,c,`متوسط الشعبة ${a.ach>b.ach?'ارتفع':'انخفض'} ${r1(Math.abs(a.ach-b.ach))} نقطة عن ${PK_SHORT[pv]} (من ${r1(b.ach)}% إلى ${r1(a.ach)}%)`); }
+        const gone=d.students.filter(s=>{ const R=s.subj[l]; return R&&R.pkg&&R.pkg[pv]&&!R.pkg[pk]; });
+        if(gone.length && gone.length<rs.length) add('low','طلاب غير موجودين في الملف',pk,l,'',`${gone.length} طالباً لهم نتيجة في ${PK_SHORT[pv]} وليس لهم سطر في ${PK_SHORT[pk]}`);
+      }
+    }
+    // شعب دون معلم
+    if(pk!=='year'){ const T_=teachersFor(d,pk); if(T_.length){ const miss=[];
+      for(const l of d.subjects){ const cs=[...new Set(results(d.students,l,pk).map(x=>x.st.cls))]; cs.forEach(c=>{ if(!T_.some(t=>t.cls===normClass(c) && t.subjectKey===l)) miss.push({c,l}); }); }
+      if(miss.length){ const g={}; miss.forEach(x=>{ (g[x.c]=g[x.c]||[]).push(x.l); });
+        add('mid','شعب دون معلم في قائمة المعلمين',pk,'','',Object.entries(g).sort((a,b)=>byCls(a[0],b[0])).map(([c,ls])=>`${c}: ${ls.length>=d.subjects.length-1?'كل المواد':ls.join('، ')}`).join(' · ')); } } }
+  }
+  // أسماء مكررة بأرقام مختلفة في الشعبة نفسها
+  const seen=new Map(); d.students.forEach(s=>{ const k=s.cls+'|'+norm(s.name); if(!seen.has(k)) seen.set(k,[]); seen.get(k).push(s); });
+  for(const [k,v] of seen) if(v.length>1) add('mid','اسم مكرر بأرقام مختلفة','', '', v[0].cls, `${v[0].name}: ${v.map(s=>s.id).join(' و ')}`);
+  const o={high:0,mid:1,low:2}; return out.sort((a,b)=>o[a.sev]-o[b.sev]||String(a.cat).localeCompare(b.cat,'ar')||byCls(a.cls||'',b.cls||''));
+}
+let QCACHE={d:null, r:null};
+const qualityOf = d => { if(QCACHE.d!==d){ QCACHE={d, r:qualityChecks(d)}; } return QCACHE.r; };
+function pQuality(){
+  const d=D(), Q=qualityOf(d), n=k=>Q.filter(x=>x.sev===k).length;
+  const cats=[...new Set(Q.map(x=>x.cat))];
+  const f=st.qCat&&cats.includes(st.qCat)?st.qCat:'all', L=f==='all'?Q:Q.filter(x=>x.cat===f);
+  return `<div class="sheet">${RH('جودة البيانات','فحص تلقائي لملفات الرصد المرفوعة قبل اعتماد التقارير',[['العام الدراسي',currentYear],['الملاحظات',String(Q.length)],['تاريخ الإصدار',TODAY]])}
+  <div class="kpis">${kpi('أهمية عالية',n('high'),'تُصحَّح قبل الاعتماد','fail')}${kpi('أهمية متوسطة',n('mid'),'تُراجع','weak')}${kpi('أهمية منخفضة',n('low'),'للعلم','mid')}${kpi('الطلاب',d.students.length)}</div>
+  ${Q.length?`<div class="r-tools noprint"><label class="f">النوع <select data-set="qCat"><option value="all">الكل (${Q.length})</option>${cats.map(c=>`<option ${f===c?'selected':''} value="${esc(c)}">${esc(c)} (${Q.filter(x=>x.cat===c).length})</option>`).join('')}</select></label></div>`:''}
+  ${sec('الملاحظات', L.length?T('<th>الأهمية</th><th class="l">النوع</th><th>الاختبار</th><th class="l">المادة</th><th>الشعبة</th><th class="l">التفاصيل</th>', L.slice(0,500).map(x=>`<tr><td><span class="tag ${Q_SEV[x.sev][0]}">${Q_SEV[x.sev][1]}</span></td><td class="l">${esc(x.cat)}</td><td>${x.pk?esc(PK_SHORT[x.pk]):'—'}</td><td class="l">${esc(x.l)||'—'}</td><td>${esc(x.cls)||'—'}</td><td class="l" style="white-space:normal">${esc(x.text)}</td></tr>`).join(''),'','dense'):'<div class="empty"><b>لا توجد ملاحظات</b><br>البيانات المرفوعة مكتملة ومتسقة في كل الفحوص.</div>')}
+  <p class="note">الفحوص: الدرجات غير المرصودة، الدرجات خارج المدى، نسبة الدرجة الكاملة 60% فأكثر في شعبة، الدرجات المتطابقة لكل الطلاب، تغيّر متوسط الشعبة 20 نقطة فأكثر بين اختبارين متتاليين، الطلاب الذين اختفوا من ملف لاحق، الشعب التي ليس لها معلم في قائمة المعلمين، والأسماء المكررة بأرقام مختلفة. الملاحظة لا تعني بالضرورة خطأ، لكنها تستحق التأكد.</p>
+  </div>`;
+}
+function qualityBanner(){
+  const d=D(); if(!d || !canSee('quality')) return '';
+  let Q=[]; try{ Q=qualityOf(d); }catch(e){ return ''; }
+  const h=Q.filter(x=>x.sev==='high').length;
+  return `<div class="panel qb ${h?'bad':Q.length?'mid':'ok'}"><b>فحص جودة البيانات:</b> ${Q.length?`${Q.length} ملاحظة${h?`، منها ${h} عالية الأهمية`:''}.`:'لا توجد ملاحظات.'} ${Q.length?'<button class="btn sm" data-act="nav" data-v="quality">عرض التفاصيل</button>':''}</div>`;
+}
+
+// ---------- مهامي ----------
+function pMy(){
+  const d=D(), pk=st.pk, r=role(), u=me();
+  const TG=teacherAgg(d,d.students,pk);
+  const units=TG.flatMap(g=>g.classes.map(c=>{ const t=targetOf(g.subject); return {t:g.name, l:g.subject, cls:c.cls, a:c.a, tg:t, gap:Math.min((c.a.ach??0)-t.ach, (c.a.passRate??0)-t.pass), below:(c.a.ach!=null&&c.a.ach<t.ach)||(c.a.passRate!=null&&c.a.passRate<t.pass)}; })).sort((x,y)=>x.gap-y.gap);
+  const below=units.filter(x=>x.below);
+  const R=d.students.map(s=>({s, r:riskOf(s,d,pk)}));
+  const risk=R.filter(x=>x.r.score>=30).sort((a,b)=>b.r.score-a.r.score), edge=R.filter(x=>!x.r.sm.fails && x.r.edge.length);
+  const fails=R.reduce((n,x)=>n+x.r.sm.fails,0);
+  const title = r==='teacher' ? `مهامي — ${u.n}` : r==='coord' ? `مهام منسق ${d.scoped&&d.scoped.subject||u.s}` : 'متابعة المدرسة';
+  const tasks=[];
+  below.slice(0,8).forEach(x=>tasks.push({h:`خطة تحسين للشعبة ${x.cls} في ${x.l}`, s:`التحصيل ${r1(x.a.ach)}% والنجاح ${r1(x.a.passRate)}% مقابل المستهدف ${x.tg.ach}% و${x.tg.pass}%${r==='teacher'?'':` · ${x.t}`}`, btn:canSee('plan')?`<button class="btn sm" data-act="goplan" data-v="${esc(x.t+'§'+x.cls+'|'+x.l)}">فتح الخطة</button>`:''}));
+  if(below.length>8) tasks.push({h:`و${below.length-8} شعب أخرى دون المستهدف`, s:'تظهر كلها في الجدول أدناه.'});
+  if(edge.length) tasks.push({h:`متابعة ${edge.length} طالباً على حافة الرسوب`, s:'ناجحون الآن بنسبة 50–55% في مادة على الأقل؛ تدخل مبكر قبل الاختبار القادم.', btn:`<button class="btn sm" data-act="nav" data-v="risk">الإنذار المبكر</button>`});
+  if(fails) tasks.push({h:`علاج ${fails} نتيجة راسبة`, s:`لدى ${R.filter(x=>x.r.sm.fails).length} طالباً.`, btn:`<button class="btn sm" data-act="nav" data-v="risk">الأسماء</button>`});
+  if(canSee('quality')){ const h=qualityOf(d).filter(x=>x.sev==='high').length; if(h) tasks.push({h:`مراجعة ${h} ملاحظة عالية الأهمية في جودة البيانات`, s:'قبل اعتماد التقارير.', btn:`<button class="btn sm" data-act="nav" data-v="quality">جودة البيانات</button>`}); }
+  if(!tasks.length) tasks.push({h:'لا توجد مهام عاجلة', s:'كل الشعب ضمن المستهدف ولا يوجد طلاب في الإنذار المبكر.'});
+  const showUnits = r==='teacher' || r==='coord' ? units : below;
+  return `<div class="sheet">${RH(title, 'ما يحتاج إلى متابعة في '+PKG[pk].label)}
+  <div class="kpis">${kpi(r==='teacher'?'شعبي':'الشعب × المواد',units.length)}${kpi('دون المستهدف',below.length,'شعبة','fail')}${kpi('في الإنذار المبكر',risk.length,'طالباً','weak')}${kpi('على حافة الرسوب',edge.length,'طالباً','weak')}</div>
+  ${sec('المهام المقترحة', `<div class="tasks">${tasks.map(t=>`<div class="task"><div><b>${esc(t.h)}</b><small>${esc(t.s)}</small></div>${t.btn||''}</div>`).join('')}</div>`)}
+  ${showUnits.length?sec(r==='teacher'||r==='coord'?'الشعب مقابل المستهدف':'الشعب دون المستهدف', T('<th>الشعبة</th><th class="l">المادة</th>'+(r==='teacher'?'':'<th class="l">المعلم</th>')+'<th>التحصيل</th><th>المستهدف</th><th>النجاح</th><th>المستهدف</th><th>الحالة</th>', showUnits.map(x=>`<tr class="click" data-act="cls" data-v="${esc(x.cls)}"><td><b>${esc(x.cls)}</b></td><td class="l">${esc(x.l)}</td>${r==='teacher'?'':`<td class="l">${esc(x.t)}</td>`}<td class="${toneCls(x.a.ach)}">${pc(x.a.ach)}</td><td>${x.tg.ach}%</td><td>${pc(x.a.passRate)}</td><td>${x.tg.pass}%</td><td>${x.below?'<span class="tag fail">دون المستهدف</span>':'<span class="tag exc">محقق</span>'}</td></tr>`).join(''),'','dense')):''}
+  ${sec(`الطلاب الذين يحتاجون متابعة (${risk.length})`, risk.length?T('<th class="l">الاسم</th><th>الشعبة</th><th>الخطورة</th><th>المتوسط</th><th class="l">الأسباب</th>', risk.slice(0,25).map(x=>`<tr class="click" data-act="student" data-v="${esc(x.s.id)}"><td class="nm">${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td class="${x.r.score>=60?'c-fail':'c-weak'}"><b>${x.r.score}</b></td><td>${pc(x.r.sm.avg)}</td><td class="l" style="white-space:normal">${esc(x.r.reasons.join('، '))}</td></tr>`).join(''),'','dense')+(risk.length>25?`<p class="note">يظهر أعلى 25 من ${risk.length}. القائمة كاملة في الإنذار المبكر.</p>`:''):'<p class="note">لا يوجد طلاب في الإنذار المبكر.</p>')}
+  </div>`;
+}
+Object.assign(ACT,{
+  goplan(v){ const [t,c]=String(v).split('§'); st.page='plan'; if(role()!=='teacher') st.plT=t; st.plC=c; renderAll(); window.scrollTo(0,0); },
+});
+
+// ===================================================================
+// التشغيل المؤسسي: سجل العمليات، الخروج التلقائي، النسخ السابقة والتراجع،
+// الروابط المباشرة للتقارير، البحث السريع (Ctrl + K)
+// ===================================================================
+
+// ---------- سجل العمليات ----------
+let AUDIT_Q=Promise.resolve();
+function audit(action, detail=''){ const r=AUDIT_Q.then(()=>auditNow(action, detail)); AUDIT_Q=r.catch(()=>{}); return r; }
+async function auditNow(action, detail=''){
+  try{
+    const u=AUTH.user; if(!u) return;
+    const e={at:new Date().toISOString(), u:u.u, name:u.name||u.n||'', role:u.r, action, detail:String(detail||'').slice(0,600), year:currentYear||''};
+    if(CLOUD){ await CLOUD.db.collection('audit').doc(e.at.replace(/\D/g,'')+'_'+Math.random().toString(36).slice(2,8)).set(clean(e)); }
+    else { const a=(await STORE.get('audit'))||[]; a.push(e); if(a.length>5000) a.splice(0,a.length-5000); await STORE.set('audit',a); }
+    AUDIT=null;
+  }catch(err){ console.warn('audit', err); }
+}
+let AUDIT=null, AUDIT_ERR='';
+async function auditLoad(){
+  try{
+    if(CLOUD){ let q=CLOUD.db.collection('audit'); if(q.orderBy) q=q.orderBy('at','desc').limit(3000); AUDIT=(await q.get()).docs.map(d=>d.data()); }
+    else AUDIT=((await STORE.get('audit'))||[]).slice();
+    AUDIT.sort((a,b)=>String(b.at).localeCompare(String(a.at))); AUDIT_ERR='';
+  }catch(e){ AUDIT=[]; AUDIT_ERR=e.message||String(e); }
+  if(st.page==='audit') renderView();
+}
+const fmtAt = iso => { try{ const d=new Date(iso), z=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`; }catch(e){ return iso; } };
+function pAudit(){
+  if(AUDIT===null){ auditLoad(); return `<div class="sheet">${RH('سجل العمليات','',[['تاريخ الإصدار',TODAY]])}<p class="note">جارٍ تحميل السجل…</p></div>`; }
+  const acts=[...new Set(AUDIT.map(x=>x.action))].sort((a,b)=>a.localeCompare(b,'ar')), users=[...new Set(AUDIT.map(x=>x.name||x.u))].sort((a,b)=>a.localeCompare(b,'ar'));
+  const fa=st.auA||'all', fu=st.auU||'all';
+  const L=AUDIT.filter(x=>(fa==='all'||x.action===fa)&&(fu==='all'||(x.name||x.u)===fu));
+  const today=new Date().toISOString().slice(0,10);
+  return `<div class="sheet">${RH('سجل العمليات','من دخل، ومن رفع أو عدّل أو صدّر، ومتى',[['السجلات',String(AUDIT.length)],['تاريخ الإصدار',TODAY]])}
+  <div class="kpis">${kpi('كل العمليات',AUDIT.length)}${kpi('اليوم',AUDIT.filter(x=>String(x.at).slice(0,10)===today).length)}${kpi('المستخدمون',users.length)}${kpi('عمليات الرفع والتعديل',AUDIT.filter(x=>/رفع|مسح|حذف|استعادة|تعديل|إضافة/.test(x.action)).length)}</div>
+  <div class="r-tools noprint">
+    <label class="f">العملية <select data-set="auA"><option value="all">الكل</option>${acts.map(a=>`<option ${fa===a?'selected':''}>${esc(a)}</option>`).join('')}</select></label>
+    <label class="f">المستخدم <select data-set="auU"><option value="all">الكل</option>${users.map(a=>`<option ${fu===a?'selected':''}>${esc(a)}</option>`).join('')}</select></label>
+    <button class="btn sm" data-act="aureload">تحديث</button> <button class="btn sm" data-act="auxls">${ico('xls')}تصدير Excel</button></div>
+  ${AUDIT_ERR?`<div class="warn">تعذّر تحميل السجل: ${esc(AUDIT_ERR)}. تأكد من نشر قواعد الحماية الجديدة في Firestore.</div>`:''}
+  ${sec(`العمليات (${L.length})`, L.length?T('<th>الوقت</th><th class="l">المستخدم</th><th>الصلاحية</th><th class="l">العملية</th><th class="l">التفاصيل</th><th>العام</th>', L.slice(0,800).map(x=>`<tr><td><bdi dir="ltr">${esc(fmtAt(x.at))}</bdi></td><td class="l">${esc(x.name||x.u)}</td><td>${esc((ROLES[x.role]||{}).label||x.role||'')}</td><td class="l"><b>${esc(x.action)}</b></td><td class="l" style="white-space:normal">${esc(x.detail)}</td><td><bdi dir="ltr">${esc(x.year)}</bdi></td></tr>`).join(''),'','dense')+(L.length>800?`<p class="note">يظهر أحدث 800 من ${L.length}. صدّر Excel للقائمة كاملة.</p>`:''):'<p class="note">لا توجد عمليات.</p>')}
+  <p class="note">يُسجَّل: الدخول والخروج (ومنه الخروج التلقائي)، رفع الملفات ومسحها، إضافة الأعوام وحذفها، رفع ملف المستخدمين، تعديل الإعدادات والأهداف، الاستعادة من نسخة سابقة أو احتياطية، وتصدير التقارير وطباعتها. ${CLOUD?'السجل محفوظ في قاعدة البيانات، ولا يستطيع أي مستخدم تعديله أو حذفه.':'السجل محفوظ على هذا الجهاز فقط.'}</p></div>`;
+}
+Object.assign(ACT,{
+  aureload(){ AUDIT=null; renderView(); },
+  auxls(){ if(!AUDIT||typeof XLSX==='undefined') return; const wb=XLSX.utils.book_new(); const ws=XLSX.utils.aoa_to_sheet([['الوقت','المستخدم','الحساب','الصلاحية','العملية','التفاصيل','العام'],...AUDIT.map(x=>[fmtAt(x.at),x.name,x.u,(ROLES[x.role]||{}).label||x.role,x.action,x.detail,x.year])]); ws['!views']=[{RTL:true}]; XLSX.utils.book_append_sheet(wb,ws,'سجل العمليات'); XLSX.writeFile(wb,`سجل العمليات - ${fmtDate(new Date())}.xlsx`); },
+});
+
+// ---------- الخروج التلقائي ----------
+let IDLE_LAST=Date.now();
+const idleMin = () => { const v=SETTINGS.idleMin; return v===''||v==null||isNaN(+v) ? 30 : +v; };
+function idleTick(){
+  if(!AUTH.user) { IDLE_LAST=Date.now(); return; }
+  const m=idleMin(); if(!m) return;
+  if(Date.now()-IDLE_LAST > m*60000){
+    IDLE_LAST=Date.now(); LOGOUT_REASON='خروج تلقائي';
+    logout().then(()=>showLogin(`سُجّل خروجك تلقائياً بعد ${m} دقيقة دون استخدام، حفاظاً على البيانات.`));
+  }
+}
+function securityPanel(){
+  const v=idleMin();
+  return `<div class="panel form"><h3>الأمان</h3>
+    <label>الخروج التلقائي بعد عدم الاستخدام <select data-cfg="idleMin">${[[0,'معطّل'],[15,'15 دقيقة'],[30,'30 دقيقة'],[60,'ساعة'],[120,'ساعتان']].map(([k,l])=>`<option value="${k}" ${v===k?'selected':''}>${l}</option>`).join('')}</select></label>
+    <p class="note">يُسجَّل خروج المستخدم تلقائياً إذا لم يحرّك الفأرة أو يضغط أي مفتاح خلال هذه المدة. مهم في أجهزة المدرسة المشتركة.</p></div>`;
+}
+
+// ---------- النسخ السابقة والتراجع ----------
+const VER_KEEP=5;
+let SNAP_Q=Promise.resolve();
+function snapshotYear(y, reason){ const r=SNAP_Q.then(()=>snapshotNow(y, reason)); SNAP_Q=r.catch(()=>{}); return r; }   // واحدة بعد الأخرى
+async function snapshotNow(y, reason){
+  try{
+    const Y=YEARS[y]; if(!Y) return;
+    if(!CARDS.some(c=>(Y.cards[c.id].sheets||[]).length || (Y.cards[c.id].teachers||[]).length)) return;
+    const meta={id:String(Date.now()), at:new Date().toISOString(), by:(AUTH.user&&(AUTH.user.name||AUTH.user.n))||'', reason, students:Y.data?Y.data.students.length:0, files:CARDS.reduce((n,c)=>n+(Y.cards[c.id].files||[]).length,0)};
+    if(CLOUD){
+      busy('جارٍ حفظ النسخة السابقة…');
+      const yref=CLOUD.db.collection('years').doc(y), blob=await gzipB64(JSON.stringify(Y.cards)), CH=700000, ops=[]; let n=0;
+      for(let i=0;i<blob.length;i+=CH,n++) ops.push({ref:yref.collection('versions').doc(meta.id+'_'+n), data:{v:meta.id, i:n, data:blob.slice(i,i+CH)}});
+      ops.push({ref:yref.collection('vmeta').doc(meta.id), data:clean({...meta, parts:n})});
+      await cloudCommit(ops);
+      const all=(await yref.collection('vmeta').get()).docs.map(d=>d.data()).sort((a,b)=>b.id.localeCompare(a.id)), old=all.slice(VER_KEEP);
+      if(old.length){ const dels=[]; for(const o of old){ dels.push({del:true, ref:yref.collection('vmeta').doc(o.id)}); for(let i=0;i<(o.parts||1);i++) dels.push({del:true, ref:yref.collection('versions').doc(o.id+'_'+i)}); } await cloudCommit(dels); }
+      busy('');
+    } else {
+      const k='hist:'+y, a=(await STORE.get(k))||[]; a.unshift({...meta, cards:JSON.parse(JSON.stringify(Y.cards))}); await STORE.set(k, a.slice(0,VER_KEEP));
+    }
+    VERS=null;
+  }catch(e){ busy(''); console.warn('snapshot', e); }
+}
+let VERS=null;
+async function versionsLoad(y){
+  try{
+    if(CLOUD) VERS={y, list:(await CLOUD.db.collection('years').doc(y).collection('vmeta').get()).docs.map(d=>d.data())};
+    else VERS={y, list:((await STORE.get('hist:'+y))||[]).map(({cards,...m})=>m)};
+    VERS.list.sort((a,b)=>b.id.localeCompare(a.id));
+  }catch(e){ VERS={y, list:[], err:e.message||String(e)}; }
+  if(st.page==='data') renderView();
+}
+function versionsPanel(){
+  if(!canSee('data')) return '';
+  if(!VERS || VERS.y!==currentYear){ versionsLoad(currentYear); return `<div class="panel"><h3>النسخ السابقة لعام <bdi dir="ltr">${esc(currentYear)}</bdi></h3><p class="note">جارٍ التحميل…</p></div>`; }
+  const L=VERS.list;
+  return `<div class="panel" id="versions"><h3>النسخ السابقة لعام <bdi dir="ltr">${esc(currentYear)}</bdi></h3>
+    <p class="note" style="margin-top:0">قبل كل رفع أو مسح أو استعادة تُحفظ نسخة من بيانات العام كما كانت، ويُحتفظ بآخر ${VER_KEEP} نسخ. إذا رُفع ملف خاطئ استعد النسخة التي قبله.</p>
+    ${VERS.err?`<div class="warn">تعذّر تحميل النسخ: ${esc(VERS.err)}</div>`:''}
+    ${L.length?T('<th>التاريخ</th><th class="l">بواسطة</th><th class="l">السبب</th><th>الطلاب</th><th>الملفات</th><th></th>', L.map(v=>`<tr><td><bdi dir="ltr">${esc(fmtAt(v.at))}</bdi></td><td class="l">${esc(v.by)}</td><td class="l">${esc(v.reason)}</td><td>${v.students||'—'}</td><td>${v.files||'—'}</td><td><button class="btn sm" data-act="verrestore" data-v="${esc(v.id)}">استعادة</button></td></tr>`).join(''),'','dense'):'<p class="note">لا توجد نسخ سابقة بعد. تُنشأ تلقائياً عند الرفع التالي.</p>'}</div>`;
+}
+async function restoreVersion(y, id){
+  const v=(VERS&&VERS.list||[]).find(x=>x.id===id); if(!v) return;
+  let cards=null;
+  try{
+    busy('جارٍ استعادة النسخة…');
+    if(CLOUD){ const parts=(await CLOUD.db.collection('years').doc(y).collection('versions').where('v','==',id).get()).docs.map(d=>d.data()).sort((a,b)=>a.i-b.i); cards=JSON.parse(await gunzipB64(parts.map(p=>p.data).join(''))); }
+    else { const h=((await STORE.get('hist:'+y))||[]).find(x=>x.id===id); cards=h&&h.cards; }
+    if(!cards) throw new Error('النسخة غير موجودة');
+    await snapshotYear(y, 'قبل الاستعادة من نسخة سابقة');
+    YEARS[y]={cards:{...emptyYear().cards, ...cards}, data:null};
+    await buildYearAsync(y);
+    if(CLOUD) await cloudPublishYear(y);
+    syncFilters(); renderAll(); await save();
+    audit('استعادة نسخة سابقة', `عام ${y}: نسخة ${fmtAt(v.at)} (${v.reason})`);
+  }catch(e){ alert('تعذّرت الاستعادة: '+(e.message||e)); }
+  finally{ busy(''); }
+}
+Object.assign(ACT,{
+  verrestore(v, el){
+    if(el.dataset.confirm!=='1'){ el.dataset.confirm='1'; el.textContent='تأكيد الاستعادة؟'; el.classList.add('danger'); setTimeout(()=>{ if(el.isConnected){ el.dataset.confirm=''; el.textContent='استعادة'; el.classList.remove('danger'); } },4000); return; }
+    restoreVersion(currentYear, v);
+  },
+});
+
+// ---------- الروابط المباشرة ----------
+const HK={pk:'pk',g:'grade',c:'cls',s:'subject',t:'teacher',st:'student'};
+function hashOf(){ const q=new URLSearchParams(); q.set('p',st.page); if(currentYear) q.set('y',currentYear); for(const [k,f] of Object.entries(HK)){ const v=st[f]; if(v!=null && v!=='all' && v!=='') q.set(k,v); } return '#'+q.toString(); }
+let HASH_LAST='';
+function writeHash(){
+  if(!me()) return; const h=hashOf(); if(location.hash===h) return;
+  const key=x=>{ const q=new URLSearchParams(x.slice(1)); return ['p','s','t','st'].map(k=>q.get(k)).join('|'); };
+  try{ (location.hash && key(location.hash)!==key(h) ? history.pushState : history.replaceState).call(history,null,'',h); }catch(e){}
+}
+function applyHash(){
+  if(!me() || !location.hash || location.hash.length<4) return false;
+  const q=new URLSearchParams(location.hash.slice(1)), p=q.get('p');
+  if(!p || !TITLES[p] || !canSee(p)) return false;
+  const y=q.get('y'); if(y && YEARS[y] && y!==currentYear){ currentYear=y; buildYearIfNeeded(); }
+  st.page=p; st.pk=q.get('pk')||st.pk; st.grade=q.get('g')||'all'; st.cls=q.get('c')||'all';
+  st.subject=q.get('s')||null; st.teacher=q.get('t')||null; st.student=q.get('st')||null;
+  syncFilters(); return true;
+}
+function copyLink(){
+  const u=location.href, ok=()=>{ busy('نُسخ رابط هذا التقرير. من يفتحه يسجّل الدخول، ويرى فقط ما تسمح به صلاحيته.'); setTimeout(()=>busy(''),3200); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(ok,()=>prompt('انسخ الرابط:',u)); else prompt('انسخ الرابط:',u);
+}
+
+// ---------- البحث السريع ----------
+let PAL=null;
+function palItems(q){
+  const n=norm(q).toLowerCase(), toks=n.split(' ').filter(Boolean), hit=t=>toks.every(k=>t.includes(k));
+  const out=[];
+  NAV.forEach(g=>g.items.forEach(([id,l,ic])=>{ if(canSee(id) && (!toks.length || hit(norm(l)))) out.push({k:'تقرير',ic,label:l,sub:g.g,run:()=>ACT.nav(id)}); }));
+  const d=D(); if(d && toks.length){
+    if(canSee('student')) for(const s of d.students){ if(hit(norm(s.name)+' '+s.id)) out.push({k:'طالب',ic:'id',label:s.name,sub:`الشعبة ${s.cls} · ${s.id}`,run:()=>ACT.student(s.id)}); if(out.length>60) break; }
+    if(canSee('class')) d.classes.forEach(c=>{ if(hit('الشعبه '+c+' '+c)) out.push({k:'شعبة',ic:'cls',label:'الشعبة '+c,sub:'الصف '+gradeOf(c),run:()=>ACT.cls(c)}); });
+    if(canSee('subjects')) d.subjects.forEach(l=>{ if(hit(norm(l))) out.push({k:'مادة',ic:'book',label:l,sub:'تحليل المادة',run:()=>ACT.subject(l)}); });
+    if(canSee('teachers')) [...new Set(teachersFor(d,st.pk).map(t=>t.name))].forEach(t=>{ if(hit(norm(t))) out.push({k:'معلم',ic:'user',label:t,sub:'تقرير المعلم',run:()=>ACT.teacher(t)}); });
+  }
+  const o={'تقرير':0,'طالب':1,'معلم':2,'شعبة':3,'مادة':3};
+  return out.sort((a,b)=>o[a.k]-o[b.k]).slice(0,40);
+}
+function palOpen(){
+  if(!me()) return; palClose();
+  const el=document.createElement('div'); el.id='pal';
+  el.innerHTML=`<div class="pal-box" role="dialog" aria-label="بحث سريع"><div class="pal-in">${ico('search')}<input placeholder="ابحث عن طالب أو معلم أو شعبة أو مادة أو تقرير…" autocomplete="off"><kbd>Esc</kbd></div><div class="pal-list"></div><div class="pal-ft">↑ ↓ للتنقل · Enter للفتح · Ctrl + K للفتح من أي صفحة</div></div>`;
+  document.body.appendChild(el);
+  PAL={el, i:0, items:[]};
+  const inp=el.querySelector('input'), draw=()=>{ PAL.items=palItems(inp.value); PAL.i=Math.min(PAL.i,Math.max(0,PAL.items.length-1));
+    el.querySelector('.pal-list').innerHTML=PAL.items.length?PAL.items.map((x,i)=>`<div class="pal-it ${i===PAL.i?'on':''}" data-i="${i}">${ico(x.ic)}<span><b>${esc(x.label)}</b><small>${esc(x.sub)}</small></span><em>${esc(x.k)}</em></div>`).join(''):'<p class="note" style="padding:12px">لا توجد نتائج.</p>';
+    const on=el.querySelector('.pal-it.on'); if(on) on.scrollIntoView({block:'nearest'}); };
+  inp.addEventListener('input',()=>{ PAL.i=0; draw(); });
+  inp.addEventListener('keydown',e=>{ if(e.key==='ArrowDown'){ e.preventDefault(); PAL.i=Math.min(PAL.items.length-1,PAL.i+1); draw(); } else if(e.key==='ArrowUp'){ e.preventDefault(); PAL.i=Math.max(0,PAL.i-1); draw(); } else if(e.key==='Enter'){ e.preventDefault(); palRun(PAL.i); } else if(e.key==='Escape'){ palClose(); } });
+  el.addEventListener('click',e=>{ const it=e.target.closest('.pal-it'); if(it) palRun(+it.dataset.i); else if(e.target===el) palClose(); });
+  draw(); inp.focus();
+}
+function palRun(i){ const x=PAL&&PAL.items[i]; palClose(); if(x) x.run(); }
+function palClose(){ if(PAL){ PAL.el.remove(); PAL=null; } }
+Object.assign(ACT,{ palette(){ palOpen(); }, copylink(){ copyLink(); } });
+
+// ---------- التهيئة (تُستدعى عند بدء المنصة) ----------
+function opsInit(){
+  // الحركة تؤجل الخروج التلقائي
+  ['mousemove','keydown','click','touchstart','scroll','wheel'].forEach(ev=>addEventListener(ev,()=>{ IDLE_LAST=Date.now(); },{passive:true, capture:true}));
+  setInterval(idleTick, 15000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) idleTick(); });
+  // Ctrl + K (يعمل مع لوحة المفاتيح العربية لأنه يعتمد على موضع المفتاح)
+  addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey) && e.code==='KeyK'){ e.preventDefault(); PAL?palClose():palOpen(); } });
+  // الرابط يتبع التقرير المفتوح، وزر الرجوع في المتصفح يعمل
+  const _rv=renderView; renderView=function(){ _rv(); writeHash(); };
+  addEventListener('popstate',()=>{ if(applyHash()) renderAll(); });
+  // أزرار الشريط العلوي: بحث ونسخ الرابط
+  const _rt2=renderToolbar; renderToolbar=function(){ _rt2(); const sp=$('#toolbar .sp'); if(sp && me()) sp.insertAdjacentHTML('afterend', `<button class="btn sm pal-btn" data-act="palette" title="بحث سريع (Ctrl + K)">${ico('search')}<span class="bl">بحث</span><kbd class="bl">Ctrl K</kbd></button><button class="btn sm icon" data-act="copylink" title="نسخ رابط هذا التقرير">${ico('link')}</button>`); };
+  // إعدادات الأمان
+  const _ps=pSettings; pSettings=function(){ const h=_ps(); const i=h.lastIndexOf('</div>'); return h.slice(0,i)+securityPanel()+h.slice(i); };
+  // تسجيل تعديلات الإعدادات (مجمّعة)
+  const CFG_LABEL={targets:'الأهداف',subjectTargets:'أهداف المواد',targetPass:'مستهدف النجاح',targetAch:'مستهدف التحصيل',coordinators:'منسقو الأقسام',principal:'اسم مدير المدرسة',deputy:'اسم النائب الأكاديمي',committee:'أعضاء لجنة التحصيل',idleMin:'مدة الخروج التلقائي'};
+  let cfgSet=new Set(), cfgT=null;
+  const _sc=setCfg; setCfg=function(p,v){ _sc(p,v); const k=String(p).split('|')[0]; cfgSet.add((CFG_LABEL[k]||k)+(k==='targets'?' '+String(p).split('|')[1]:'')); clearTimeout(cfgT); cfgT=setTimeout(()=>{ audit('تعديل الإعدادات',[...cfgSet].join('، ')); cfgSet=new Set(); },4000); };
+  // تسجيل التصدير والطباعة
+  const EXP={excel:'تصدير Excel',pdfpage:'تنزيل PDF',print:'طباعة',backup:'تصدير نسخة احتياطية',zip:'تصدير كل التقارير',cdl:'تنزيل تقرير لجنة التحصيل',qdword:'تنزيل التقرير الكمي والوصفي',qdall:'تنزيل التقارير الكمية والوصفية',plword:'تنزيل خطة تحسين الأداء',plwordall:'تنزيل خطط المعلم',plzip:'تنزيل خطط جميع المعلمين',bulkmail:'إعداد رسائل البريد',auxls:'تصدير سجل العمليات'};
+  for(const [k,l] of Object.entries(EXP)){ const f=ACT[k]; if(typeof f!=='function') continue; ACT[k]=function(...a){ audit(l, `${TITLES[st.page]||''} · ${scopeName()}${st.pk&&PK_SHORT[st.pk]?' · '+PK_SHORT[st.pk]:''}`); return f.apply(this,a); }; }
+  // الرفع والمسح والأعوام: نسخة قبل التغيير + تسجيل
+  const _up=upload; upload=async function(id, files){
+    if(!files.length || !canSee('data')) return;
+    const c=CARDS.find(x=>x.id===id);
+    await snapshotYear(currentYear, 'قبل رفع ملفات '+c.title);
+    await _up(id, files);
+    audit('رفع ملفات', `${c.title}: ${files.length===1?files[0].name:`${files.length} ملفات (${files.slice(0,3).map(f=>f.name).join('، ')}${files.length>3?'…':''})`}`);
+  };
+  const _cl=ACT.clear; ACT.clear=async function(v,...a){ const c=CARDS.find(x=>x.id===v); await snapshotYear(currentYear,'قبل مسح بطاقة '+(c?c.title:v)); _cl(v,...a); audit('مسح بطاقة', c?c.title:v); };
+  const _ay=ACT.addyear; ACT.addyear=function(...a){ const n=Object.keys(YEARS).length; _ay(...a); if(Object.keys(YEARS).length>n) audit('إضافة عام دراسي', currentYear); };
+  const _dy=ACT.delyear; ACT.delyear=function(v,el,e){ const armed=el.dataset.confirm==='1'; _dy(v,el,e); if(armed && !YEARS[v]) audit('حذف عام دراسي', v); };
+  const _uu=uploadUsers; uploadUsers=async function(f){ await _uu(f); if(USERS_MSG) audit('رفع ملف المستخدمين', `${f.name}: ${USERS_MSG.text||''}`); };
+  const _rb=restoreBackup; restoreBackup=async function(f){ try{ const p=await readBackupFile(f); for(const y of Object.keys(p.years||{})) if(YEARS[y]) await snapshotYear(y,'قبل استعادة نسخة احتياطية'); }catch(e){} await _rb(f); if(LAST_RESTORE&&LAST_RESTORE.ok) audit('استعادة نسخة احتياطية', `${f.name}: ${LAST_RESTORE.years.join('، ')}`); };
+}
+
+// ===================================================================
 // الإعدادات، تقرير لجنة التحصيل، التصدير في مجلدات، الإرسال بالبريد
 // ===================================================================
 const SETTINGS_DEFAULT = {
@@ -3893,7 +4403,7 @@ function cohortRows(){
 }
 
 // ===== التشغيل =====
-(async()=>{ await load(); if(await cloudDetect()){ cloudBoot(); return; } if(restoreSession()){ syncFilters(); renderAll(); } else showLogin(); })();
+(async()=>{ opsInit(); await load(); if(await cloudDetect()){ cloudBoot(); return; } if(restoreSession()){ syncFilters(); if(['teacher','coord'].includes(role()) && D() && !location.hash) st.page='my'; applyHash(); renderAll(); } else showLogin(); })();
 
 </script>
 </body>
