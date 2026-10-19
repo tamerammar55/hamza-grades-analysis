@@ -1984,7 +1984,7 @@ function usersPanel(){
       return `<tr><td class="l">${esc(x.n)}</td><td class="l">${esc(x.s||'—')}</td><td>${ROLES[x.r].label}</td><td dir="ltr">${esc(x.username||x.u)}</td><td>${link}</td></tr>`; }).join('');
   const m=USERS_MSG;
   return `<div class="panel form" id="usersPanel"><h3>ملف المستخدمين والصلاحيات <small class="c-mut">(لمدير النظام فقط)</small></h3>
-    <p class="note" style="margin-top:0">ارفع ملف Excel بالأعمدة: الاسم، المادة، الوظيفة، اسم المستخدم، كلمة المرور. رفع ملف جديد يستبدل القائمة كاملة. ${CLOUD?'<b>الوضع السحابي:</b> كل سطر يُنشئ حساباً في Firebase (اسم المستخدم بحروف إنجليزية، وكلمة المرور 6 أحرف على الأقل). الحساب الموجود تُحدَّث صلاحياته فقط ولا تتغير كلمة مروره.':us.length?'':'<b>لم يُرفع ملف بعد؛ حساب الطوارئ admin / 1234 يعمل حتى يُرفع.</b>'}</p>
+    <p class="note" style="margin-top:0">ارفع ملف Excel بالأعمدة: الاسم، المادة، الوظيفة، اسم المستخدم، كلمة المرور. رفع ملف جديد يستبدل القائمة كاملة. ${CLOUD?'<b>الوضع السحابي:</b> كل سطر يُنشئ حساباً في Firebase (اسم المستخدم بحروف إنجليزية وأرقام، وكلمة المرور بأي طول). الحساب الموجود تُحدَّث صلاحياته فقط ولا تتغير كلمة مروره.':us.length?'':'<b>لم يُرفع ملف بعد؛ حساب الطوارئ admin / 1234 يعمل حتى يُرفع.</b>'}</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <label class="btn pri">رفع ملف المستخدمين<input type="file" accept=".xlsx,.xls" hidden data-users="1"></label>
       <button class="btn" data-act="userstpl">${ico('xls')}تنزيل قالب ملف المستخدمين (Excel)</button>
@@ -2081,7 +2081,13 @@ async function cloudDetect(){
 
 // ---------- الدخول ----------
 const AUTH_ERR = {'auth/invalid-credential':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/wrong-password':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/user-not-found':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/invalid-email':'اسم المستخدم غير صالح.','auth/too-many-requests':'محاولات كثيرة؛ انتظر قليلاً ثم أعد المحاولة.','auth/network-request-failed':'لا يوجد اتصال بالإنترنت.','auth/user-disabled':'هذا الحساب موقوف.'};
-async function cloudSignIn(u,p){ await CLOUD.auth.signInWithEmailAndPassword(toEmail(u), p); }
+// Firebase يشترط 6 أحرف على الأقل؛ نضيف لاحقة ثابتة لكلمات المرور التي تنشئها المنصة فيقبل أي طول
+const fbPw = p => String(p) + '#Hz-26';
+async function cloudSignIn(u,p){
+  const e=toEmail(u);
+  try{ await CLOUD.auth.signInWithEmailAndPassword(e, fbPw(p)); }
+  catch(err){ if(String(p).length<6) throw err; await CLOUD.auth.signInWithEmailAndPassword(e, p); }   // حسابات أُنشئت من لوحة Firebase (مثل حساب المالك)
+}
 async function cloudProfile(fu){
   const email=(fu.email||'').toLowerCase();
   let p=null; try{ const s=await CLOUD.db.collection('profiles').doc(email).get(); if(s.exists) p=s.data(); }catch(e){}
@@ -2228,8 +2234,8 @@ async function cloudUploadUsers(list){
   for(let i=0;i<list.length;i++){
     const x=list[i], email=toEmail(x.u); busy(`جارٍ إنشاء الحسابات… ${i+1} من ${list.length}`);
     if(!/^[a-z0-9._-]+(@[a-z0-9.-]+)?$/i.test(x.u)){ out.failed.push(`${x.u}: اسم المستخدم يجب أن يكون بحروف إنجليزية وأرقام فقط.`); continue; }
-    if(String(x.pw).length<6){ out.failed.push(`${x.u}: كلمة المرور يجب ألا تقل عن 6 أحرف.`); continue; }
-    try{ await sAuth.createUserWithEmailAndPassword(email, String(x.pw)); out.created++; try{ await sAuth.signOut(); }catch(_){} }
+    if(!String(x.pw??'').trim()){ out.failed.push(`${x.u}: كلمة المرور فارغة.`); continue; }
+    try{ await sAuth.createUserWithEmailAndPassword(email, fbPw(x.pw)); out.created++; try{ await sAuth.signOut(); }catch(_){} }
     catch(e){ if(e.code==='auth/email-already-in-use') out.existing++; else { out.failed.push(`${x.u}: ${AUTH_ERR[e.code]||e.message}`); continue; } }
     keep.add(email);
     await CLOUD.db.collection('profiles').doc(email).set(clean({name:x.n, username:x.u, role:x.r, subject:x.s?cloudSubject(x.s):'', tname:x.r==='teacher'?(cloudTeacherName(x.n)||x.n):'', updatedAt:new Date().toISOString()}));
