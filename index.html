@@ -1079,6 +1079,7 @@ const STORE = {
   async set(k,v){ const db=this.db||await this.open(); return new Promise((res,rej)=>{ const tx=db.transaction('kv','readwrite'); tx.objectStore('kv').put(v,k); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); },
 };
 async function save(){
+  if(CLOUD){ try{ await STORE.set('settings',{theme:SETTINGS.theme}); }catch(e){} cloudSaveSettings(); return; }
   const out={currentYear, years:Object.fromEntries(Object.entries(YEARS).map(([y,Y])=>[y,Y.cards]))};
   try{ await STORE.set('state', out); await STORE.set('settings', SETTINGS); setSaveState('محفوظة على هذا الجهاز'); }
   catch(e){ setSaveState('تعذّر الحفظ على الجهاز'); }
@@ -1151,6 +1152,7 @@ async function upload(id, files){
   $('#view').style.opacity=.5;
   await readCard(id, files);
   busy('جارٍ تحليل البيانات…'); await buildYearAsync(currentYear); busy('');
+  if(CLOUD) await cloudPublishYear(currentYear);
   syncFilters(); renderAll(); save();
   $('#view').style.opacity=1;
 }
@@ -1217,15 +1219,15 @@ const ACT = {
     const inp=$('#newYear'); const v=(inp.value||'').trim();
     if(!/^\d{4}\s*-\s*\d{4}$/.test(v)){ inp.setCustomValidity('اكتب العام بالشكل 2024-2025'); inp.reportValidity(); return; }
     const y=v.replace(/\s/g,''); if(!YEARS[y]) YEARS[y]=emptyYear();
-    currentYear=y; renderAll(); save();
+    currentYear=y; renderAll(); save(); if(CLOUD) cloudPublishYear(y);
   },
   delyear(v, el, e){
     e.stopPropagation();
     if(Object.keys(YEARS).length<=1) return;
     if(el.dataset.confirm!=='1'){ el.dataset.confirm='1'; el.textContent='تأكيد الحذف؟'; setTimeout(()=>{ if(el.isConnected){ el.dataset.confirm=''; el.textContent='×'; } },3000); return; }
-    delete YEARS[v]; if(currentYear===v) currentYear=Object.keys(YEARS)[0]; syncFilters(); renderAll(); save();
+    delete YEARS[v]; if(currentYear===v) currentYear=Object.keys(YEARS)[0]; syncFilters(); renderAll(); save(); if(CLOUD) cloudDeleteYear(v);
   },
-  clear(v){ YEARS[currentYear].cards[v]=emptyCard(); buildYear(currentYear); syncFilters(); renderAll(); save(); },
+  clear(v){ YEARS[currentYear].cards[v]=emptyCard(); buildYear(currentYear); syncFilters(); renderAll(); save(); if(CLOUD) cloudPublishYear(currentYear); },
 };
 function buildYearIfNeeded(){ if(YEARS[currentYear] && !YEARS[currentYear].data) buildYear(currentYear); }
 document.addEventListener('click', e=>{
@@ -1834,7 +1836,7 @@ const me = () => AUTH.view || AUTH.user;
 const role = () => (me()||{}).r;
 const isFull = () => FULL_ROLES.includes(role());
 const canSee = page => !!me() && !ROLES[role()].deny.includes(page);
-const usersList = () => Array.isArray(SETTINGS.users) ? SETTINGS.users : [];
+const usersList = () => CLOUD ? cloudUsers() : (Array.isArray(SETTINGS.users) ? SETTINGS.users : []);
 function findUser(u){ const k=userKey(u); if(!usersList().length && k===EMERGENCY.u) return EMERGENCY; return usersList().find(x=>x.u===k)||null; }
 function checkLogin(u,p){
   if(!usersList().length) return (userKey(u)===EMERGENCY.u && String(p)==='1234') ? EMERGENCY : null;
@@ -1843,7 +1845,7 @@ function checkLogin(u,p){
 const SS = { get(){ try{ return JSON.parse(sessionStorage.getItem('gp-session')||'null'); }catch(e){ return null; } }, set(v){ try{ v?sessionStorage.setItem('gp-session',JSON.stringify(v)):sessionStorage.removeItem('gp-session'); }catch(e){} } };
 function restoreSession(){ const s=SS.get(); const u=s&&findUser(s.u); if(!u) return false; AUTH.user=u; AUTH.view=null; document.body.classList.add('authed'); return true; }
 function startSession(u){ AUTH.user=u; AUTH.view=null; SS.set({u:u.u}); document.body.classList.add('authed'); $('#login')?.remove(); st.page = canSee('exec') ? (D()?'exec':(canSee('data')?'data':'exec')) : 'exec'; if(role()==='admin' && !D()) st.page='data'; syncFilters(); renderAll(); }
-function logout(){ AUTH.user=null; AUTH.view=null; SS.set(null); document.body.classList.remove('authed'); $('#view').innerHTML=''; showLogin(); }
+async function logout(){ if(CLOUD) await cloudLogout(); AUTH.user=null; AUTH.view=null; SS.set(null); document.body.classList.remove('authed'); $('#view').innerHTML=''; showLogin(); }
 
 // ---------- شاشة الدخول ----------
 function showLogin(msg=''){
@@ -1857,11 +1859,15 @@ function showLogin(msg=''){
     <label>كلمة المرور<input name="p" type="password" autocomplete="current-password" required dir="ltr"></label>
     <div class="lg-err" role="alert">${esc(msg)}</div>
     <button class="btn pri" type="submit">تسجيل الدخول</button>
-    ${usersList().length?'':'<p class="lg-hint">لم يُرفع ملف المستخدمين بعد. ادخل بحساب الطوارئ: <b dir="ltr">admin</b> / <b dir="ltr">1234</b> ثم ارفع ملف المستخدمين من صفحة الإعدادات.</p>'}
+    ${CLOUD?'<p class="lg-hint">المنصة متصلة بقاعدة البيانات. ادخل باسم المستخدم وكلمة المرور التي سلّمها لك مدير النظام.</p>':usersList().length?'':'<p class="lg-hint">لم يُرفع ملف المستخدمين بعد. ادخل بحساب الطوارئ: <b dir="ltr">admin</b> / <b dir="ltr">1234</b> ثم ارفع ملف المستخدمين من صفحة الإعدادات.</p>'}
   </form>`;
   document.body.appendChild(el);
   el.querySelector('form').addEventListener('submit',e=>{
-    e.preventDefault(); const f=e.target, u=checkLogin(f.u.value, f.p.value);
+    e.preventDefault(); const f=e.target;
+    if(CLOUD){ const btn=f.querySelector('button'); btn.disabled=true; f.querySelector('.lg-err').textContent='';
+      cloudSignIn(f.u.value, f.p.value).catch(err=>{ f.querySelector('.lg-err').textContent=AUTH_ERR[err.code]||('تعذّر الدخول: '+(err.message||err)); f.p.value=''; f.p.focus(); }).finally(()=>{ btn.disabled=false; });
+      return; }
+    const u=checkLogin(f.u.value, f.p.value);
     if(!u){ f.querySelector('.lg-err').textContent='اسم المستخدم أو كلمة المرور غير صحيحة.'; f.p.value=''; f.p.focus(); return; }
     startSession(u);
   });
@@ -1902,7 +1908,7 @@ function DY(y){ const Y=YEARS[y]; return Y && Y.data ? projectData(Y.data, me())
 // سبب غياب البيانات لمستخدم مقيّد
 function scopeMissing(){
   const u=me(), raw=YEARS[currentYear]&&YEARS[currentYear].data; if(!u || isFull()) return '';
-  if(!raw) return 'لم تُرفع بيانات هذا العام بعد.';
+  if(!raw) return CLOUD ? (u.r==='teacher' ? 'لا توجد شعب مرتبطة باسمك في قوائم المعلمين لهذا العام، أو لم تُرفع بيانات العام بعد. يجب أن يطابق اسمك في ملف المستخدمين اسمك في قائمة المعلمين.' : 'لا توجد بيانات لمادتك في هذا العام بعد.') : 'لم تُرفع بيانات هذا العام بعد.';
   if(!u.s) return 'لم تُحدَّد مادتك في ملف المستخدمين. راجع مدير النظام.';
   if(!raw.subjects.some(l=>sameSubject(l,u.s))) return `المادة "${u.s}" غير موجودة في بيانات هذا العام.`;
   if(u.r==='teacher' && !teacherNameIn(raw,u)) return `لم يُعثر على اسم "${u.n}" في قوائم المعلمين المرفوعة لهذا العام. يجب أن يطابق الاسم في ملف المستخدمين اسمه في قائمة المعلمين.`;
@@ -1930,9 +1936,9 @@ function parseUsersSheet(rows){
     if(seen.has(u)){ errors.push(`السطر ${line}: اسم المستخدم "${u}" مكرر.`); return; }
     if((rr==='coord'||rr==='teacher') && !s){ errors.push(`السطر ${line} (${u}): ${ROLES[rr].label} يحتاج إلى المادة.`); return; }
     seen.add(u); const salt=newSalt();
-    users.push({u, n:n||u, s, r:rr, salt, h:hashPw(p,salt)});
+    users.push({u, n:n||u, s, r:rr, salt, h:hashPw(p,salt), pw:p});
   });
-  if(!users.some(x=>x.r==='admin')) return {error:'يجب أن يحتوي الملف على مستخدم واحد على الأقل بوظيفة "مدير النظام"، حتى لا تُغلق المنصة على الجميع.', errors};
+  if(!CLOUD && !users.some(x=>x.r==="admin")) return {error:'يجب أن يحتوي الملف على مستخدم واحد على الأقل بوظيفة "مدير النظام"، حتى لا تُغلق المنصة على الجميع.', errors};
   return {users, errors};
 }
 async function uploadUsers(f){
@@ -1942,6 +1948,10 @@ async function uploadUsers(f){
     let res=null;
     for(const n of wb.SheetNames){ const rows=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:null,raw:false}); const r=parseUsersSheet(rows); if(r.users){ res=r; break; } if(!res) res=r; }
     if(!res.users){ USERS_MSG={ok:false, text:res.error, errors:res.errors||[]}; renderView(); return; }
+    if(CLOUD){ const r=await cloudUploadUsers(res.users);
+      USERS_MSG={ok:!r.failed.length, text:`تم: ${r.created} حساباً جديداً، و${r.existing} حساباً موجوداً حُدّثت صلاحياته (كلمة مروره لم تتغير)${r.removed?`، وأُلغيت صلاحية ${r.removed} مستخدماً لم يعد في الملف`:''}.`, errors:[...res.errors, ...r.failed]};
+      renderAll(); return; }
+    res.users.forEach(x=>delete x.pw);
     SETTINGS.users=res.users; SETTINGS.usersFile={name:f.name, at:new Date().toISOString()};
     await save();
     const still = AUTH.user && AUTH.user.emergency ? ' حساب الطوارئ لم يعد يعمل؛ سجّل الدخول بحساب مدير النظام من الملف في المرة القادمة.' : '';
@@ -1971,10 +1981,10 @@ function usersPanel(){
   const d=YEARS[currentYear]&&YEARS[currentYear].data;
   const rows=us.map(x=>{ let link='—';
       if(x.r==='teacher'||x.r==='coord'){ const okS=d&&d.subjects.some(l=>sameSubject(l,x.s)); link=!d?'<span class="c-mut">لا بيانات</span>':!okS?'<span class="c-fail">المادة غير موجودة</span>':x.r==='coord'?'<span class="c-exc">مرتبط</span>':(teacherNameIn(d,x)?'<span class="c-exc">مرتبط بشعبه</span>':'<span class="c-fail">الاسم غير موجود في قائمة المعلمين</span>'); }
-      return `<tr><td class="l">${esc(x.n)}</td><td class="l">${esc(x.s||'—')}</td><td>${ROLES[x.r].label}</td><td dir="ltr">${esc(x.u)}</td><td>${link}</td></tr>`; }).join('');
+      return `<tr><td class="l">${esc(x.n)}</td><td class="l">${esc(x.s||'—')}</td><td>${ROLES[x.r].label}</td><td dir="ltr">${esc(x.username||x.u)}</td><td>${link}</td></tr>`; }).join('');
   const m=USERS_MSG;
   return `<div class="panel form" id="usersPanel"><h3>ملف المستخدمين والصلاحيات <small class="c-mut">(لمدير النظام فقط)</small></h3>
-    <p class="note" style="margin-top:0">ارفع ملف Excel بالأعمدة: الاسم، المادة، الوظيفة، اسم المستخدم، كلمة المرور. رفع ملف جديد يستبدل القائمة كاملة. ${us.length?'':'<b>لم يُرفع ملف بعد؛ حساب الطوارئ admin / 1234 يعمل حتى يُرفع.</b>'}</p>
+    <p class="note" style="margin-top:0">ارفع ملف Excel بالأعمدة: الاسم، المادة، الوظيفة، اسم المستخدم، كلمة المرور. رفع ملف جديد يستبدل القائمة كاملة. ${CLOUD?'<b>الوضع السحابي:</b> كل سطر يُنشئ حساباً في Firebase (اسم المستخدم بحروف إنجليزية، وكلمة المرور 6 أحرف على الأقل). الحساب الموجود تُحدَّث صلاحياته فقط ولا تتغير كلمة مروره.':us.length?'':'<b>لم يُرفع ملف بعد؛ حساب الطوارئ admin / 1234 يعمل حتى يُرفع.</b>'}</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <label class="btn pri">رفع ملف المستخدمين<input type="file" accept=".xlsx,.xls" hidden data-users="1"></label>
       <button class="btn" data-act="userstpl">${ico('xls')}تنزيل قالب ملف المستخدمين (Excel)</button>
@@ -1982,7 +1992,7 @@ function usersPanel(){
     ${m?`<div class="${m.ok?'note':'warn'}" style="margin-top:8px">${esc(m.text)}${m.errors&&m.errors.length?`<ul style="margin:6px 0 0">${m.errors.slice(0,12).map(e=>`<li>${esc(e)}</li>`).join('')}${m.errors.length>12?`<li>و${m.errors.length-12} ملاحظات أخرى</li>`:''}</ul>`:''}</div>`:''}
     ${us.length?`<div class="kpis" style="margin-top:12px">${cnt.map(([r,n])=>kpi(ROLES[r].label,n)).join('')}</div>
       ${T('<th class="l">الاسم</th><th class="l">المادة</th><th>الوظيفة</th><th>اسم المستخدم</th><th>الربط ببيانات العام</th>', rows, '', 'dense')}`:''}
-    <p class="note">تنبيه: المنصة تعمل في المتصفح دون خادم، فالدخول يقيّد ما يظهر لكل مستخدم على هذا الجهاز، ولا يحمي البيانات من شخص يملك ملف النسخة الاحتياطية أو يفحص المتصفح تقنياً.</p></div>`;
+    ${CLOUD?'<p class="note">الصلاحيات تُطبَّق في قاعدة البيانات نفسها: المعلم والمنسق لا تصل إلى أجهزتهم إلا بيانات شعبهم أو مادتهم.</p>':'<p class="note">تنبيه: المنصة تعمل في المتصفح دون خادم، فالدخول يقيّد ما يظهر لكل مستخدم على هذا الجهاز، ولا يحمي البيانات من شخص يملك ملف النسخة الاحتياطية أو يفحص المتصفح تقنياً.</p>'}</div>`;
 }
 
 // ---------- الشارة والمعاينة ----------
@@ -2025,6 +2035,206 @@ document.addEventListener('change',e=>{
   const p=e.target.closest('[data-preview]'); if(p){ setPreview(p.value); return; }
   const u=e.target.closest('[data-users]'); if(u){ const f=u.files[0]; u.value=''; if(f) uploadUsers(f); }
 });
+
+// ===================================================================
+// الوضع السحابي: Firebase Authentication + Cloud Firestore
+//   يعمل تلقائياً عند فتح المنصة من استضافة Firebase (يقرأ /__/firebase/init.json)
+//   وإلا تعمل المنصة محلياً كما هي.
+//
+// بنية قاعدة البيانات:
+//   profiles/{email}            المستخدمون وصلاحياتهم (الاسم، الوظيفة، المادة، اسم المعلم في القوائم)
+//   config/settings             الإعدادات والأهداف وأسماء المنسقين
+//   years/{year}                العام الدراسي
+//     meta/info                 المواد وقوائم المعلمين لكل اختبار
+//     units/{مادة__شعبة}        درجات طلاب الشعبة في مادة واحدة + أسماء معلميها (تُقيَّد قراءتها بالقواعد)
+//     finals/{شعبة}             المجموع والحالة الرسمية للدور الأول (للمدير والنائب ومدير النظام)
+//     blob/{n}                  ملفات الرصد المقروءة مضغوطة (لمدير النظام فقط، لإعادة البناء)
+// ===================================================================
+var CLOUD = null;
+const FB_VER = '10.12.2';
+const CLOUD_OWNER = 'tamerammar55@gmail.com';        // مالك المنصة: مدير النظام دائماً (مطابق لقواعد الأمان)
+const USER_DOMAIN = 'hamza-grades.app';              // اسم المستخدم user ← user@hamza-grades.app
+const toEmail = u => { u=String(u||'').trim().toLowerCase(); return u.includes('@') ? u : `${u}@${USER_DOMAIN}`; };
+const cellId = s => String(s).replace(/[\/.#\[\]]/g,'-');
+
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('تعذّر تحميل '+src)); document.head.appendChild(s); }); }
+// إعدادات تطبيق الويب المسجّل في Firebase (عامة بطبيعتها؛ الحماية في قواعد Firestore)
+const FB_CONFIG={apiKey:"AIzaSyA4EblZL4dG9jyGDhHx7R9GyYIgHyIDSPo", authDomain:"hamza-grades-analysis.firebaseapp.com", projectId:"hamza-grades-analysis", storageBucket:"hamza-grades-analysis.firebasestorage.app", messagingSenderId:"981828363344", appId:"1:981828363344:web:0fd1e933723c8bd0289d55"};
+async function cloudDetect(){
+  if(!/^https?:$/.test(location.protocol)) return false;
+  let cfg=null;
+  try{ const r=await fetch('/__/firebase/init.json',{cache:'no-store'}); if(r.ok) cfg=await r.json(); }catch(e){}
+  if(!cfg || !cfg.apiKey) cfg=FB_CONFIG;   // يعمل أيضاً من GitHub Pages أو أي استضافة أخرى
+  try{
+    if(typeof firebase==='undefined' || !firebase.firestore){
+      const base=`https://www.gstatic.com/firebasejs/${FB_VER}/`;
+      await loadScript(base+'firebase-app-compat.js');
+      await Promise.all([loadScript(base+'firebase-auth-compat.js'), loadScript(base+'firebase-firestore-compat.js')]);
+    }
+    if(!firebase.apps.length) firebase.initializeApp(cfg);
+    CLOUD={cfg, auth:firebase.auth(), db:firebase.firestore(), profiles:[]};
+    return true;
+  }catch(e){ console.error(e); busy(''); return false; }
+}
+
+// ---------- الدخول ----------
+const AUTH_ERR = {'auth/invalid-credential':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/wrong-password':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/user-not-found':'اسم المستخدم أو كلمة المرور غير صحيحة.','auth/invalid-email':'اسم المستخدم غير صالح.','auth/too-many-requests':'محاولات كثيرة؛ انتظر قليلاً ثم أعد المحاولة.','auth/network-request-failed':'لا يوجد اتصال بالإنترنت.','auth/user-disabled':'هذا الحساب موقوف.'};
+async function cloudSignIn(u,p){ await CLOUD.auth.signInWithEmailAndPassword(toEmail(u), p); }
+async function cloudProfile(fu){
+  const email=(fu.email||'').toLowerCase();
+  let p=null; try{ const s=await CLOUD.db.collection('profiles').doc(email).get(); if(s.exists) p=s.data(); }catch(e){}
+  if(email===CLOUD_OWNER) return {u:email, n:(p&&p.name)||'مدير النظام', r:'admin', s:'', owner:true};
+  if(!p || !p.role || !ROLES[p.role]) return null;
+  return {u:email, n:p.tname||p.name, name:p.name, r:p.role, s:p.subject||'', username:p.username};
+}
+function cloudBoot(){
+  busy('جارٍ الاتصال بقاعدة البيانات…');
+  CLOUD.auth.onAuthStateChanged(async fu=>{
+    if(!fu){ busy(''); AUTH.user=null; AUTH.view=null; document.body.classList.remove('authed'); showLogin(); return; }
+    try{
+      busy('جارٍ تحميل البيانات…');
+      const p=await cloudProfile(fu);
+      if(!p){ await CLOUD.auth.signOut(); busy(''); showLogin('حسابك غير مسجّل في المنصة. راجع مدير النظام.'); return; }
+      AUTH.user=p; AUTH.view=null; document.body.classList.add('authed'); $('#login')?.remove();
+      await cloudLoadAll();
+      st.page = role()==='admin' && !D() ? 'data' : 'exec';
+      syncFilters(); renderAll();
+    }catch(e){ console.error(e); showLogin('تعذّر تحميل البيانات: '+(e.message||e)); }
+    finally{ busy(''); }
+  });
+}
+async function cloudLogout(){ try{ await CLOUD.auth.signOut(); }catch(e){} YEARS={}; currentYear=null; }
+
+// ---------- ضغط النص (لملفات الرصد المقروءة) ----------
+async function gzipB64(text){
+  if(typeof CompressionStream==='undefined') return 'raw:'+text;
+  const s=new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));
+  return 'gz:'+u8b64(new Uint8Array(await new Response(s).arrayBuffer()));
+}
+async function gunzipB64(s){
+  if(s.startsWith('raw:')) return s.slice(4);
+  const bin=atob(s.slice(3)), u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+  const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return await new Response(st).text();
+}
+const clean = o => JSON.parse(JSON.stringify(o));   // Firestore لا يقبل undefined
+
+// ---------- التحميل ----------
+async function cloudLoadAll(){
+  const db=CLOUD.db, r=role();
+  try{ const s=await db.collection('config').doc('settings').get(); if(s.exists){ const theme=SETTINGS.theme; SETTINGS=mergeSettings({...s.data(), users:SETTINGS.users}); SETTINGS.theme=theme; } }catch(e){}
+  const ys=(await db.collection('years').get()).docs.map(d=>d.id).sort();
+  YEARS={};
+  for(const y of ys){
+    const yref=db.collection('years').doc(y);
+    if(r==='admin'){
+      const parts=(await yref.collection('blob').get()).docs.map(d=>d.data()).sort((a,b)=>a.i-b.i);
+      let cards=emptyYear().cards;
+      if(parts.length){ try{ cards={...cards, ...JSON.parse(await gunzipB64(parts.map(p=>p.data).join('')))}; }catch(e){ console.error(e); } }
+      YEARS[y]={cards, data:null}; buildYear(y);
+      continue;
+    }
+    const metaS=await yref.collection('meta').doc('info').get(); const meta=metaS.exists?metaS.data():{subjects:[], byPkg:{}};
+    let q=yref.collection('units');
+    if(r==='coord') q=q.where('subject','==',me().s);
+    if(r==='teacher') q=q.where('teachers','array-contains',me().n);
+    const units=(await q.get()).docs.map(d=>d.data());
+    const finals = isFull() ? (await yref.collection('finals').get()).docs.map(d=>d.data()) : [];
+    YEARS[y]={cards:emptyYear().cards, data:units.length?dataFromUnits(units,finals,meta):null};
+  }
+  if(r==='admin'){ try{ CLOUD.profiles=(await db.collection('profiles').get()).docs.map(d=>({email:d.id,...d.data()})); }catch(e){ CLOUD.profiles=[]; } }
+  if(!ys.length){ YEARS={'2025-2026':emptyYear()}; }
+  const withData=Object.keys(YEARS).filter(y=>YEARS[y].data).sort();
+  currentYear = withData.length ? withData[withData.length-1] : Object.keys(YEARS).sort().pop();
+  setSaveState('متصلة بقاعدة البيانات');
+}
+// إعادة بناء كائن البيانات من وحدات (مادة × شعبة)
+function dataFromUnits(units, finals, meta){
+  const people=new Map();
+  units.forEach(u=>(u.students||[]).forEach(s=>{
+    let P=people.get(s.id); if(!P){ P={id:s.id, name:s.name, cls:s.cls, grade:s.grade, subj:{}}; people.set(s.id,P); }
+    P.subj[u.subject]={keys:new Set(s.keys||[]), comps:s.comps||{}};
+  }));
+  finals.forEach(f=>(f.rows||[]).forEach(x=>{ const P=people.get(x.id); if(P) P.final=x.final; }));
+  const students=[...people.values()];
+  students.forEach(P=>Object.values(P.subj).forEach(R=>{ R.pkg={}; PKG_ORDER.forEach(pk=>{ R.pkg[pk]=pkgCalc(R,pk); }); }));
+  const present=new Set(units.map(u=>u.subject));
+  const subjects=(meta.subjects||[]).filter(l=>present.has(l)).concat([...present].filter(l=>!(meta.subjects||[]).includes(l)));
+  const availPkgs=PKG_ORDER.filter(pk=>students.some(P=>Object.values(P.subj).some(R=>R.pkg[pk])));
+  const displayKeys=KEY_ORDER.filter(k=>students.some(P=>Object.values(P.subj).some(R=>R.keys.has(k))));
+  const grades=[...new Set(students.map(s=>s.grade).filter(g=>g!=null))].sort((a,b)=>a-b);
+  const classes=[...new Set(students.map(s=>s.cls).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar',{numeric:true}));
+  return {students, subjects, teachersByPkg:meta.byPkg||{}, grades, classes, sources:[], displayKeys, availPkgs, cloud:true};
+}
+
+// ---------- النشر (مدير النظام) ----------
+async function cloudCommit(ops){ for(let i=0;i<ops.length;i+=400){ const b=CLOUD.db.batch(); ops.slice(i,i+400).forEach(o=>o.del?b.delete(o.ref):b.set(o.ref,o.data)); await b.commit(); } }
+async function cloudPublishYear(y){
+  if(!CLOUD || role()!=='admin') return;
+  const db=CLOUD.db, yref=db.collection('years').doc(y), Y=YEARS[y], d=Y&&Y.data;
+  busy(`جارٍ الحفظ في قاعدة البيانات (${y})…`);
+  try{
+    const ops=[], old=[];
+    for(const sub of ['units','finals','blob','meta']) (await yref.collection(sub).get()).docs.forEach(x=>old.push(x.ref));
+    ops.push({ref:yref, data:{year:y, updatedAt:new Date().toISOString(), students:d?d.students.length:0}});
+    // ملفات الرصد المقروءة (لإعادة البناء عند مدير النظام)
+    const blob=await gzipB64(JSON.stringify(Y.cards)), CH=700000;
+    for(let i=0,n=0;i<blob.length;i+=CH,n++) ops.push({ref:yref.collection('blob').doc(String(n)), data:{i:n, data:blob.slice(i,i+CH)}});
+    if(d){
+      ops.push({ref:yref.collection('meta').doc('info'), data:clean({subjects:d.subjects, byPkg:d.teachersByPkg})});
+      for(const l of d.subjects) for(const c of d.classes){
+        const L=d.students.filter(s=>s.cls===c && s.subj[l]); if(!L.length) continue;
+        const teachers=[...new Set(Object.values(d.teachersByPkg).flat().filter(t=>t.subjectKey===l && t.cls===normClass(c)).map(t=>t.name))];
+        ops.push({ref:yref.collection('units').doc(cellId(`${l}__${c}`)), data:clean({subject:l, cls:c, grade:gradeOf(c), teachers,
+          students:L.map(s=>({id:s.id, name:s.name, cls:s.cls, grade:s.grade, keys:[...s.subj[l].keys], comps:s.subj[l].comps}))})});
+      }
+      for(const c of d.classes){ const rows=d.students.filter(s=>s.cls===c && s.final).map(s=>({id:s.id, final:s.final})); if(rows.length) ops.push({ref:yref.collection('finals').doc(cellId(c)), data:clean({cls:c, rows})}); }
+    }
+    // حذف الوثائق القديمة التي لم تعد موجودة فقط، ثم الكتابة
+    const keepPaths=new Set(ops.map(o=>o.ref.path));
+    await cloudCommit(old.filter(r=>!keepPaths.has(r.path)).map(ref=>({del:true, ref})));
+    await cloudCommit(ops);
+    setSaveState('محفوظة في قاعدة البيانات');
+  }catch(e){ console.error(e); setSaveState('تعذّر الحفظ في قاعدة البيانات'); alert('تعذّر الحفظ في قاعدة البيانات: '+(e.message||e)); }
+  finally{ busy(''); }
+}
+async function cloudDeleteYear(y){
+  if(!CLOUD || role()!=='admin') return;
+  const yref=CLOUD.db.collection('years').doc(y), ops=[];
+  for(const sub of ['units','finals','blob','meta']) (await yref.collection(sub).get()).docs.forEach(x=>ops.push({del:true, ref:x.ref}));
+  ops.push({del:true, ref:yref}); await cloudCommit(ops);
+}
+let CLOUD_SET_T=null;
+function cloudSaveSettings(){
+  if(!CLOUD || !isFull()) return;
+  clearTimeout(CLOUD_SET_T);
+  CLOUD_SET_T=setTimeout(async()=>{ try{ const s=clean({...SETTINGS}); delete s.users; delete s.theme; delete s.usersFile; await CLOUD.db.collection('config').doc('settings').set(s); }catch(e){ console.error(e); } },800);
+}
+
+// ---------- المستخدمون (مدير النظام) ----------
+function cloudSubject(s){ for(const Y of Object.values(YEARS)) if(Y.data){ const l=Y.data.subjects.find(x=>sameSubject(x,s)); if(l) return l; } return s; }
+function cloudTeacherName(name){ const nm=norm(name); for(const Y of Object.values(YEARS)) if(Y.data) for(const rows of Object.values(Y.data.teachersByPkg||{})) for(const t of rows) if(norm(t.name)===nm) return t.name; return ''; }
+async function cloudUploadUsers(list){
+  const sec = firebase.apps.find(a=>a.name==='usersAdmin') || firebase.initializeApp(CLOUD.cfg,'usersAdmin');
+  const sAuth=sec.auth(), out={created:0, existing:0, failed:[]}, keep=new Set();
+  for(let i=0;i<list.length;i++){
+    const x=list[i], email=toEmail(x.u); busy(`جارٍ إنشاء الحسابات… ${i+1} من ${list.length}`);
+    if(!/^[a-z0-9._-]+(@[a-z0-9.-]+)?$/i.test(x.u)){ out.failed.push(`${x.u}: اسم المستخدم يجب أن يكون بحروف إنجليزية وأرقام فقط.`); continue; }
+    if(String(x.pw).length<6){ out.failed.push(`${x.u}: كلمة المرور يجب ألا تقل عن 6 أحرف.`); continue; }
+    try{ await sAuth.createUserWithEmailAndPassword(email, String(x.pw)); out.created++; try{ await sAuth.signOut(); }catch(_){} }
+    catch(e){ if(e.code==='auth/email-already-in-use') out.existing++; else { out.failed.push(`${x.u}: ${AUTH_ERR[e.code]||e.message}`); continue; } }
+    keep.add(email);
+    await CLOUD.db.collection('profiles').doc(email).set(clean({name:x.n, username:x.u, role:x.r, subject:x.s?cloudSubject(x.s):'', tname:x.r==='teacher'?(cloudTeacherName(x.n)||x.n):'', updatedAt:new Date().toISOString()}));
+  }
+  // حذف صلاحيات من لم يعد في الملف (الحساب يبقى لكنه لا يرى شيئاً)
+  const old=(await CLOUD.db.collection('profiles').get()).docs.filter(d=>!keep.has(d.id) && d.id!==CLOUD_OWNER);
+  await cloudCommit(old.map(d=>({del:true, ref:d.ref})));
+  CLOUD.profiles=(await CLOUD.db.collection('profiles').get()).docs.map(d=>({email:d.id,...d.data()}));
+  busy('');
+  return {...out, removed:old.length};
+}
+// المستخدمون بالشكل الذي تستعمله بقية المنصة
+const cloudUsers = () => (CLOUD&&CLOUD.profiles||[]).map(p=>({u:p.email, n:p.tname||p.name, name:p.name, r:p.role, s:p.subject||'', username:p.username}));
 
 // ===================================================================
 // رسوم بيانية احترافية (SVG) — تُطبع وتُصدَّر PDF بوضوح
@@ -2370,6 +2580,7 @@ async function restoreBackup(f){
     currentYear = YEARS[p.currentYear] ? p.currentYear : (done[0] || Object.keys(YEARS)[0]);
     LAST_RESTORE = {ok:true, years:done.sort(), created:p.created, mode};
     syncFilters(); await save(); renderAll();
+    if(CLOUD){ for(const y of Object.keys(YEARS)) await cloudPublishYear(y); cloudSaveSettings(); }
   }catch(e){
     LAST_RESTORE = {ok:false, msg:e.message||String(e)};
     renderView();
@@ -3646,7 +3857,7 @@ function cohortRows(){
 }
 
 // ===== التشغيل =====
-(async()=>{ await load(); if(restoreSession()){ syncFilters(); renderAll(); } else showLogin(); })();
+(async()=>{ await load(); if(await cloudDetect()){ cloudBoot(); return; } if(restoreSession()){ syncFilters(); renderAll(); } else showLogin(); })();
 
 </script>
 </body>
