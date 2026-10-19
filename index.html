@@ -2117,7 +2117,10 @@ function cloudBoot(){
     finally{ busy(''); }
   });
 }
-async function cloudLogout(){ try{ await CLOUD.auth.signOut(); }catch(e){} YEARS={}; currentYear=null; }
+async function cloudLogout(){
+  // عند تسجيل الخروج تُمسح النسخة المحلية لهذا المستخدم (مهم في أجهزة المدرسة المشتركة)
+  try{ const ys=Object.keys(YEARS); await Promise.all(ys.map(y=>STORE.set(cacheKey(y), null))); }catch(e){}
+  try{ await CLOUD.auth.signOut(); }catch(e){} YEARS={}; currentYear=null; }
 
 // ---------- ضغط النص (لملفات الرصد المقروءة) ----------
 async function gzipB64(text){
@@ -2134,29 +2137,46 @@ async function gunzipB64(s){
 const clean = o => JSON.parse(JSON.stringify(o));   // Firestore لا يقبل undefined
 
 // ---------- التحميل ----------
-async function cloudLoadAll(){
-  const db=CLOUD.db, r=role();
-  try{ const s=await db.collection('config').doc('settings').get(); if(s.exists){ const theme=SETTINGS.theme; SETTINGS=mergeSettings({...s.data(), users:SETTINGS.users}); SETTINGS.theme=theme; } }catch(e){}
-  const ys=(await db.collection('years').get()).docs.map(d=>d.id).sort();
-  YEARS={};
-  for(const y of ys){
-    const yref=db.collection('years').doc(y);
-    if(r==='admin'){
+// نسخة محلية على الجهاز لكل عام: لا يُعاد تنزيل العام إلا إذا تغيّر في قاعدة البيانات
+const cacheKey = y => `cloud:${(me()&&me().u)||''}:${role()}:${y}`;
+async function cacheGet(y, stamp){ try{ const c=await STORE.get(cacheKey(y)); return c && stamp && c.stamp===stamp ? c : null; }catch(e){ return null; } }
+function cachePut(y, v){ try{ STORE.set(cacheKey(y), v).catch(()=>{}); }catch(e){} }
+
+async function loadYearCloud(y, stamp){
+  const db=CLOUD.db, r=role(), yref=db.collection('years').doc(y);
+  let c=await cacheGet(y, stamp);
+  if(r==='admin'){
+    if(!c){
       const parts=(await yref.collection('blob').get()).docs.map(d=>d.data()).sort((a,b)=>a.i-b.i);
-      let cards=emptyYear().cards;
-      if(parts.length){ try{ cards={...cards, ...JSON.parse(await gunzipB64(parts.map(p=>p.data).join('')))}; }catch(e){ console.error(e); } }
-      YEARS[y]={cards, data:null}; buildYear(y);
-      continue;
+      let cards={};
+      if(parts.length){ try{ cards=JSON.parse(await gunzipB64(parts.map(p=>p.data).join(''))); }catch(e){ console.error(e); } }
+      c={stamp, cards}; cachePut(y, c);
     }
-    const metaS=await yref.collection('meta').doc('info').get(); const meta=metaS.exists?metaS.data():{subjects:[], byPkg:{}};
+    YEARS[y]={cards:{...emptyYear().cards, ...c.cards}, data:null};
+    await buildYearAsync(y);
+    return;
+  }
+  if(!c){
     let q=yref.collection('units');
     if(r==='coord') q=q.where('subject','==',me().s);
     if(r==='teacher') q=q.where('teachers','array-contains',me().n);
-    const units=(await q.get()).docs.map(d=>d.data());
-    const finals = isFull() ? (await yref.collection('finals').get()).docs.map(d=>d.data()) : [];
-    YEARS[y]={cards:emptyYear().cards, data:units.length?dataFromUnits(units,finals,meta):null};
+    const [metaS, us, fs] = await Promise.all([
+      yref.collection('meta').doc('info').get(), q.get(),
+      isFull() ? yref.collection('finals').get() : Promise.resolve({docs:[]}) ]);
+    c={stamp, meta:metaS.exists?metaS.data():{subjects:[], byPkg:{}}, units:us.docs.map(d=>d.data()), finals:fs.docs.map(d=>d.data())};
+    cachePut(y, c);
   }
-  if(r==='admin'){ try{ CLOUD.profiles=(await db.collection('profiles').get()).docs.map(d=>({email:d.id,...d.data()})); }catch(e){ CLOUD.profiles=[]; } }
+  YEARS[y]={cards:emptyYear().cards, data:c.units.length?dataFromUnits(c.units,c.finals,c.meta):null};
+}
+
+async function cloudLoadAll(){
+  const db=CLOUD.db, r=role();
+  const [setS, yS] = await Promise.all([ db.collection('config').doc('settings').get().catch(()=>null), db.collection('years').get() ]);
+  if(setS && setS.exists){ const theme=SETTINGS.theme; SETTINGS=mergeSettings({...setS.data(), users:SETTINGS.users}); SETTINGS.theme=theme; }
+  const ys=yS.docs.map(d=>({y:d.id, stamp:(d.data()||{}).updatedAt||''})).sort((a,b)=>a.y.localeCompare(b.y));
+  YEARS={};
+  const prof = r==='admin' ? db.collection('profiles').get().then(s=>{ CLOUD.profiles=s.docs.map(d=>({email:d.id,...d.data()})); }).catch(()=>{ CLOUD.profiles=[]; }) : null;
+  await Promise.all([...ys.map(o=>loadYearCloud(o.y, o.stamp)), prof]);   // كل الأعوام معاً لا واحداً بعد الآخر
   if(!ys.length){ YEARS={'2025-2026':emptyYear()}; }
   const withData=Object.keys(YEARS).filter(y=>YEARS[y].data).sort();
   currentYear = withData.length ? withData[withData.length-1] : Object.keys(YEARS).sort().pop();
@@ -2190,7 +2210,8 @@ async function cloudPublishYear(y){
   try{
     const ops=[], old=[];
     for(const sub of ['units','finals','blob','meta']) (await yref.collection(sub).get()).docs.forEach(x=>old.push(x.ref));
-    ops.push({ref:yref, data:{year:y, updatedAt:new Date().toISOString(), students:d?d.students.length:0}});
+    const stamp=new Date().toISOString();
+    ops.push({ref:yref, data:{year:y, updatedAt:stamp, students:d?d.students.length:0}});
     // ملفات الرصد المقروءة (لإعادة البناء عند مدير النظام)
     const blob=await gzipB64(JSON.stringify(Y.cards)), CH=700000;
     for(let i=0,n=0;i<blob.length;i+=CH,n++) ops.push({ref:yref.collection('blob').doc(String(n)), data:{i:n, data:blob.slice(i,i+CH)}});
@@ -2208,6 +2229,7 @@ async function cloudPublishYear(y){
     const keepPaths=new Set(ops.map(o=>o.ref.path));
     await cloudCommit(old.filter(r=>!keepPaths.has(r.path)).map(ref=>({del:true, ref})));
     await cloudCommit(ops);
+    cachePut(y, {stamp, cards:Y.cards});
     setSaveState('محفوظة في قاعدة البيانات');
   }catch(e){ console.error(e); setSaveState('تعذّر الحفظ في قاعدة البيانات'); alert('تعذّر الحفظ في قاعدة البيانات: '+(e.message||e)); }
   finally{ busy(''); }
