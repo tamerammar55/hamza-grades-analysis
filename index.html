@@ -2072,7 +2072,9 @@ async function cloudDetect(){
       await Promise.all([loadScript(base+'firebase-auth-compat.js'), loadScript(base+'firebase-firestore-compat.js')]);
     }
     if(!firebase.apps.length) firebase.initializeApp(cfg);
-    CLOUD={cfg, auth:firebase.auth(), db:firebase.firestore(), profiles:[]};
+    const db=firebase.firestore();
+    try{ db.settings({experimentalAutoDetectLongPolling:true, merge:true}); }catch(e){}   // يتجاوز جدران الحماية في شبكات المدارس
+    CLOUD={cfg, auth:firebase.auth(), db, profiles:[]};
     return true;
   }catch(e){ console.error(e); busy(''); return false; }
 }
@@ -2096,10 +2098,16 @@ function cloudBoot(){
       const p=await cloudProfile(fu);
       if(!p){ await CLOUD.auth.signOut(); busy(''); showLogin('حسابك غير مسجّل في المنصة. راجع مدير النظام.'); return; }
       AUTH.user=p; AUTH.view=null; document.body.classList.add('authed'); $('#login')?.remove();
-      await cloudLoadAll();
+      await Promise.race([cloudLoadAll(), new Promise((_,rej)=>setTimeout(()=>rej(new Error('TIMEOUT')),25000))]);
       st.page = role()==='admin' && !D() ? 'data' : 'exec';
       syncFilters(); renderAll();
-    }catch(e){ console.error(e); showLogin('تعذّر تحميل البيانات: '+(e.message||e)); }
+    }catch(e){ console.error(e); try{ await CLOUD.auth.signOut(); }catch(_){}
+      const c=String(e.code||e.message||e);
+      const why = /TIMEOUT|unavailable|offline/i.test(c) ? 'لا يوجد رد من قاعدة البيانات. تأكد من إنشاء Firestore Database في المشروع (Build ← Firestore Database ← Create database)، ومن أن الشبكة لا تحجب firestore.googleapis.com.'
+        : /permission/i.test(c) ? 'قاعدة البيانات رفضت القراءة. الصق قواعد الحماية في Firestore ← Rules واضغط Publish.'
+        : /not.?found|failed-precondition/i.test(c) ? 'قاعدة البيانات غير موجودة. أنشئها من Build ← Firestore Database ← Create database.'
+        : (e.message||c);
+      showLogin('تعذّر تحميل البيانات: '+why); }
     finally{ busy(''); }
   });
 }
