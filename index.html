@@ -1852,7 +1852,7 @@ const ROLES = {
   principal: {label:'مدير المدرسة',     deny:['data','audit']},
   vp:        {label:'النائب الأكاديمي',  deny:['data','audit']},
   coord:     {label:'منسق مادة',        deny:['data','settings','quality','audit']},
-  teacher:   {label:'معلم',             deny:['data','settings','committee','quality','audit']},
+  teacher:   {label:'معلم',             deny:['data','settings','quality','audit']},
 };
 const FULL_ROLES = ['admin','principal','vp'];
 const EMERGENCY = {u:'admin', n:'مدير النظام (حساب الطوارئ)', r:'admin', s:'', emergency:true};
@@ -2805,8 +2805,10 @@ async function bulkMail(kind){
 const scaleOf = pk => pk.startsWith('mid') ? 'التقييم الرئيسي من 30' : pk==='year' ? 'الدور الأول من 100 (الملف الرسمي)' : 'التقييم الرئيسي من 50 (والاختبار النظري للعلوم)';
 const yearSeq = d => [...d.availPkgs.filter(k=>k!=='year'), ...(d.availPkgs.includes('year')?['year']:[])];
 
+// نطاق التقرير حسب صلاحية المستخدم (المعلم يرى شعبه، والمنسق مادته)
+function committeeScope(){ const d=D(), sc=d&&d.scoped; if(!sc) return 'جميع الصفوف والشعب'; return sc.role==='teacher' ? `شعب المعلم ${sc.teacher||me().n} (${d.classes.join('، ')})` : `مادة ${sc.subject}`; }
 function committeeHead(title, sub, pk){
-  return RH(title, sub, [['العام الدراسي',currentYear],['الاختبار',PKG[pk].label],['النطاق','جميع الصفوف والشعب'],['تاريخ الإصدار',TODAY]])
+  return RH(title, sub, [['العام الدراسي',currentYear],['الاختبار',PKG[pk].label],['النطاق',committeeScope()],['تاريخ الإصدار',TODAY]])
    + `<div class="to"><span>مقدَّم إلى:</span><b>${esc(SETTINGS.principal)}</b><span>مدير المدرسة</span><b>${esc(SETTINGS.deputy)}</b><span>النائب الأكاديمي</span></div>`;
 }
 function committeeFoot(){
@@ -4373,7 +4375,7 @@ function autoFindings(M){
   return {pos,neg,chal,rec};
 }
 function noteBox(section, auto){
-  const key=`${currentYear}|${st.pk}|${section}`, saved=SETTINGS.notes[key];
+  const sc=D()&&D().scoped, key=`${currentYear}|${st.pk}|${section}`+(sc?`|${me().u}`:''), saved=SETTINGS.notes[key];   // نص المعلم/المنسق منفصل عن نص تقرير المدرسة
   const text = saved!=null ? saved : auto.join('\n');
   const lines=text.split('\n').map(x=>x.trim()).filter(Boolean);
   return `<div class="nb">
@@ -4498,7 +4500,7 @@ function pExport(){
   const cb=(k,l,h='')=>`<label class="chk"><input type="checkbox" data-exp="${k}" ${st.exp[k]?'checked':''}> <span><b>${l}</b>${h?`<small>${h}</small>`:''}</span></label>`;
   return `<div class="ws">
   <h1>التصدير والإرسال</h1><p>كل الملفات للاختبار المختار في الشريط العلوي: <b>${PKG[pk].label}</b> — العام <bdi>${esc(currentYear)}</bdi>. غيّر الاختبار من الشريط لتصدير اختبار آخر.</p>
-  ${role()==='teacher'?'':`<div class="panel"><h3>تقرير لجنة التحصيل الأكاديمي</h3>
+  ${!canSee('committee')?'':`<div class="panel"><h3>تقرير لجنة التحصيل الأكاديمي</h3>
     <p class="note" style="margin-top:0">${pk==='year'?'الاختبار المختار هو الدور الأول، فيُصدَّر التقرير الختامي للعام.':'لإصدار التقرير الختامي للعام اختر "الدور الأول" من الشريط العلوي (بعد رفع ملفها).'}</p>
     <button class="btn pri" data-act="cdl">تنزيل تقرير اللجنة</button> <button class="btn" data-act="nav" data-v="committee">فتح التقرير وتعديل البنود</button></div>`}
   <div class="panel"><h3>تصدير التقارير في مجلدات (ملف مضغوط)</h3>
