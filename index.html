@@ -3680,7 +3680,7 @@ const fx = x => x==null ? '–' : (x>0?'+':'')+r1(x);
 const prevOf = (d, pk) => { const seq=d.availPkgs.filter(k=>k!=='year'); return pk==='year' ? seq[seq.length-1] : seq[seq.indexOf(pk)-1]; };
 
 // أشرطة موجبة/سالبة حول الصفر
-function divBars(items, opt={}){
+function vaBars(items, opt={}){
   if(!items.length) return '<p class="note">لا توجد بيانات.</p>';
   const mx = opt.max || Math.max(5, ...items.map(x=>Math.abs(x.v||0)));
   return `<div class="dvb">${items.map(x=>{ const w=Math.min(50, Math.abs(x.v||0)/mx*50);
@@ -3755,7 +3755,7 @@ function studentExtras(s, d, cL){
   // القوة والضعف مقارنة بمتوسط الشعبة
   const rows=d.subjects.filter(l=>s.subj[l]).map(l=>{ const p=s.subj[l].pkg&&s.subj[l].pkg[pk]; if(!p||!p.counted) return null; const ca=aggSubject(cL,l,pk).ach; return {l, p:p.pct, ca, df:ca==null?null:p.pct-ca}; }).filter(Boolean).sort((a,b)=>b.df-a.df);
   const strong=rows.filter(x=>x.df>=2 && x.p>=80).slice(0,3), weak=rows.filter(x=>x.df<0 || x.p<WEAK).slice(-3).reverse();
-  const sw = rows.length ? sec('نقاط القوة والضعف مقارنة بمتوسط الشعبة', `<div class="cols"><div>${divBars(rows.map(x=>({label:x.l, v:x.df})))}<p class="note">الفرق بالنقاط بين نسبة الطالب ومتوسط شعبته في كل مادة (${esc(PK_SHORT[pk])}).</p></div><div>
+  const sw = rows.length ? sec('نقاط القوة والضعف مقارنة بمتوسط الشعبة', `<div class="cols"><div>${vaBars(rows.map(x=>({label:x.l, v:x.df})))}<p class="note">الفرق بالنقاط بين نسبة الطالب ومتوسط شعبته في كل مادة (${esc(PK_SHORT[pk])}).</p></div><div>
       <div class="sub-h">نقاط القوة</div>${strong.length?`<ul class="ul">${strong.map(x=>`<li>${esc(x.l)}: ${pc(x.p)} <small class="c-exc">(<bdi dir="ltr">${fx(x.df)}</bdi> عن الشعبة)</small></li>`).join('')}</ul>`:'<p class="note">لا توجد مادة يتفوق فيها على متوسط شعبته بوضوح.</p>'}
       <div class="sub-h">تحتاج دعماً</div>${weak.length?`<ul class="ul">${weak.map(x=>`<li>${esc(x.l)}: ${pc(x.p)} <small class="c-fail">(<bdi dir="ltr">${fx(x.df)}</bdi> عن الشعبة)</small></li>`).join('')}</ul>`:'<p class="note">لا توجد مادة دون متوسط الشعبة.</p>'}</div></div>`) : '';
   // عبر الأعوام الدراسية (بالرقم نفسه)
@@ -3792,7 +3792,7 @@ function pGrowth(){
   ${tools}
   <p class="note">النمو = متوسط تغيّر نسبة الطالب نفسه بين الاختبارين، ولا يدخل فيه إلا الطالب الذي له نتيجة في الاختبارين. ${teacherRole?'':'<b>الأثر المضاف</b> = نمو طلاب المعلم ناقص نمو المادة نفسها في المدرسة؛ وهو أعدل من الدرجة المطلقة لأنه يلغي اختلاف صعوبة الاختبارين ومستوى الطلاب عند البداية.'} "نمو الضعاف" لمن بدأ أقل من 65%.</p>
   ${sec('النمو حسب المادة', T('<th class="l">المادة</th>'+head, labels.filter(l=>subj[l].n).map(l=>`<tr class="click" data-act="subject" data-v="${esc(l)}"><td class="l">${esc(l)}</td>${cells(subj[l])}</tr>`).join('')))}
-  ${!teacherRole && TG.length>1 ? sec('الأثر المضاف للمعلمين', divBars(vaSorted.filter(g=>g.va!=null).map(g=>({label:`${g.name} — ${g.subject}`, v:g.va, act:'teacher', key:g.name}))) + '<p class="note">يمين الخط: نمو طلاب المعلم أعلى من نمو المادة في المدرسة. يسار الخط: أقل منه. الفرق أقل من نقطتين لا يُعد فارقاً حقيقياً.</p>') : ''}
+  ${!teacherRole && TG.length>1 ? sec('الأثر المضاف للمعلمين', vaBars(vaSorted.filter(g=>g.va!=null).map(g=>({label:`${g.name} — ${g.subject}`, v:g.va, act:'teacher', key:g.name}))) + '<p class="note">يمين الخط: نمو طلاب المعلم أعلى من نمو المادة في المدرسة. يسار الخط: أقل منه. الفرق أقل من نقطتين لا يُعد فارقاً حقيقياً.</p>') : ''}
   ${sec('النمو حسب المعلم', T('<th class="l">المعلم</th><th class="l">المادة</th><th>الشعب</th>'+head+(teacherRole?'':'<th>الأثر المضاف</th>'), vaSorted.map(g=>`<tr class="click" data-act="teacher" data-v="${esc(g.name)}"><td class="nm">${esc(g.name)}</td><td class="l">${esc(g.subject)}</td><td>${esc(g.cls.map(c=>c.cls).join('، '))}</td>${cells(g.S)}${teacherRole?'':`<td class="${g.va==null?'':g.va>=2?'c-exc':g.va<=-2?'c-fail':''}"><b>${sgn(g.va)}</b></td>`}</tr>`).join(''), '', 'dense'))}
   ${sec('النمو حسب الشعبة والمادة', T('<th>الشعبة</th><th class="l">المادة</th><th class="l">المعلم</th>'+head+(teacherRole?'':'<th>الأثر المضاف</th>'), units.sort((x,y)=>(y.S.g??-99)-(x.S.g??-99)).map(u=>`<tr class="click" data-act="cls" data-v="${esc(u.cls)}"><td><b>${esc(u.cls)}</b></td><td class="l">${esc(u.l)}</td><td class="l">${esc(u.t)}</td>${cells(u.S)}${teacherRole?'':`<td class="${u.va==null?'':u.va>=2?'c-exc':u.va<=-2?'c-fail':''}">${sgn(u.va)}</td>`}</tr>`).join(''), '', 'dense'))}
   </div>`;
