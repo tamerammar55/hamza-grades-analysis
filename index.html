@@ -2376,6 +2376,13 @@ async function cloudDetect(){
     if(!firebase.apps.length) firebase.initializeApp(cfg);
     const db=firebase.firestore();
     try{ db.settings({experimentalAutoDetectLongPolling:true, merge:true}); }catch(e){}   // يتجاوز جدران الحماية في شبكات المدارس
+
+/* === إصلاح التشغيل المتزامن للأنظمة: تحرير اتصال Firestore عند ترك التبويب في الخلفية === */
+(function(){ try{ var fdb=firebase.firestore(), t=null, off=false;
+  document.addEventListener('visibilitychange',function(){ clearTimeout(t);
+    if(document.hidden){ t=setTimeout(function(){ fdb.disableNetwork().then(function(){off=true;}).catch(function(){}); },30000); }
+    else if(off){ off=false; fdb.enableNetwork().catch(function(){}); } });
+}catch(e){} })();
     CLOUD={cfg, auth:firebase.auth(), db, profiles:[]};
     return true;
   }catch(e){ console.error(e); busy(''); return false; }
