@@ -3665,6 +3665,148 @@ document.addEventListener('change', e=>{
 });
 
 // ===================================================================
+// تقرير لجنة التحصيل الأكاديمي بصيغة Word (لمدير النظام فقط)
+//   يُرسم التقرير كما يظهر، ثم يُحوَّل: الجداول جداول Word قابلة للتعديل،
+//   والرسوم البيانية صور واضحة، والإيجابيات والتوصيات نصوص قابلة للتعديل.
+// ===================================================================
+const CW = {
+  navy:'14365D', ink:'17212E', muted:'5D6878', line:'C3CCD7', soft:'F6F8FB', head:'14365D',
+  tone:{'c-exc':'1D7A4E','c-mid':'2A62A6','c-weak':'B0701A','c-fail':'B3322D','c-mut':'808080'},
+  heat:{h1:'B7E1C6',h2:'E2F0C4',h3:'FBE9AC',h4:'F8CFA3',h5:'F1B0AA'},
+  tag:{exc:'1D7A4E',mid:'2A62A6',weak:'B0701A',fail:'B3322D',na:'808080'},
+};
+const cwTxt = el => (el.innerText||el.textContent||'').replace(/ /g,' ').replace(/[ \t]+/g,' ').replace(/\s*\n\s*/g,'\n').trim();
+const cwNum = t => /^[\s\d.,%+\-–−\/():]+$/.test(t) && /\d/.test(t);
+// فقرة من نص قد يحتوي أسطراً متعددة
+function cwPara(text, o={}){
+  const lines=String(text).split('\n').filter(x=>x!=='');
+  const runs=lines.map((l,i)=>(i?'<w:r><w:br/></w:r>':'')+W.run(l,{b:o.b, sz:o.sz||24, color:o.color, ltr:o.ltr??cwNum(l)})).join('');
+  return W.p(runs||W.run(''),{jc:o.jc||'left', after:o.after??60, before:o.before, keep:o.keep, line:o.line});
+}
+function cwToneOf(el){ for(const k of Object.keys(CW.tone)) if(el.classList.contains(k) || el.querySelector('.'+k)) return CW.tone[k];
+  const t=el.querySelector('.tag'); if(t){ for(const k of Object.keys(CW.tag)) if(t.classList.contains(k)) return CW.tag[k]; } return null; }
+function cwTable(tbl, usable){
+  const rows=[...tbl.querySelectorAll(':scope > thead > tr, :scope > tbody > tr')];
+  if(!rows.length) return '';
+  // أعمدة الشبكة من عرض خلايا أطول صف
+  const ref=rows.reduce((a,r)=>{ const n=[...r.cells].reduce((s,c)=>s+(c.colSpan||1),0); return n>a.n?{n,r}:a; },{n:0,r:rows[0]});
+  let ws=[]; [...ref.r.cells].forEach(c=>{ const span=c.colSpan||1, w=c.getBoundingClientRect().width/span; for(let i=0;i<span;i++) ws.push(Math.max(20,w)); });
+  const sum=ws.reduce((a,b)=>a+b,0)||1, tblW=Math.round(usable*(ws.length>=4 ? 1 : Math.max(0.6, Math.min(1, tbl.getBoundingClientRect().width/(tbl.closest('.sheet').getBoundingClientRect().width||1)))));
+  const grid=ws.map(w=>Math.max(300,Math.round(w/sum*tblW)));
+  const small = ws.length>9 ? 18 : ws.length>6 ? 20 : 22;
+  const tr=rows.map(r=>{
+    const isHead=r.parentElement.tagName==='THEAD', isFoot=r.parentElement.classList.contains('ft'), grp=r.classList.contains('grp-row');
+    let ci=0;
+    const cells=[...r.cells].map(c=>{
+      const span=c.colSpan||1, w=grid.slice(ci,ci+span).reduce((a,b)=>a+b,0); ci+=span;
+      const t=cwTxt(c), th=c.tagName==='TH';
+      const heat=Object.keys(CW.heat).find(k=>c.classList.contains(k));
+      const fill = isHead ? CW.head : grp ? 'E8EFF8' : isFoot ? 'EEF1F5' : heat ? CW.heat[heat] : th ? 'E8EFF8' : null;
+      const color = isHead ? 'FFFFFF' : cwToneOf(c);
+      const bold = isHead || isFoot || grp || th || !!c.querySelector('b') || c.classList.contains('nm')&&false;
+      const jc = c.classList.contains('l') || c.classList.contains('nm') ? 'left' : 'center';
+      return wCell(cwPara(t,{b:bold, sz:small, color, jc, after:0}), {w, span, fill});
+    }).join('');
+    return `<w:tr><w:trPr>${isHead?'<w:tblHeader/>':''}<w:cantSplit/></w:trPr>${cells}</w:tr>`;
+  }).join('');
+  return `<w:tbl><w:tblPr><w:bidiVisual/><w:tblW w:w="${grid.reduce((a,b)=>a+b,0)}" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(b=>`<w:${b} w:val="single" w:sz="4" w:color="${CW.line}"/>`).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="30" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="30" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${grid.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>${tr}</w:tbl>` + W.p('',{after:80});
+}
+function cwKpis(el, usable){
+  const ks=[...el.querySelectorAll('.kpi')]; if(!ks.length) return '';
+  const per=Math.min(4,ks.length), w=Math.floor(usable/per), out=[];
+  for(let i=0;i<ks.length;i+=per){
+    const row=ks.slice(i,i+per);
+    out.push(`<w:tr><w:trPr><w:cantSplit/></w:trPr>${row.map(k=>{ const g=s=>{ const e=k.querySelector(s); return e?cwTxt(e):''; };
+      const t=['exc','mid','weak','fail'].find(x=>k.classList.contains('t-'+x));
+      return wCell(cwPara(g('.l'),{sz:19,color:CW.muted,after:0,jc:'center'})+cwPara(g('.v'),{b:true,sz:34,color:t?CW.tag[t]:CW.ink,after:0,jc:'center'})+(g('.s')?cwPara(g('.s'),{sz:17,color:CW.muted,after:0,jc:'center'}):''),{w,fill:CW.soft});
+    }).join('')}${row.length<per?wCell(W.p(''),{w:w*(per-row.length),span:per-row.length}):''}</w:tr>`);
+  }
+  return `<w:tbl><w:tblPr><w:bidiVisual/><w:tblW w:w="${w*per}" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(b=>`<w:${b} w:val="single" w:sz="8" w:color="FFFFFF"/>`).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>${Array(per).fill(`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>${out.join('')}</w:tbl>`+W.p('',{after:80});
+}
+// صورة مضمّنة
+function cwImage(rel, id, cx, cy){
+  return `<w:p><w:pPr><w:bidi/><w:jc w:val="center"/><w:spacing w:after="100"/><w:keepLines/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="img${id}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${id}" name="img${id}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rel}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;
+}
+async function htmlToDocx(html, title){
+  ensurePdfCss();
+  const host=document.createElement('div'); host.className='pdfmode'; host.innerHTML=cleanHtml(html); document.body.appendChild(host);
+  const sheet=host.querySelector('.sheet')||host; const PAGE_W=11906, MARGIN=800, usable=PAGE_W-2*MARGIN;
+  sheet.style.width='1000px'; await frame();
+  const sheetW=sheet.getBoundingClientRect().width||1000, EMU=usable*635;
+  const imgs=[]; let body='';
+  const snap=async el=>{
+    if(typeof html2canvas==='undefined') return cwPara('[رسم بياني — يظهر في نسخة PDF]',{color:CW.muted,jc:'center'});
+    const r=el.getBoundingClientRect(); if(r.width<5||r.height<5) return '';
+    const cv=await html2canvas(el,{scale:2, backgroundColor:'#ffffff', logging:false});
+    const blob=await new Promise(res=>cv.toBlob(res,'image/png')); const bytes=new Uint8Array(await blob.arrayBuffer());
+    imgs.push(bytes); const id=imgs.length;
+    const cx=Math.round(Math.min(EMU, Math.max(EMU*(el.classList.contains('legend')?0.5:0.78), EMU*r.width/sheetW))), cy=Math.round(cx*r.height/r.width);
+    return cwImage('rIdI'+id, 100+id, cx, cy);
+  };
+  const walk=async el=>{
+    if(el.nodeType===3){ const t=el.textContent.trim(); if(t) body+=cwPara(t); return; }
+    if(el.nodeType!==1) return;
+    const cs=getComputedStyle(el); if(cs.display==='none') return;
+    const c=el.classList;
+    if(c.contains('rh')){
+      const h1=el.querySelector('h1'), sub=el.querySelector('.ttl p'), meta=[...el.querySelectorAll('.meta > span')];
+      body+=W.p(W.run(cwTxt(h1),{b:true,sz:36,color:CW.navy}),{jc:'center',after:40});
+      if(sub) body+=cwPara(cwTxt(sub),{jc:'center',sz:24,color:CW.muted,after:80});
+      const pairs=[]; for(let i=0;i<meta.length;i+=2) pairs.push(cwTxt(meta[i])+': '+cwTxt(meta[i+1]||meta[i]));
+      body+=W.p(pairs.map((p,i)=>(i?W.run('   ·   ',{sz:21,color:CW.muted}):'')+W.run(p,{sz:21,color:CW.ink})).join(''),{jc:'center',after:60});
+      const b=el.querySelector('.basis'); if(b) body+=cwPara(cwTxt(b),{sz:18,color:CW.muted,jc:'center',after:120});
+      return;
+    }
+    if(c.contains('to')){ const s=[...el.children].map(cwTxt); body+=W.p(W.run(s[0]+' ',{sz:24,color:CW.muted})+W.run(`${s[1]} (${s[2]})`,{b:true,sz:24})+W.run('  —  ',{sz:24})+W.run(`${s[3]} (${s[4]})`,{b:true,sz:24}),{jc:'left',after:100}); return; }
+    if(el.tagName==='H2'){ const no=el.querySelector('.no'), hint=el.querySelector('.hint'); let t=cwTxt(el); if(no) t=t.replace(cwTxt(no),'').trim(); if(hint) t=t.replace(cwTxt(hint),'').trim();
+      body+=W.p((no?W.run(cwTxt(no)+'. ',{b:true,sz:30,color:CW.navy,ltr:false}):'')+W.run(t,{b:true,sz:30,color:CW.navy}),{jc:'left',before:240,after:100,keep:true}); return; }
+    if(c.contains('sub-h')){ body+=cwPara(cwTxt(el),{b:true,sz:25,color:CW.navy,keep:true,before:100}); return; }
+    if(c.contains('kpis')){ body+=cwKpis(el, usable); return; }
+    if(el.tagName==='TABLE'){ body+=cwTable(el, usable); return; }
+    if(c.contains('nb')){ const ol=el.querySelector('.nb-print'); const li=ol?[...ol.querySelectorAll('li')].map(cwTxt):[]; li.forEach((t,i)=>{ body+=W.p(W.run(`${i+1}. `,{b:true,sz:24,color:CW.navy,ltr:false})+W.run(t,{sz:24}),{jc:'both',after:50,line:276}); }); return; }
+    if(c.contains('sig')){ const ds=[...el.children]; body+=W.p('',{after:200});
+      body+=`<w:tbl><w:tblPr><w:bidiVisual/><w:tblW w:w="${usable}" w:type="dxa"/><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>${ds.map(()=>`<w:gridCol w:w="${Math.floor(usable/ds.length)}"/>`).join('')}</w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>${ds.map(d=>wCell(cwPara(cwTxt(d),{jc:'center',sz:24,after:0}),{w:Math.floor(usable/ds.length)})).join('')}</w:tr></w:tbl>`; return; }
+    if(c.contains('chart-row')){ for(const ch of el.children){ if(ch.querySelector('table')||ch.tagName==='TABLE') await walk(ch); else body+=await snap(ch); } return; }
+    if(el.tagName==='FIGURE' || c.contains('chart') || el.tagName==='svg' || c.contains('legend') || c.contains('bars') || c.contains('dvb')){ body+=await snap(el); return; }
+    if(c.contains('lead')){ body+=cwPara(cwTxt(el),{sz:25,jc:'both',line:300,after:120}); return; }
+    if(c.contains('note')){ body+=cwPara(cwTxt(el),{sz:19,color:CW.muted}); return; }
+    if(c.contains('rh-logo')||el.tagName==='IMG') return;
+    if(['P','LI'].includes(el.tagName) || (el.children.length===0)){ const t=cwTxt(el); if(t) body+=cwPara(t,{b:el.tagName==='B'}); return; }
+    for(const ch of el.childNodes) await walk(ch);
+  };
+  try{
+    const png=await logoPng();
+    if(png){ imgs.push(png); const cx=Math.round(Math.min(usable,9000)*635); body+=cwImage('rIdI1',101,cx,Math.round(cx*LOGO_RATIO)); }
+    for(const ch of sheet.childNodes) await walk(ch);
+  } finally { host.remove(); }
+  const sect=`<w:sectPr><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="${PAGE_W}" w:h="16838"/><w:pgMar w:top="800" w:right="${MARGIN}" w:bottom="800" w:left="${MARGIN}" w:header="400" w:footer="400" w:gutter="0"/><w:bidi/></w:sectPr>`;
+  const NS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"';
+  const z=new JSZip();
+  z.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`);
+  z.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`);
+  z.file('docProps/core.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>منصة تحليل الدرجات</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().slice(0,19)}Z</dcterms:created></cp:coreProperties>`);
+  z.file('word/_rels/document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rIdF" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>${imgs.map((_,i)=>`<Relationship Id="rIdI${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/img${i+1}.png"/>`).join('')}</Relationships>`);
+  z.file('word/styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Sakkal Majalla" w:hAnsi="Sakkal Majalla" w:eastAsia="Sakkal Majalla" w:cs="Sakkal Majalla"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:bidi="ar-QA"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:bidi/><w:spacing w:after="60" w:line="259" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:pPr><w:bidi/></w:pPr><w:rPr><w:rtl/></w:rPr></w:style><w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:bidiVisual/></w:tblPr></w:style></w:styles>`);
+  z.file('word/settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:defaultTabStop w:val="720"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`);
+  z.file('word/footer1.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr ${NS}><w:p><w:pPr><w:bidi/><w:jc w:val="center"/></w:pPr>${W.run(title+' — صفحة ',{sz:18,color:'808080'})}<w:r><w:rPr><w:sz w:val="18"/><w:color w:val="808080"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`);
+  imgs.forEach((b,i)=>z.file(`word/media/img${i+1}.png`, b));
+  z.file('word/document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}${sect}</w:body></w:document>`);
+  return z.generateAsync({type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression:'DEFLATE'});
+}
+Object.assign(ACT,{
+  async cword(){
+    if(role()!=='admin' || !D()) return;
+    if(typeof JSZip==='undefined'){ alert('مكتبة الضغط لم تُحمَّل. افتح الصفحة مع اتصال بالإنترنت مرة واحدة.'); return; }
+    const pk=st.pk, title=pk==='year'?'التقرير الختامي للجنة التحصيل الأكاديمي':'تقرير لجنة التحصيل الأكاديمي';
+    busy('جارٍ إنشاء ملف Word…'); await frame();
+    try{ const html=renderWith({grade:'all', cls:'all', student:null, subject:null, teacher:null, page:'committee', pk}, pCommittee);
+      download(`${safeName(title)} - ${PK_SHORT[pk]} - ${currentYear}.docx`, await htmlToDocx(html, title)); }
+    catch(e){ console.error(e); alert('تعذّر إنشاء ملف Word: '+(e.message||e)); }
+    finally{ busy(''); }
+  },
+});
+
+// ===================================================================
 // دعم القرار: أبرز الملاحظات، ملف الطالب الشامل، الإنذار الاستباقي،
 // تحليل النمو، جودة البيانات، مهامي
 // ===================================================================
@@ -4090,7 +4232,7 @@ function opsInit(){
   const _rv=renderView; renderView=function(){ _rv(); writeHash(); };
   addEventListener('popstate',()=>{ if(applyHash()) renderAll(); });
   // أزرار الشريط العلوي: بحث ونسخ الرابط
-  const _rt2=renderToolbar; renderToolbar=function(){ _rt2(); const sp=$('#toolbar .sp'); if(sp && me()) sp.insertAdjacentHTML('afterend', `<button class="btn sm pal-btn" data-act="palette" title="بحث سريع (Ctrl + K)">${ico('search')}<span class="bl">بحث</span><kbd class="bl">Ctrl K</kbd></button><button class="btn sm icon" data-act="copylink" title="نسخ رابط هذا التقرير">${ico('link')}</button>`); };
+  const _rt2=renderToolbar; renderToolbar=function(){ _rt2(); const sp=$('#toolbar .sp'); if(sp && me()) sp.insertAdjacentHTML('afterend', `<button class="btn sm pal-btn" data-act="palette" title="بحث سريع (Ctrl + K)">${ico('search')}<span class="bl">بحث</span><kbd class="bl">Ctrl K</kbd></button><button class="btn sm icon" data-act="copylink" title="نسخ رابط هذا التقرير">${ico('link')}</button>`); const pdfB=$('#toolbar [data-act="pdfpage"]'); if(pdfB && st.page==='committee' && role()==='admin' && D()) pdfB.insertAdjacentHTML('beforebegin', `<button class="btn sm" data-act="cword" title="تنزيل تقرير لجنة التحصيل بصيغة Word">${ico('report')}<span class="bl">تنزيل Word</span></button>`); };
   // إعدادات الأمان
   const _ps=pSettings; pSettings=function(){ const h=_ps(); const i=h.lastIndexOf('</div>'); return h.slice(0,i)+securityPanel()+h.slice(i); };
   // تسجيل تعديلات الإعدادات (مجمّعة)
@@ -4098,7 +4240,7 @@ function opsInit(){
   let cfgSet=new Set(), cfgT=null;
   const _sc=setCfg; setCfg=function(p,v){ _sc(p,v); const k=String(p).split('|')[0]; cfgSet.add((CFG_LABEL[k]||k)+(k==='targets'?' '+String(p).split('|')[1]:'')); clearTimeout(cfgT); cfgT=setTimeout(()=>{ audit('تعديل الإعدادات',[...cfgSet].join('، ')); cfgSet=new Set(); },4000); };
   // تسجيل التصدير والطباعة
-  const EXP={excel:'تصدير Excel',pdfpage:'تنزيل PDF',print:'طباعة',backup:'تصدير نسخة احتياطية',zip:'تصدير كل التقارير',cdl:'تنزيل تقرير لجنة التحصيل',qdword:'تنزيل التقرير الكمي والوصفي',qdall:'تنزيل التقارير الكمية والوصفية',plword:'تنزيل خطة تحسين الأداء',plwordall:'تنزيل خطط المعلم',plzip:'تنزيل خطط جميع المعلمين',bulkmail:'إعداد رسائل البريد',auxls:'تصدير سجل العمليات'};
+  const EXP={excel:'تصدير Excel',pdfpage:'تنزيل PDF',print:'طباعة',backup:'تصدير نسخة احتياطية',zip:'تصدير كل التقارير',cdl:'تنزيل تقرير لجنة التحصيل',cword:'تنزيل تقرير لجنة التحصيل Word',qdword:'تنزيل التقرير الكمي والوصفي',qdall:'تنزيل التقارير الكمية والوصفية',plword:'تنزيل خطة تحسين الأداء',plwordall:'تنزيل خطط المعلم',plzip:'تنزيل خطط جميع المعلمين',bulkmail:'إعداد رسائل البريد',auxls:'تصدير سجل العمليات'};
   for(const [k,l] of Object.entries(EXP)){ const f=ACT[k]; if(typeof f!=='function') continue; ACT[k]=function(...a){ audit(l, `${TITLES[st.page]||''} · ${scopeName()}${st.pk&&PK_SHORT[st.pk]?' · '+PK_SHORT[st.pk]:''}`); return f.apply(this,a); }; }
   // الرفع والمسح والأعوام: نسخة قبل التغيير + تسجيل
   const _up=upload; upload=async function(id, files){
