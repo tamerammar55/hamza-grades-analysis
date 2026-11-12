@@ -3,13 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2b0b11">
+<meta name="theme-color" content="#0f2a49">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="تحليل الدرجات">
 <title>منصة تحليل الدرجات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -181,7 +180,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
 .ch .ax{stroke:var(--line-2);stroke-width:1.2}
 .ch .tg{stroke:#b3322d;stroke-width:1.6;stroke-dasharray:6 4}
 .ch .tgl{fill:#b3322d;font-size:10.5px;font-weight:700}
-.ch .dc{fill:var(--navy);font-size:22px;font-weight:700}
+.ch .dc{fill:#14365d;font-size:22px;font-weight:700}
 .ch .ds{fill:#5d6878;font-size:11px}
 .dn{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
 .dsv{flex:0 0 180px;width:180px;height:180px;display:block}
@@ -388,7 +387,7 @@ svg .tp:hover,svg .tp-on{opacity:.78;cursor:pointer}
 @media print{
   .sec>h2,.sub-h,figcaption{break-after:avoid;page-break-after:avoid}
   .chart,.chart-row,.kpis,.profile,.dn,.to,.lead,tr{break-inside:avoid;page-break-inside:avoid}
-  :root,:root[data-theme="dark"],:root[data-theme="light"]{--side:#2b0b11;--gold:#c9a13b;--brand-solid:#7a1f2b;--bg:#fff;--paper:#fff;--paper-2:#f4f6f9;--ink:#000;--ink-2:#222;--muted:#555;--line:#b9c2cd;--line-2:#9aa5b2;--navy:#7a1f2b;--navy-2:#962a38;--navy-soft:#f8eeef;
+  :root,:root[data-theme="dark"],:root[data-theme="light"]{--side:#0f2a49;--gold:#b08a2e;--bg:#fff;--paper:#fff;--paper-2:#f4f6f9;--ink:#000;--ink-2:#222;--muted:#555;--line:#b9c2cd;--line-2:#9aa5b2;--navy:#14365d;--navy-2:#1f4e85;--navy-soft:#e8eff8;
         --exc:#1d7a4e;--exc-soft:#e1f2e9;--mid:#2a62a6;--mid-soft:#e4edf8;--weak:#a0640f;--weak-soft:#fbefdc;--fail:#b3322d;--fail-soft:#f8e1df;
         --h1:#b7e1c6;--h2:#e2f0c4;--h3:#fbe9ac;--h4:#f8cfa3;--h5:#f1b0aa}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -483,243 +482,29 @@ kbd{font:600 10.5px/1 var(--font);border:1px solid var(--line-2);border-bottom-w
 .pal-ft{padding:7px 14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
 @media screen and (max-width:960px){ .pal-btn kbd{display:none} .task{flex-direction:column;align-items:flex-start} .dvr{grid-template-columns:minmax(90px,130px) 1fr 50px} }
 @media print{ #pal,.pal-btn{display:none!important} .ins li.click:hover{background:none} }
-</style>
-<style id="ui-2026">
-/* =====================================================================
-   هوية الواجهة 2026 — خط لوسيل + ألوان المدرسة (العنابي والذهبي)
-   ===================================================================== */
-/* خط لوسيل: يُستخدم إن كان مثبتاً على الجهاز، أو من مجلد fonts بجوار index.html */
-@font-face{font-family:"LusailUI";font-weight:400;font-style:normal;font-display:swap;
-  src:local("Lusail"),local("Lusail Regular"),local("Lusail-Regular"),local("DC Lusail"),local("DC Lusail Regular"),local("DCLusail-Regular"),
-      url("fonts/Lusail-Regular.woff2") format("woff2"),url("fonts/Lusail-Regular.woff") format("woff"),url("fonts/Lusail-Regular.ttf") format("truetype"),url("fonts/Lusail-Regular.otf") format("opentype")}
-@font-face{font-family:"LusailUI";font-weight:500;font-style:normal;font-display:swap;
-  src:local("Lusail Medium"),local("Lusail-Medium"),local("DC Lusail Medium"),local("DCLusail-Medium"),
-      url("fonts/Lusail-Medium.woff2") format("woff2"),url("fonts/Lusail-Medium.woff") format("woff"),url("fonts/Lusail-Medium.ttf") format("truetype"),url("fonts/Lusail-Medium.otf") format("opentype")}
-@font-face{font-family:"LusailUI";font-weight:700;font-style:normal;font-display:swap;
-  src:local("Lusail Bold"),local("Lusail-Bold"),local("DC Lusail Bold"),local("DCLusail-Bold"),
-      url("fonts/Lusail-Bold.woff2") format("woff2"),url("fonts/Lusail-Bold.woff") format("woff"),url("fonts/Lusail-Bold.ttf") format("truetype"),url("fonts/Lusail-Bold.otf") format("opentype")}
 
-:root{
-  --font:"LusailUI","Lusail","DC Lusail","IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
-  --bg:#f5f3f0; --paper:#ffffff; --paper-2:#faf8f6; --ink:#1d1a1b; --ink-2:#3b3436; --muted:#6e6467; --line:#e8e2de; --line-2:#d6cdc8;
-  --navy:#7a1f2b; --navy-2:#962a38; --navy-soft:#f8eeef; --gold:#c9a13b; --gold-soft:#faf3e1;
-  --brand-solid:#7a1f2b; --brand-ink:#ffffff; --paper-glass:rgba(255,255,255,.88); --gold-line:#e5d3a6;
-  --side:#2b0b11; --side-2:#4a1520; --side-ink:#ecdcdf; --side-ink-2:#b59aa0;
-  --r:12px; --r-sm:9px;
-  --sh-1:0 1px 2px rgba(43,11,17,.05),0 1px 1px rgba(43,11,17,.03);
-  --sh-2:0 1px 2px rgba(43,11,17,.04),0 6px 18px -6px rgba(43,11,17,.10);
-  --sh-3:0 20px 50px -12px rgba(43,11,17,.30);
-  --ring:0 0 0 3px rgba(150,42,56,.22);
-  --ease:cubic-bezier(.2,.7,.2,1);
-}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#110d0e; --paper:#1a1517; --paper-2:#211b1d; --ink:#efe8e9; --ink-2:#d2c7c9; --muted:#a3979a; --line:#30282a; --line-2:#433739;
-  --navy:#eba0aa; --navy-2:#f2b6be; --navy-soft:#2c1a1e; --gold:#ddb75a; --gold-soft:#2c2414;
-  --brand-solid:#8e2a38; --brand-ink:#ffffff; --paper-glass:rgba(26,21,23,.88); --gold-line:#5a4a26;
-  --side:#160709; --side-2:#2a0d13;
-  --sh-1:0 1px 2px rgba(0,0,0,.35); --sh-2:0 1px 2px rgba(0,0,0,.3),0 8px 20px -8px rgba(0,0,0,.5); --ring:0 0 0 3px rgba(235,160,170,.25);
-}}
-:root[data-theme="dark"]{
-  --bg:#110d0e; --paper:#1a1517; --paper-2:#211b1d; --ink:#efe8e9; --ink-2:#d2c7c9; --muted:#a3979a; --line:#30282a; --line-2:#433739;
-  --navy:#eba0aa; --navy-2:#f2b6be; --navy-soft:#2c1a1e; --gold:#ddb75a; --gold-soft:#2c2414;
-  --brand-solid:#8e2a38; --brand-ink:#ffffff; --paper-glass:rgba(26,21,23,.88); --gold-line:#5a4a26;
-  --side:#160709; --side-2:#2a0d13;
-  --sh-1:0 1px 2px rgba(0,0,0,.35); --sh-2:0 1px 2px rgba(0,0,0,.3),0 8px 20px -8px rgba(0,0,0,.5); --ring:0 0 0 3px rgba(235,160,170,.25);
-}
-
-@media screen{
-  body{font-size:14px;letter-spacing:0;text-rendering:optimizeLegibility;font-feature-settings:"kern" 1}
-  ::selection{background:rgba(201,161,59,.32)}
-  :focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
-  *{scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
-  *::-webkit-scrollbar{width:10px;height:10px} *::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:10px;border:3px solid transparent;background-clip:content-box}
-
-  /* ----- الشريط الجانبي ----- */
-  .app{grid-template-columns:264px minmax(0,1fr)}
-  .side{background:linear-gradient(180deg,var(--side-2) 0%,var(--side) 46%);border-inline-end:1px solid rgba(255,255,255,.04)}
-  .side::before{content:"";position:absolute;inset:0 0 auto 0;height:220px;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23c9a13b' stroke-width='1'%3E%3Cpath d='M24 6l5.3 12.7L42 24l-12.7 5.3L24 42l-5.3-12.7L6 24l12.7-5.3z'/%3E%3Crect x='14' y='14' width='20' height='20' transform='rotate(45 24 24)'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
-  .brand{position:relative;padding:22px 20px 18px;gap:13px;border-bottom:1px solid rgba(255,255,255,.07)}
-  .brand .mark{width:44px;height:44px;flex:0 0 44px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#9a3040,#5c1621 70%);border:1.5px solid var(--gold);box-shadow:0 0 0 4px rgba(201,161,59,.12),0 6px 16px rgba(0,0,0,.35);color:#f3d98e;font-size:20px;font-weight:700}
-  .brand b{font-size:15.5px;font-weight:700;letter-spacing:-.1px}
-  .brand small{display:block;margin-top:2px;font-size:11.5px;line-height:1.45;color:var(--side-ink-2)}
-  .nav{padding:8px 12px 18px;position:relative}
-  .nav h4{margin:18px 10px 6px;font-size:10.5px;font-weight:700;color:#c9a13b;opacity:.75;letter-spacing:.3px}
-  .nav button{position:relative;padding:8.5px 12px;border-radius:9px;font-size:13.5px;color:var(--side-ink);transition:background .15s var(--ease),color .15s var(--ease)}
-  .nav button svg{opacity:.75;transition:opacity .15s}
-  .nav button:hover:not(:disabled){background:rgba(255,255,255,.06);color:#fff}
-  .nav button:hover:not(:disabled) svg{opacity:1}
-  .nav button.on{background:linear-gradient(90deg,rgba(201,161,59,.10),rgba(201,161,59,.22));color:#fff;font-weight:700;box-shadow:inset 0 0 0 1px rgba(201,161,59,.25)}
-  .nav button.on svg{opacity:1;color:#f3d98e}
-  .nav button.on::before{content:"";position:absolute;inset-inline-start:-12px;inset-block:8px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
-  .nav button:disabled{opacity:.32}
-  .nav .cnt{background:#d24b3c;box-shadow:0 0 0 2px var(--side);font-size:10.5px;min-width:20px;text-align:center}
-  .side-foot{display:flex;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid rgba(255,255,255,.07);font-size:11.5px}
-  .side-foot::before{content:"";width:7px;height:7px;border-radius:50%;background:#4cc38a;box-shadow:0 0 0 3px rgba(76,195,138,.18);flex:0 0 7px}
-
-  /* ----- الشريط العلوي: صف للتنقل وصف للسياق ----- */
-  .toolbar{display:block;padding:0;background:var(--paper-glass);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
-  .tb-top{display:flex;align-items:center;gap:8px;min-height:62px;padding:8px 26px;border-bottom:1px solid var(--line)}
-  .tb-ctx{display:flex;align-items:center;gap:8px;padding:9px 26px;flex-wrap:wrap}
-  .tb-ctx:empty{display:none}
-  .tb-title{display:flex;flex-direction:column;min-width:0;line-height:1.3}
-  .tb-title small{font-size:11.5px;color:var(--muted);font-weight:500}
-  .tb-title b{font-size:18px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.2px}
-  .tb-sp{flex:1}
-  .tb-top>*{flex-shrink:0}
-  .tb-top>.tb-title{flex:0 1 auto}
-  .tb-top>.tb-sp{flex:1 1 0}
-  .tb-sep{width:1px;height:24px;background:var(--line);margin:0 4px}
-  .toolbar .sp{flex:1}
-  .toolbar .f{height:36px;border-radius:10px;padding:0 6px 0 4px;padding-inline-start:12px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--sh-1);transition:border-color .15s}
-  .toolbar .f:hover{border-color:var(--line-2)}
-  .toolbar .f:focus-within{border-color:var(--navy-2);box-shadow:var(--ring)}
-  .toolbar .f span{font-size:11.5px;font-weight:500}
-  .toolbar select{font-size:13px;font-weight:700;padding:4px 2px}
-  .toolbar select:focus{outline:none}
-  .tb-top .f.pv select{max-width:210px}
-  .f.pv{background:var(--gold-soft);border-color:var(--gold-line)}
-  .tb-user{display:inline-flex;align-items:center;gap:10px;padding:4px;padding-inline-end:4px;padding-inline-start:12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);box-shadow:var(--sh-1);max-width:290px}
-  .tb-user .av{width:32px;height:32px;flex:0 0 32px;border-radius:50%;display:grid;place-items:center;background:var(--brand-solid);color:#f6dfa0;font-size:13px;font-weight:700;border:1.5px solid var(--gold)}
-  .tb-user .ubadge{background:none;border:0;padding:0;max-width:180px}
-  .tb-user .ubadge.pvon b{color:var(--weak)}
-  .tb-user .btn{border-radius:999px;height:30px;width:30px;padding:0;justify-content:center}
-  .tb-user .btn .bl{display:none}
-
-  /* ----- الأزرار ----- */
-  .btn{height:36px;border-radius:10px;padding:0 14px;font-weight:600;border-color:var(--line);box-shadow:var(--sh-1);transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease),transform .08s}
-  .btn:hover{border-color:var(--line-2);color:var(--navy);background:var(--paper-2)}
-  .btn:active:not(:disabled){transform:translateY(1px)}
-  .btn.sm{height:36px;padding:0 12px;font-size:12.5px}
-  .btn.icon{width:36px;padding:0;justify-content:center}
-  .btn.pri{background:var(--brand-solid);border-color:var(--brand-solid);color:var(--brand-ink);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 4px 12px -4px rgba(122,31,43,.55)}
-  .btn.pri:hover{background:#8a2533;border-color:#8a2533;color:#fff}
-  .btn.danger{color:var(--fail);border-color:var(--fail-soft)}
-  .btn:disabled{box-shadow:none}
-  .pal-btn{min-width:210px;justify-content:flex-start;color:var(--muted);background:var(--paper-2)}
-  .pal-btn kbd{margin-inline-start:auto}
-  .toolbar .btn svg{width:16px;height:16px;flex:0 0 16px}
-
-  /* ----- مساحة العمل ----- */
-  .view{padding:26px 26px 64px}
-  .sheet{border-radius:16px;border-color:var(--line);box-shadow:var(--sh-2);padding:32px 36px 38px}
-  .rh{border-bottom:0;position:relative;padding-bottom:16px}
-  .rh::after{content:"";position:absolute;inset-inline:0;bottom:0;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--gold) 0 18%,var(--navy) 18% 100%)}
-  [dir="rtl"] .rh::after{background:linear-gradient(270deg,var(--gold) 0 18%,var(--brand-solid) 18% 100%)}
-  .rh-logo{border-bottom-color:var(--line)}
-  .rh .ttl h1{font-size:23px;letter-spacing:-.3px}
-  .rh .meta{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;gap:3px 12px}
-  .basis{display:inline-block;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:3px 10px}
-
-  .sec>h2{font-size:16px;border-bottom-color:var(--line);padding-bottom:9px}
-  .sec>h2 .no{background:var(--brand-solid);border-radius:8px;min-width:26px;height:26px;box-shadow:0 0 0 3px var(--navy-soft)}
-
-  /* ----- بطاقات المؤشرات ----- */
-  .kpis{grid-template-columns:repeat(auto-fit,minmax(min(100%,128px),1fr));gap:12px;margin-top:20px}
-  .kpis:has(> .kpi:nth-child(8):last-child){grid-template-columns:repeat(4,minmax(0,1fr))}
-  .kpi{position:relative;border:1px solid var(--line);border-top:1px solid var(--line);border-radius:14px;padding:14px 16px 13px;background:linear-gradient(180deg,var(--paper) 0%,var(--paper-2) 100%);box-shadow:var(--sh-1);overflow:hidden;transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
-  .kpi:hover{box-shadow:var(--sh-2);transform:translateY(-1px)}
-  .kpi::before{content:"";position:absolute;inset-block-start:0;inset-inline-start:16px;width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--navy)}
-  .kpi.t-exc::before{background:var(--exc)} .kpi.t-mid::before{background:var(--mid)} .kpi.t-weak::before{background:var(--weak)} .kpi.t-fail::before{background:var(--fail)}
-  .kpi .l{font-size:12px;font-weight:600;color:var(--muted);line-height:1.45}
-  .kpi .v{font-size:27px;font-weight:700;letter-spacing:-.5px;margin-top:4px;line-height:1.15}
-  .kpi.t-exc .v{color:var(--exc)} .kpi.t-fail .v{color:var(--fail)} .kpi.t-weak .v{color:var(--weak)}
-  .kpi .s{font-size:11.5px;margin-top:2px}
-
-  /* ----- الجداول ----- */
-  .tw{border-radius:12px;border:1px solid var(--line)}
-  .bar .tr,.dv .tr,.dvr .tr,.stack{border-radius:6px}
-  .tw>table.t{border-style:hidden}
-  table.t{font-size:13px}
-  .t th{background:var(--brand-solid);border-color:var(--brand-solid);color:#fff;font-weight:700;padding:9px 8px}
-  .t td{border-color:var(--line)}
-  .t tbody tr:nth-child(even) td{background:var(--paper-2)}
-  .t tr.click:hover td{background:var(--navy-soft)}
-
-  /* ----- اللوحات والبطاقات ----- */
-  .ws h1{font-size:24px;letter-spacing:-.3px;color:var(--ink)}
-  .panel{border-radius:16px;box-shadow:var(--sh-1);padding:20px 22px}
-  .panel h3{font-size:15.5px;color:var(--ink)}
-  .up{border-radius:14px;box-shadow:var(--sh-1);transition:box-shadow .2s var(--ease)}
-  .up:hover{box-shadow:var(--sh-2)}
-  .up.ok{border-color:var(--exc);background:linear-gradient(180deg,var(--exc-soft),var(--paper) 40%)}
-  .drop{border-radius:12px;border-color:var(--line-2)}
-  .ychip{border-radius:10px;height:38px}
-  .ychip.on{background:var(--brand-solid);border-color:var(--brand-solid)}
-  .presets .btn.on{background:var(--brand-solid);border-color:var(--brand-solid)}
-  .ins{border-radius:14px;border-inline-start-color:var(--gold);background:linear-gradient(90deg,var(--paper-2),var(--paper))}
-  .tag{border-radius:6px}
-  .empty{border-radius:14px}
-  .tabs button.on{color:var(--navy);border-bottom-color:var(--gold)}
-  a{color:var(--navy-2)}
-  #toast{background:#2b0b11;border:1px solid rgba(201,161,59,.35);border-radius:12px;box-shadow:var(--sh-3)}
-  #tip{background:#2b0b11;border:1px solid rgba(201,161,59,.3)}
-  .pal-box{border-radius:16px}
-  .pal-it svg{stroke:var(--navy-2)}
-
-  /* ----- شاشة الدخول ----- */
-  #login{background:var(--bg);padding:0;place-items:stretch}
-  .lg-wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:100vh}
-  .lg-hero{position:relative;overflow:hidden;color:#f4e7e9;background:radial-gradient(1200px 600px at 85% -10%,#8e2a38 0%,transparent 60%),linear-gradient(160deg,#5a1621 0%,#2b0b11 70%);padding:48px 56px;display:flex;flex-direction:column;justify-content:space-between}
-  .lg-hero::before{content:"";position:absolute;inset:0;opacity:.09;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23c9a13b' stroke-width='1'%3E%3Cpath d='M32 8l7 17 17 7-17 7-7 17-7-17-17-7 17-7z'/%3E%3Crect x='19' y='19' width='26' height='26' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E")}
-  .lg-hero::after{content:"";position:absolute;inset-inline-start:0;inset-block:0;width:4px;background:linear-gradient(var(--gold),transparent)}
-  .lg-hero>*{position:relative}
-  .lg-mark{display:flex;align-items:center;gap:14px}
-  .lg-mark i{font-style:normal;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:1.5px solid #c9a13b;background:radial-gradient(circle at 30% 25%,#9a3040,#5c1621 70%);color:#f3d98e;font-size:24px;font-weight:700;box-shadow:0 0 0 6px rgba(201,161,59,.12)}
-  .lg-mark b{display:block;font-size:15px;color:#fff}
-  .lg-mark small{font-size:12px;color:#c9a9ae}
-  .lg-hero h2{font-size:40px;line-height:1.25;margin:0 0 14px;color:#fff;font-weight:700;letter-spacing:-.6px;max-width:480px}
-  .lg-hero h2 em{font-style:normal;color:#e6c46b}
-  .lg-hero p{margin:0;max-width:440px;font-size:15px;line-height:1.9;color:#dcc5c9}
-  .lg-feats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:10px 28px;margin-top:30px;font-size:13px;color:#ead7da}
-  .lg-feats span{display:flex;align-items:center;gap:8px}
-  .lg-feats span::before{content:"";width:6px;height:6px;transform:rotate(45deg);background:#c9a13b}
-  .lg-foot{font-size:12px;color:#ae8f95}
-  .lg-side{display:grid;place-items:center;padding:32px 24px}
-  .lg-card{width:min(420px,100%);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:34px 32px 28px;box-shadow:var(--sh-2);gap:14px}
-  .lg-logo{max-width:340px;margin-bottom:8px;background:#fff;border-radius:10px;padding:6px}
-  .lg-card h1{font-size:24px;color:var(--ink);letter-spacing:-.3px}
-  .lg-sub{margin:-8px 0 8px;font-size:13px}
-  .lg-card label{font-size:12.5px;gap:7px}
-  .lg-card input{height:46px;border-radius:12px;border-color:var(--line-2);background:var(--paper-2);font-size:15px;transition:border-color .15s,box-shadow .15s,background .15s}
-  .lg-card input:hover{border-color:var(--muted)}
-  .lg-card input:focus{outline:none;border-color:var(--navy-2);box-shadow:var(--ring);background:var(--paper)}
-  .lg-card .btn{height:48px;border-radius:12px;font-size:15.5px;font-weight:700}
-  .lg-hint{border:1px solid var(--line);border-radius:12px;background:var(--paper-2)}
-  .lg-legal{margin:2px 0 0;text-align:center;font-size:11.5px;color:var(--muted)}
-
-  /* ----- الأجهزة الصغيرة ----- */
-  @media (max-width:960px){
-    .app{grid-template-columns:1fr}
-    .side{width:280px}
-    .tb-top{min-height:56px;padding:6px 12px;gap:6px}
-    .tb-title b{font-size:16px}
-    .tb-title small{display:none}
-    .tb-ctx{flex-wrap:nowrap;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
-    .tb-ctx::-webkit-scrollbar{display:none}
-    .tb-ctx>*{flex:0 0 auto}
-    .tb-ctx .sp{display:none}
-    .tb-sep{display:none}
-    .pal-btn{min-width:0;width:36px;padding:0;justify-content:center;background:var(--paper)}
-    .tb-top [data-act="copylink"]{display:none}
-    .tb-top .f.pv span{display:none} .tb-top .f.pv select{max-width:110px}
-    .tb-user{padding:3px;max-width:none}
-    .tb-user .ubadge{display:none}
-    .view{padding:12px 8px 40px}
-    .sheet{border-radius:12px;padding:18px 14px}
-    .lg-wrap{grid-template-columns:1fr}
-    .lg-hero{padding:26px 22px 22px;min-height:0}
-    .lg-hero h2{font-size:24px;margin-bottom:6px}
-    .lg-hero p,.lg-feats,.lg-foot{display:none}
-    .lg-mark{margin-bottom:16px}
-    .lg-side{padding:18px 14px 28px;align-items:start}
-    .lg-card{padding:24px 20px}
-  }
-  @media (max-width:1180px) and (min-width:961px){ .pal-btn{min-width:0} .pal-btn kbd{display:none} .lg-hero{padding:40px} .lg-hero h2{font-size:32px} .lg-feats{grid-template-columns:repeat(2,auto)} }
-  @media (prefers-reduced-motion:reduce){ *{transition:none!important} .kpi:hover{transform:none} }
-}
-
-/* الوضع الداكن: الأسطح المعبأة تبقى عنابية داكنة مع نص أبيض */
-:root[data-theme="dark"] .ip-t th,:root[data-theme="dark"] .ip-t .ip-rh{color:#111}
+/* ===== شهادات التقدير ===== */
+.cert{width:1123px;height:794px;background:#fff;padding:22px;box-sizing:border-box;color:#2b2118;font-family:var(--font);direction:rtl;position:relative}
+.c-frame{height:100%;border:7px solid #8a1538;padding:7px;box-sizing:border-box;background:linear-gradient(135deg,#fffdf6,#fbf4e3)}
+.c-in{height:100%;border:2.5px solid #b08a2e;box-sizing:border-box;position:relative;text-align:center;padding:26px 90px 0;background:radial-gradient(ellipse at center,rgba(255,255,255,.95) 0,rgba(255,255,255,.4) 60%,transparent 100%)}
+.c-in::before{content:"";position:absolute;inset:8px;border:1px solid rgba(176,138,46,.55)}
+.c-cn{position:absolute;width:92px;height:92px}.c-cn svg{width:100%;height:100%}
+.c-cn.tl{top:4px;left:4px;transform:scaleX(1)}.c-cn.tr{top:4px;right:4px;transform:scaleX(-1)}.c-cn.bl{bottom:4px;left:4px;transform:scaleY(-1)}.c-cn.br{bottom:4px;right:4px;transform:scale(-1,-1)}
+.c-logo{height:92px;max-width:640px;object-fit:contain;display:block;margin:0 auto 4px}
+.c-title{font-family:"Aref Ruqaa","IBM Plex Sans Arabic",serif;font-size:66px;line-height:1.15;color:#8a1538;font-weight:700;margin-top:2px}
+.c-en{font-family:Georgia,"Times New Roman",serif;font-size:17px;letter-spacing:4px;color:#b08a2e;text-transform:uppercase;margin:-2px 0 12px}
+.c-p{font-size:21px;line-height:2;margin:6px 0;color:#3b2f22}
+.c-name{display:inline-block;font-size:40px;font-weight:700;color:#14365d;margin:6px 0 4px;padding:0 40px 6px;border-bottom:2px solid #b08a2e;min-width:420px}
+.c-gold{color:#9c7419}
+.c-ltr{display:inline-block;direction:ltr;unicode-bidi:isolate}
+.c-sigs{position:absolute;bottom:74px;left:110px;right:110px;display:flex;justify-content:space-between;gap:18px}
+.c-sigs>div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:15px;color:#5a4a36}
+.c-sigs b{font-size:16px;color:#2b2118;margin-top:2px;min-height:22px}.c-sigs i{display:block;width:150px;border-top:1.5px dotted #8a7a5e;margin-top:26px}
+.c-seal{position:absolute;top:304px;left:62px;width:118px;height:118px}
+.c-date{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:12px;color:#8a7a5e}
+.cert-prev{overflow:auto;width:100%;max-width:810px;margin:0 auto;border:1px solid var(--line);border-radius:8px}
+.cert-scale{width:809px;height:572px;overflow:hidden}.cert-scale>.cert{transform:scale(.72);transform-origin:top right}
+.cert-host{position:fixed;left:-20000px;top:0}
 </style>
 </head>
 <body>
@@ -1279,8 +1064,9 @@ const NAV = [
   {g:'البيانات', items:[['data','الأعوام والملفات','upload'],['quality','جودة البيانات','shield'],['audit','سجل العمليات','history'],['settings','الإعدادات والأهداف','gear']]},
   {g:'تقارير عامة', items:[['exec','لوحة القياس','gauge'],['committee','تقرير لجنة التحصيل','report'],['final','نتائج الدور الأول من 100','sheet'],['compare','مقارنة الصفوف والشعب','layers'],['years','مقارنة الأعوام الدراسية','cal']]},
   {g:'المواد', items:[['subjects','تحليل المواد','book'],['tiers','تصنيف الطلاب','tiers'],['dist','توزيع الدرجات','dist'],['progress','تطور الأداء','trend']]},
+  {g:'القسم', items:[['dept','تقارير القسم','report'],['deptcmp','مقارنة الأقسام','layers']]},
   {g:'الشعب والمعلمون', items:[['class','تقرير شعبة','cls'],['qd','التقرير الكمي والوصفي','report'],['plan','خطة تحسين الأداء','trend'],['growth','تحليل النمو','growth'],['teachers','تقارير المعلمين','user']]},
-  {g:'الطلاب', items:[['honor','لوحة الشرف','star'],['range','الطلاب حسب نطاق النسبة','dist'],['risk','الإنذار المبكر','alert'],['student','بطاقة طالب','id']]},
+  {g:'الطلاب', items:[['honor','لوحة الشرف','star'],['range','الطلاب حسب نطاق النسبة','dist'],['risk','الإنذار المبكر','alert'],['certs','شهادات التقدير','star'],['student','بطاقة طالب','id']]},
   {g:'المشاركة', items:[['export','التصدير والإرسال','send']]},
 ];
 const TITLES = Object.fromEntries(NAV.flatMap(g=>g.items.map(i=>[i[0],i[1]])));
@@ -1482,7 +1268,7 @@ function renderView(){
   const d=D();
   if(!d && !isFull()){ $('#view').innerHTML=`<div class="sheet">${empty('لا توجد بيانات ضمن صلاحيتك', `<br>${esc(scopeMissing())}<br>اختر عاماً دراسياً آخر من الشريط العلوي، أو راجع مدير النظام.`)}</div>`; return; }
   if(!d && !['data','years','settings','audit'].includes(st.page)) st.page = canSee('data') ? 'data' : 'settings';
-  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent, my:pMy, growth:pGrowth, quality:pQuality, audit:pAudit};
+  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent, my:pMy, growth:pGrowth, quality:pQuality, audit:pAudit, dept:pDept, deptcmp:pDeptCmp, certs:pCerts};
   let html;
   try{ html=P[st.page](); }catch(e){ console.error(e); html=`<div class="sheet">${empty('تعذّر إنشاء التقرير', `<br><small>${esc(e.message)}</small>`)}</div>`; }
   $('#view').innerHTML=html;
@@ -2090,7 +1876,7 @@ const ROLES = {
   principal: {label:'مدير المدرسة',     deny:['data','audit']},
   vp:        {label:'النائب الأكاديمي',  deny:['data','audit']},
   coord:     {label:'منسق مادة',        deny:['data','settings','quality','audit']},
-  teacher:   {label:'معلم',             deny:['data','settings','quality','audit']},
+  teacher:   {label:'معلم',             deny:['data','settings','quality','audit','dept','deptcmp']},
 };
 const FULL_ROLES = ['admin','principal','vp'];
 const EMERGENCY = {u:'admin', n:'مدير النظام (حساب الطوارئ)', r:'admin', s:'', emergency:true};
@@ -2146,13 +1932,7 @@ async function logout(){ if(typeof audit==='function' && AUTH.user) await audit(
 function showLogin(msg=''){
   $('#login')?.remove();
   const el=document.createElement('div'); el.id='login';
-  el.innerHTML=`<div class="lg-wrap"><aside class="lg-hero">
-    <div class="lg-mark"><i>ح</i><div><b>مدرسة حمزة بن عبد المطلب</b><small>الإعدادية للبنين · دولة قطر</small></div></div>
-    <div><h2>قرارات أكاديمية<br><em>تبدأ من البيانات</em></h2>
-      <p>منصة موحّدة لتحليل نتائج الطلاب وإعداد تقارير لجنة التحصيل وخطط تحسين الأداء، بصلاحيات تناسب كل دور في المدرسة.</p>
-      <div class="lg-feats"><span>لوحة قياس فورية</span><span>إنذار مبكر</span><span>تقارير رسمية</span></div></div>
-    <div class="lg-foot">وزارة التربية والتعليم والتعليم العالي · ${esc(currentYear||'')}</div>
-  </aside><div class="lg-side"><form class="lg-card" autocomplete="on">
+  el.innerHTML=`<form class="lg-card" autocomplete="on">
     <img src="${LOGO}" alt="" class="lg-logo">
     <h1>منصة تحليل الدرجات</h1>
     <p class="lg-sub">مدرسة حمزة بن عبد المطلب الإعدادية للبنين</p>
@@ -2161,8 +1941,7 @@ function showLogin(msg=''){
     <div class="lg-err" role="alert">${esc(msg)}</div>
     <button class="btn pri" type="submit">تسجيل الدخول</button>
     ${CLOUD?'<p class="lg-hint">المنصة متصلة بقاعدة البيانات. ادخل باسم المستخدم وكلمة المرور التي سلّمها لك مدير النظام.</p>':usersList().length?'':'<p class="lg-hint">لم يُرفع ملف المستخدمين بعد. ادخل بحساب الطوارئ: <b dir="ltr">admin</b> / <b dir="ltr">1234</b> ثم ارفع ملف المستخدمين من صفحة الإعدادات.</p>'}
-    <p class="lg-legal">الاستخدام مقصور على منسوبي المدرسة المخوّلين.</p>
-  </form></div></div>`;
+  </form>`;
   document.body.appendChild(el);
   el.querySelector('form').addEventListener('submit',e=>{
     e.preventDefault(); const f=e.target;
@@ -2179,7 +1958,15 @@ function showLogin(msg=''){
 // ---------- عزل البيانات حسب الصلاحية ----------
 const PROJ = new WeakMap();
 // اسم المعلم في قوائم المعلمين المطابق لاسم المستخدم
-function teacherNameIn(d, u){ const nm=norm(u.n); for(const rows of Object.values(d.teachersByPkg||{})) for(const t of rows) if(norm(t.name)===nm) return t.name; return null; }
+// مفتاح مطابقة اسم المعلم: الاسم الأول + الأخير بعد التوحيد (يتجاوز اختلاف الاسم الأوسط والهمزات والتاء المربوطة و"عبد ال...")
+function tkeyOf(name){ const t=norm(name).replace(/(^|\s)(عبد|ابو|أبو)\s+/g,'$1$2').split(' ').filter(Boolean); return t.length ? t[0]+'|'+t[t.length-1] : ''; }
+function teacherNameIn(d, u){
+  const nm=norm(u.n), rows=Object.values(d.teachersByPkg||{}).flat();
+  const ex=rows.find(t=>norm(t.name)===nm); if(ex) return ex.name;
+  const k=tkeyOf(u.n); if(!k) return null;
+  const c=[...new Set(rows.filter(t=>tkeyOf(t.name)===k && (!u.s || !t.subjectKey || sameSubject(t.subjectKey,u.s))).map(t=>t.name))];
+  return c.length===1 ? c[0] : null;   // مطابقة تقريبية فقط إذا كانت وحيدة
+}
 function projectData(d, u){
   if(!d || !u || FULL_ROLES.includes(u.r)) return d;
   let cache=PROJ.get(d); if(!cache){ cache=new Map(); PROJ.set(d,cache); }
@@ -2376,13 +2163,6 @@ async function cloudDetect(){
     if(!firebase.apps.length) firebase.initializeApp(cfg);
     const db=firebase.firestore();
     try{ db.settings({experimentalAutoDetectLongPolling:true, merge:true}); }catch(e){}   // يتجاوز جدران الحماية في شبكات المدارس
-
-/* === إصلاح التشغيل المتزامن للأنظمة: تحرير اتصال Firestore عند ترك التبويب في الخلفية === */
-(function(){ try{ var fdb=firebase.firestore(), t=null, off=false;
-  document.addEventListener('visibilitychange',function(){ clearTimeout(t);
-    if(document.hidden){ t=setTimeout(function(){ fdb.disableNetwork().then(function(){off=true;}).catch(function(){}); },30000); }
-    else if(off){ off=false; fdb.enableNetwork().catch(function(){}); } });
-}catch(e){} })();
     CLOUD={cfg, auth:firebase.auth(), db, profiles:[]};
     return true;
   }catch(e){ console.error(e); busy(''); return false; }
@@ -2403,7 +2183,7 @@ async function cloudProfile(fu){
   let p=null; try{ const s=await CLOUD.db.collection('profiles').doc(email).get(); if(s.exists) p=s.data(); }catch(e){}
   if(email===CLOUD_OWNER) return {u:email, n:(p&&p.name)||'مدير النظام', r:'admin', s:'', owner:true};
   if(!p || !p.role || !ROLES[p.role]) return null;
-  return {u:email, n:p.tname||p.name, name:p.name, r:p.role, s:p.subject||'', username:p.username};
+  return {u:email, n:p.tname||p.name, name:p.name, r:p.role, s:p.subject||'', username:p.username, tkey:p.tkey||''};
 }
 function cloudBoot(){
   busy('جارٍ الاتصال بقاعدة البيانات…');
@@ -2453,6 +2233,7 @@ const cacheKey = y => `cloud:${(me()&&me().u)||''}:${role()}:${y}`;
 async function cacheGet(y, stamp){ try{ const c=await STORE.get(cacheKey(y)); return c && stamp && c.stamp===stamp ? c : null; }catch(e){ return null; } }
 function cachePut(y, v){ try{ STORE.set(cacheKey(y), v).catch(()=>{}); }catch(e){} }
 
+const META_V=2; let CLOUD_UPGRADE=[];
 async function loadYearCloud(y, stamp){
   const db=CLOUD.db, r=role(), yref=db.collection('years').doc(y);
   let c=await cacheGet(y, stamp);
@@ -2465,19 +2246,22 @@ async function loadYearCloud(y, stamp){
     }
     YEARS[y]={cards:{...emptyYear().cards, ...c.cards}, data:null};
     await buildYearAsync(y);
+    // ترقية تلقائية: نشر العام من جديد إذا كان منشوراً بصيغة أقدم (إحصاءات الأقسام ومفاتيح مطابقة المعلمين)
+    try{ const m=await yref.collection('meta').doc('info').get(); if(YEARS[y].data && (!m.exists || (m.data().v||0)<META_V)) CLOUD_UPGRADE.push(y); }catch(e){}
     return;
   }
   if(!c){
     let q=yref.collection('units');
     if(r==='coord') q=q.where('subject','==',me().s);
-    if(r==='teacher') q=q.where('teachers','array-contains',me().n);
+    if(r==='teacher') q = me().tkey ? q.where('tkeys','array-contains',me().tkey) : q.where('teachers','array-contains',me().n);
+    const qget = async()=>{ let r=await q.get(); if(!r.docs.length && role()==='teacher' && me().tkey){ try{ r=await yref.collection('units').where('teachers','array-contains',me().n).get(); }catch(e){} } return r; };   // بيانات منشورة بالصيغة القديمة
     const [metaS, us, fs] = await Promise.all([
-      yref.collection('meta').doc('info').get(), q.get(),
+      yref.collection('meta').doc('info').get(), qget(),
       isFull() ? yref.collection('finals').get() : Promise.resolve({docs:[]}) ]);
     c={stamp, meta:metaS.exists?metaS.data():{subjects:[], byPkg:{}}, units:us.docs.map(d=>d.data()), finals:fs.docs.map(d=>d.data())};
     cachePut(y, c);
   }
-  YEARS[y]={cards:emptyYear().cards, data:c.units.length?dataFromUnits(c.units,c.finals,c.meta):null};
+  YEARS[y]={cards:emptyYear().cards, data:c.units.length?dataFromUnits(c.units,c.finals,c.meta):null, deptStats:c.meta.deptStats||null};
 }
 
 async function cloudLoadAll(){
@@ -2489,6 +2273,12 @@ async function cloudLoadAll(){
   const prof = r==='admin' ? db.collection('profiles').get().then(s=>{ CLOUD.profiles=s.docs.map(d=>({email:d.id,...d.data()})); }).catch(()=>{ CLOUD.profiles=[]; }) : null;
   await Promise.all([...ys.map(o=>loadYearCloud(o.y, o.stamp)), prof]);   // كل الأعوام معاً لا واحداً بعد الآخر
   if(!ys.length){ YEARS={'2025-2026':emptyYear()}; }
+  if(r==='admin'){
+    // مفتاح المطابقة للمعلمين في الملفات الشخصية القديمة
+    const fix=(CLOUD.profiles||[]).filter(p=>p.role==='teacher' && !p.tkey && (p.name||p.tname));
+    if(fix.length) cloudCommit(fix.map(p=>({ref:db.collection('profiles').doc(p.email), data:clean({...Object.fromEntries(Object.entries(p).filter(([k])=>k!=='email')), tkey:tkeyOf(p.name||p.tname)})}))).then(()=>fix.forEach(p=>p.tkey=tkeyOf(p.name||p.tname))).catch(e=>console.warn(e));
+    const up=CLOUD_UPGRADE.splice(0); if(up.length) setTimeout(async()=>{ for(const y of up) await cloudPublishYear(y); },500);
+  }
   const withData=Object.keys(YEARS).filter(y=>YEARS[y].data).sort();
   currentYear = withData.length ? withData[withData.length-1] : Object.keys(YEARS).sort().pop();
   setSaveState('متصلة بقاعدة البيانات');
@@ -2527,11 +2317,11 @@ async function cloudPublishYear(y){
     const blob=await gzipB64(JSON.stringify(Y.cards)), CH=700000;
     for(let i=0,n=0;i<blob.length;i+=CH,n++) ops.push({ref:yref.collection('blob').doc(String(n)), data:{i:n, data:blob.slice(i,i+CH)}});
     if(d){
-      ops.push({ref:yref.collection('meta').doc('info'), data:clean({subjects:d.subjects, byPkg:d.teachersByPkg})});
+      ops.push({ref:yref.collection('meta').doc('info'), data:clean({v:META_V, subjects:d.subjects, byPkg:d.teachersByPkg, deptStats:computeDeptStats(d)})});
       for(const l of d.subjects) for(const c of d.classes){
         const L=d.students.filter(s=>s.cls===c && s.subj[l]); if(!L.length) continue;
         const teachers=[...new Set(Object.values(d.teachersByPkg).flat().filter(t=>t.subjectKey===l && t.cls===normClass(c)).map(t=>t.name))];
-        ops.push({ref:yref.collection('units').doc(cellId(`${l}__${c}`)), data:clean({subject:l, cls:c, grade:gradeOf(c), teachers,
+        ops.push({ref:yref.collection('units').doc(cellId(`${l}__${c}`)), data:clean({subject:l, cls:c, grade:gradeOf(c), teachers, tkeys:[...new Set(teachers.map(tkeyOf).filter(Boolean))],
           students:L.map(s=>({id:s.id, name:s.name, cls:s.cls, grade:s.grade, keys:[...s.subj[l].keys], comps:s.subj[l].comps}))})});
       }
       for(const c of d.classes){ const rows=d.students.filter(s=>s.cls===c && s.final).map(s=>({id:s.id, final:s.final})); if(rows.length) ops.push({ref:yref.collection('finals').doc(cellId(c)), data:clean({cls:c, rows})}); }
@@ -2571,7 +2361,7 @@ async function cloudUploadUsers(list){
     try{ await sAuth.createUserWithEmailAndPassword(email, fbPw(x.pw)); out.created++; try{ await sAuth.signOut(); }catch(_){} }
     catch(e){ if(e.code==='auth/email-already-in-use') out.existing++; else { out.failed.push(`${x.u}: ${AUTH_ERR[e.code]||e.message}`); continue; } }
     keep.add(email);
-    await CLOUD.db.collection('profiles').doc(email).set(clean({name:x.n, username:x.u, role:x.r, subject:x.s?cloudSubject(x.s):'', tname:x.r==='teacher'?(cloudTeacherName(x.n)||x.n):'', updatedAt:new Date().toISOString()}));
+    await CLOUD.db.collection('profiles').doc(email).set(clean({name:x.n, username:x.u, role:x.r, subject:x.s?cloudSubject(x.s):'', tname:x.r==='teacher'?(cloudTeacherName(x.n)||x.n):'', tkey:x.r==='teacher'?tkeyOf(x.n):'', updatedAt:new Date().toISOString()}));
   }
   // حذف صلاحيات من لم يعد في الملف (الحساب يبقى لكنه لا يرى شيئاً)
   const old=(await CLOUD.db.collection('profiles').get()).docs.filter(d=>!keep.has(d.id) && d.id!==CLOUD_OWNER);
@@ -2586,7 +2376,7 @@ const cloudUsers = () => (CLOUD&&CLOUD.profiles||[]).map(p=>({u:p.email, n:p.tna
 // ===================================================================
 // رسوم بيانية احترافية (SVG) — تُطبع وتُصدَّر PDF بوضوح
 // ===================================================================
-const CC = {navy:'#7a1f2b', blue:'#2a62a6', blue2:'#1f4e85', green:'#1d7a4e', amber:'#b0701a', red:'#b3322d', gold:'#b08a2e', gray:'#94a3b8', grid:'#dbe1e8', txt:'#475569', ink:'#17212e'};
+const CC = {navy:'#14365d', blue:'#2a62a6', blue2:'#1f4e85', green:'#1d7a4e', amber:'#b0701a', red:'#b3322d', gold:'#b08a2e', gray:'#94a3b8', grid:'#dbe1e8', txt:'#475569', ink:'#17212e'};
 const TEST_COLORS = {mid1:'#a9c1e0', end1:'#6d93c9', mid2:'#3b6db0', end2:'#1f4e85', year:'#b08a2e'};
 const TIER_COLORS = {exc:CC.green, mid:CC.blue, weak:CC.amber, fail:CC.red};
 const r0 = x => Math.round(x);
@@ -4060,6 +3850,443 @@ Object.assign(ACT,{
   },
 });
 
+const FOOTER_IMG="data:image/jpeg;base64,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/wAFE3/xNHsqn8r+4PruG/5+R+9f5nDVb0j/AJDOnf8AX7b/APoxa67/AIUT8bf+iR+L/wDwUTf/ABNWdL+Bnxqj1awlk+Evi5US7gZmOkzAACRSSfl9KcaU7r3X9xFTGYbkf7yO3df5n7AL90fQU8dKYv3R9BTx0r7M/ABaKKKAGY9qXn3p1FADOfel596dRQA3n3o596dRQAzn3pefenUUAN596Tn3p9FADOfejn3p9FADOfejn3p9FADefejn3p1FADefejn3p1FADOfel596dRQA3n3o596dRQA3n3pOfen0UAM596Xn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADefejn3p1FADMH0pw6UtFABRRRQB//Z"; const FOOTER_RATIO=0.1074;
+
+// ===================================================================
+// تقارير القسم (لمنسق المادة والإدارة):
+//   • التقرير الكمي والوصفي للقسم (Word) حسب نموذج الوزارة
+//   • تقرير الاختبار للقسم (Word) حسب نموذج المدرسة
+//   • مقارنة القسم بالأقسام الأخرى (النجاح، التحصيل، القيمة المضافة)
+// ===================================================================
+const GRADE_AR = {7:'السابع', 8:'الثامن', 9:'التاسع'};
+const gAr = g => GRADE_AR[g] || String(g);
+const P1 = x => x==null ? '—' : r1(x)+'%';
+const lr = s => '⁦'+s+'⁩';     // عزل الأرقام داخل النص العربي
+
+// ---------- إحصاءات الأقسام (تُنشر في قاعدة البيانات دون أسماء طلاب) ----------
+function aggLite(a){ return {taught:a.taught, n:a.n, ach:a.ach==null?null:Math.round(a.ach*100)/100, pass:a.passRate==null?null:Math.round(a.passRate*100)/100, exc:a.exc, excRate:a.excRate==null?null:Math.round(a.excRate*100)/100, weak:a.weak, fail:a.fail, o70:a.n?Math.round(a.pcts.filter(p=>p>70).length/a.n*10000)/100:null}; }
+function computeDeptStats(d){
+  if(!d) return null; const out={};
+  for(const pk of d.availPkgs){ out[pk]={};
+    for(const l of d.subjects){ const all=aggSubject(d.students,l,pk); if(!all.taught) continue;
+      const g={}; for(const gr of d.grades){ const a=aggSubject(d.students.filter(s=>s.grade===gr),l,pk); if(a.taught) g[gr]=aggLite(a); }
+      out[pk][l]={all:aggLite(all), g}; } }
+  return out;
+}
+const DS_CACHE=new WeakMap();
+function deptStatsFor(y=currentYear){
+  const Y=YEARS[y]; if(!Y) return null;
+  if(!CLOUD || isFull()){ if(!Y.data) return null; if(!DS_CACHE.has(Y.data)) DS_CACHE.set(Y.data, computeDeptStats(Y.data)); return DS_CACHE.get(Y.data); }
+  return Y.deptStats || null;
+}
+const PKS_ORDER=['mid1','end1','mid2','end2','year'];
+function prevPkOf(stats, pk){ const ks=PKS_ORDER.filter(k=>stats&&stats[k]); const i=ks.indexOf(pk); return i>0?ks[i-1]:null; }
+function mySubject(){ const d=D(); if(d&&d.scoped&&d.scoped.subject) return d.scoped.subject; if(role()==='coord'&&me().s){ const l=(d?d.subjects:[]).find(x=>sameSubject(x,me().s)); return l||me().s; } return null; }
+
+// ---------- صفحة مقارنة الأقسام ----------
+function pDeptCmp(){
+  const S=deptStatsFor(), pk=st.pk;
+  if(!S || !S[pk]) return `<div class="sheet">${RH('مقارنة الأقسام','')}${empty('لا تتوفر إحصاءات الأقسام لهذا الاختبار بعد','<br>تُنشر تلقائياً عندما يفتح مدير النظام المنصة بعد التحديث، أو بعد رفع الملفات.')}</div>`;
+  const pv=prevPkOf(S,pk), mine=mySubject();
+  const rows=Object.entries(S[pk]).map(([l,x])=>{ const p=pv&&S[pv][l]; return {l, a:x.all, va:(p&&p.all.ach!=null&&x.all.ach!=null)?x.all.ach-p.all.ach:null, t:targetOf(l), g:x.g}; }).filter(x=>x.a.n);
+  const rk=(f)=>{ const s=[...rows].filter(x=>f(x)!=null).sort((a,b)=>f(b)-f(a)); return x=>s.indexOf(x)+1; };
+  const rA=rk(x=>x.a.ach), rP=rk(x=>x.a.pass), rV=rk(x=>x.va);
+  const byAch=[...rows].sort((a,b)=>(b.a.ach??-1)-(a.a.ach??-1));
+  const avgA=avg(rows.map(x=>x.a.ach).filter(v=>v!=null)), avgP=avg(rows.map(x=>x.a.pass).filter(v=>v!=null)), avgV=avg(rows.map(x=>x.va).filter(v=>v!=null));
+  const me_=rows.find(x=>x.l===mine);
+  const grades=[...new Set(rows.flatMap(x=>Object.keys(x.g)))].map(Number).sort();
+  let lead='';
+  if(me_){ const n=rows.length;
+    lead=`<div class="ins"><div class="ins-h">موقع قسم ${esc(mine)} بين الأقسام <small>${esc(PKG[pk].label)}</small></div><ol>
+      <li class="i-${rA(me_)<=Math.ceil(n/2)?'pos':'neg'}"><i>${rA(me_)<=Math.ceil(n/2)?'▲':'▼'}</i><span>الترتيب في التحصيل: ${rA(me_)} من ${n} (${pc(me_.a.ach)} مقابل متوسط الأقسام ${pc(avgA)}).</span></li>
+      <li class="i-${rP(me_)<=Math.ceil(n/2)?'pos':'neg'}"><i>${rP(me_)<=Math.ceil(n/2)?'▲':'▼'}</i><span>الترتيب في النجاح: ${rP(me_)} من ${n} (${pc(me_.a.pass)} مقابل متوسط الأقسام ${pc(avgP)}).</span></li>
+      ${me_.va!=null?`<li class="i-${me_.va>=0?'pos':'neg'}"><i>${me_.va>=0?'▲':'▼'}</i><span>القيمة المضافة عن ${esc(PK_SHORT[pv])}: ${fx(me_.va)} نقطة، والترتيب ${rV(me_)} من ${rows.filter(x=>x.va!=null).length} (متوسط الأقسام ${fx(avgV)}).</span></li>`:''}
+    </ol></div>`; }
+  const hl=x=>x.l===mine?' class="cur"':'';
+  return `<div class="sheet">${RH('مقارنة الأقسام', mine?`قسم ${esc(mine)} مقارنةً بالأقسام الأخرى`:'النجاح والتحصيل والقيمة المضافة لكل قسم', [['العام الدراسي',currentYear],['الاختبار',PKG[pk].label],['النطاق','جميع الأقسام'],['تاريخ الإصدار',TODAY]])}
+  ${lead}
+  ${sec('ترتيب الأقسام', T('<th>الترتيب</th><th class="l">القسم</th><th>الحاضرون</th><th>التحصيل</th><th>المستهدف</th><th>النجاح</th><th>المستهدف</th><th>القيمة المضافة</th><th>90% فأعلى</th><th>راسب</th>',
+    byAch.map(x=>`<tr${hl(x)}><td>${rA(x)}</td><td class="l">${esc(x.l)}</td><td>${x.a.n}</td><td class="${toneCls(x.a.ach)}"><b>${pc(x.a.ach)}</b></td><td>${x.t.ach}%</td><td>${pc(x.a.pass)}</td><td>${x.t.pass}%</td><td class="${x.va==null?'':x.va>=0?'c-exc':'c-fail'}">${x.va==null?'<span class="c-mut">—</span>':sgn(x.va)}</td><td>${pc(x.a.excRate)}</td><td class="${x.a.fail?'c-fail':''}">${x.a.fail}</td></tr>`).join(''),
+    `<tr><td></td><td class="l">متوسط الأقسام</td><td></td><td>${pc(avgA)}</td><td></td><td>${pc(avgP)}</td><td></td><td>${sgn(avgV)}</td><td></td><td></td></tr>`) + (pv?`<p class="note">القيمة المضافة = الفرق في نسبة التحصيل بالنقاط بين ${esc(PKG[pk].label)} و${esc(PKG[pv].label)}.</p>`:'<p class="note">لا يوجد اختبار سابق في هذا العام لحساب القيمة المضافة.</p>'))}
+  ${sec('نسبة التحصيل والنجاح لكل قسم', colChart(byAch.map(x=>x.l), [{name:'نسبة التحصيل',color:(v,i)=>byAch[i].l===mine?CC.gold:CC.blue2,data:byAch.map(x=>x.a.ach)},{name:'نسبة النجاح',color:CC.green,data:byAch.map(x=>x.a.pass)}], {H:290, title:mine?`عمود التحصيل الذهبي = قسم ${mine}`:''}))}
+  ${pv?sec('القيمة المضافة لكل قسم', vaBars([...rows].filter(x=>x.va!=null).sort((a,b)=>b.va-a.va).map(x=>({label:x.l+(x.l===mine?' ◄':''), v:x.va})))):''}
+  ${grades.length>1?sec('التحصيل حسب الصف', T('<th class="l">القسم</th>'+grades.map(g=>`<th>الصف ${g}</th>`).join(''), byAch.map(x=>`<tr${hl(x)}><td class="l">${esc(x.l)}</td>${grades.map(g=>{ const a=x.g[g]; return `<td class="h ${heat(a&&a.ach)}">${a?nf(a.ach):'—'}</td>`; }).join('')}</tr>`).join(''),'','heat')+LEG_HEAT):''}
+  </div>`;
+}
+
+// ---------- نموذج بيانات القسم ----------
+function deptModel(d, l, pk){
+  const pp=qdPrev(d,pk), t=targetOf(l), L=d.students.filter(s=>s.subj[l]);
+  const tot=aggSubject(L,l,pk), ptot=pp?aggSubject(L,l,pp):null;
+  const grades=d.grades.map(g=>{ const G=L.filter(s=>s.grade===g), a=aggSubject(G,l,pk); if(!a.taught) return null;
+    const cls=[...new Set(G.map(s=>s.cls))].sort(byCls).map(c=>{ const C=G.filter(s=>s.cls===c), ca=aggSubject(C,l,pk); return {c, a:ca, pa:pp?aggSubject(C,l,pp):null}; }).filter(x=>x.a.n);
+    return {g, a, pa:pp?aggSubject(G,l,pp):null, cls}; }).filter(Boolean);
+  // المعلمون: معلم × صف
+  const teachers=[];
+  for(const tg of teacherAgg(d,L,pk).filter(x=>x.subject===l)){
+    const byG=new Map(); tg.classes.forEach(c=>{ const g=gradeOf(c.cls); if(!byG.has(g)) byG.set(g,[]); byG.get(g).push(c); });
+    for(const [g,cs] of byG){ const items=cs.flatMap(c=>c.items), a=agg(items.map(x=>x.p));
+      const pa=pp?agg(cs.flatMap(c=>results(L.filter(s=>s.cls===c.cls),l,pp)).map(x=>x.p)):null;
+      teachers.push({name:tg.name, g, cls:cs.map(c=>c.cls).sort(byCls), a, va:(pa&&pa.ach!=null&&a.ach!=null)?a.ach-pa.ach:null}); }
+  }
+  teachers.sort((a,b)=>(b.a.ach??-1)-(a.a.ach??-1));
+  const allCls=grades.flatMap(g=>g.cls.map(c=>({...c,g:g.g})));
+  return {l, pk, pp, t, tot, ptot, grades, teachers, allCls, va:(ptot&&ptot.ach!=null&&tot.ach!=null)?tot.ach-ptot.ach:null, coord:coordName(l)};
+}
+const okBoth=(a,t)=>a.ach!=null&&a.ach>=t.ach&&a.passRate>=t.pass;
+// فصول يفصلها عن مستهدف النجاح طالب راسب واحد
+const oneAway=(cls,t)=>cls.filter(c=>c.a.fail>0 && c.a.passRate<t.pass && (c.a.pass+1)/c.a.n*100>=t.pass);
+function gradeText(M, G){
+  const t=M.t, a=G.a, b=[], ach=a.ach>=t.ach, pass=a.passRate>=t.pass;
+  b.push(ach&&pass?`حقق الصف المستهدفين: التحصيل ${P1(a.ach)} (المستهدف ${t.ach}%) والنجاح ${P1(a.passRate)} (المستهدف ${t.pass}%).`
+    : ach?`حقق الصف مستهدف التحصيل (${t.ach}%)${a.ach-t.ach<2?' بهامش محدود':''}، ولم يحقق مستهدف النجاح (${t.pass}%).`
+    : pass?`حقق الصف مستهدف النجاح (${t.pass}%)، ولم يحقق مستهدف التحصيل (${t.ach}%).`
+    : `لم يحقق الصف أيًّا من المستهدفين (التحصيل ${t.ach}% والنجاح ${t.pass}%).`);
+  const cs=[...G.cls].sort((x,y)=>y.a.ach-x.a.ach);
+  if(cs.length>1){ const hi=cs[0], lo=cs[cs.length-1], rg=hi.a.ach-lo.a.ach;
+    b.push(`${rg>=5?'تفاوت واضح بين الشعب؛ إذ':'تقارب في أداء الشعب؛ إذ'} تراوح التحصيل بين ${P1(hi.a.ach)} في الشعبة ${hi.c} و${P1(lo.a.ach)} في الشعبة ${lo.c}.`);
+    const both=cs.filter(c=>okBoth(c.a,t)); b.push(both.length===cs.length?`حققت جميع الشعب (${cs.length}) المستهدفين معًا.`:both.length?`حققت المستهدفين معًا ${both.length===1?'الشعبة':'الشعب'} ${both.map(c=>c.c).join(' و')} من أصل ${cs.length}.`:'لم تحقق أي شعبة المستهدفين معًا.'); }
+  const w=a.weak; b.push(w?`${w} طالبًا دون 65% (${a.fail} راسبًا و${w-a.fail} ضعيفًا)، مقابل ${P1(a.excRate)} من الطلبة حصلوا على 90% فأعلى.`:`لا يوجد طلاب دون 65%، و${P1(a.excRate)} من الطلبة حصلوا على 90% فأعلى.`);
+  if(G.pa&&G.pa.ach!=null){ const dd=a.ach-G.pa.ach; b.push(Math.abs(dd)<0.5?`التحصيل مستقر مقارنةً بـ${PKG[M.pp].label}.`:`${dd>0?'ارتفع':'انخفض'} التحصيل ${r1(Math.abs(dd))} نقطة مقارنةً بـ${PKG[M.pp].label}.`); }
+  // الاستنتاج
+  const rankG=[...M.grades].sort((x,y)=>y.a.ach-x.a.ach), pos=rankG.indexOf(G), low=cs.filter(c=>c.a.ach<t.ach).map(c=>c.c), one=oneAway(cs,t).map(c=>c.c);
+  let c='';
+  if(ach&&pass) c=`${pos===0&&M.grades.length>1?`الصف ${gAr(G.g)} الأعلى أداءً في القسم`:`الصف ${gAr(G.g)} في وضع جيد`}${low.length?`، مع حاجة لرفع مستوى ${low.length===1?'الشعبة':'الشعب'} ${low.join(' و')}`:''}${a.excRate<70?' ورفع نسبة المتفوقين':' وتعزيز مهارات التفكير العليا'}.`;
+  else if(!ach&&!pass) c=`الصف ${gAr(G.g)} ${pos===M.grades.length-1&&M.grades.length>1?'أولوية التدخل في القسم':'يحتاج تدخلاً مركّزًا'}${low.length?`، خاصة الشعب ${low.join(' و')}`:''}.`;
+  else c=`الصف ${gAr(G.g)} ${a.excRate>=50?'يمتلك قاعدة جيدة من المتفوقين':'يحتاج رفع نسبة المتفوقين'}${low.length?`، مع حاجة إلى دعم علاجي مركّز ${low.length===1?'للشعبة':'للشعب'} ${low.join(' و')}`:''}.`;
+  if(one.length) c+=` وهدف «صفر راسب» في ${one.length===1?'الشعبة':'الشعب'} ${one.join(' و')}.`;
+  return {bullets:b, conc:c};
+}
+function deptFindings(M){
+  const t=M.t, T_=M.tot, pos=[], neg=[], rec=[], cs=M.allCls, n=cs.length;
+  const sorted=[...cs].sort((a,b)=>b.a.ach-a.a.ach);
+  if(T_.ach>=t.ach) pos.push(`تحقيق مستهدف التحصيل على مستوى القسم بنسبة ${P1(T_.ach)} (المستهدف ${t.ach}%).`); else neg.push(`مستهدف التحصيل غير محقق على مستوى القسم (${P1(T_.ach)} مقابل ${t.ach}%).`);
+  if(T_.passRate>=t.pass) pos.push(`تحقيق مستهدف النجاح على مستوى القسم بنسبة ${P1(T_.passRate)} (المستهدف ${t.pass}%).`); else neg.push(`مستهدف النجاح غير محقق على مستوى القسم (${P1(T_.passRate)})؛ إذ بلغ عدد الراسبين ${T_.fail} طالبًا.`);
+  M.grades.filter(G=>okBoth(G.a,t)).forEach(G=>pos.push(`تميّز الصف ${gAr(G.g)} بتحقيق المستهدفين (نجاح ${P1(G.a.passRate)}، تحصيل ${P1(G.a.ach)}).`));
+  M.grades.filter(G=>!(G.a.ach>=t.ach)&&!(G.a.passRate>=t.pass)).forEach(G=>neg.push(`الصف ${gAr(G.g)} لم يحقق أيًّا من المستهدفين (نجاح ${P1(G.a.passRate)}، تحصيل ${P1(G.a.ach)}).`));
+  pos.push(`حصل ${P1(T_.excRate)} من طلبة القسم (${T_.exc} طالبًا) على 90% فأعلى.`);
+  const both=cs.filter(c=>okBoth(c.a,t)).length, achOk=cs.filter(c=>c.a.ach>=t.ach).length;
+  if(n) pos.push(`حققت ${both} شعبة من أصل ${n} المستهدفين معًا، وحققت ${achOk} شعبة مستهدف التحصيل.`);
+  if(M.va!=null){ if(M.va>=0.5) pos.push(`قيمة مضافة إيجابية: ارتفع تحصيل القسم ${r1(M.va)} نقطة عن ${PKG[M.pp].label}.`); else if(M.va<=-0.5) neg.push(`قيمة مضافة سلبية: انخفض تحصيل القسم ${r1(-M.va)} نقطة عن ${PKG[M.pp].label}.`); }
+  const top=M.teachers.filter(x=>x.a.ach>=95); if(top.length) pos.push(`وجود معلمين ذوي أداء تحصيلي مرتفع (95% فأكثر): ${[...new Set(top.map(x=>x.name.split(' ').slice(0,2).join(' ')))].join('، ')}، يمكن الاستفادة منهم كنماذج مهنية داخل القسم.`);
+  if(T_.weak) neg.push(`وجود ${T_.weak} طالبًا دون 65% (${T_.fail} راسبًا و${T_.weak-T_.fail} ضعيفًا) يحتاجون إلى خطط علاجية فردية.`);
+  if(sorted.length>1 && sorted[0].a.ach-sorted[n-1].a.ach>=5) neg.push(`تقليل التفاوت بين الشعب؛ إذ تراوح التحصيل بين ${P1(sorted[0].a.ach)} في الشعبة ${sorted[0].c} و${P1(sorted[n-1].a.ach)} في الشعبة ${sorted[n-1].c}.`);
+  const lowT=M.teachers.filter(x=>x.a.ach<T_.ach-2); if(lowT.length) neg.push(`تحسين أداء المعلمين الذين يقل متوسط تحصيل طلابهم عن المتوسط العام للقسم (${P1(T_.ach)}).`);
+  const lowExc=M.grades.filter(G=>G.a.excRate<60); if(lowExc.length) neg.push(`رفع نسبة المتفوقين في ${lowExc.map(G=>`الصف ${gAr(G.g)} (${P1(G.a.excRate)})`).join(' و')} وتعزيز مهارات التفكير العليا.`);
+  // التوصيات
+  if(T_.fail||T_.weak) rec.push(`خطط علاجية فردية للطلاب الراسبين (${T_.fail}) مع التواصل مع أولياء أمورهم، وأوراق عمل متدرجة للطلاب الضعاف (${T_.weak-T_.fail}).`);
+  const one=oneAway(cs,t); if(one.length) rec.push(`هدف «صفر راسب» في ${one.length===1?'الشعبة':'الشعب'} ${one.map(c=>c.c).join(' و')} التي يفصلها عن مستهدف النجاح طالب راسب واحد.`);
+  const worst=[...M.grades].sort((a,b)=>a.a.ach-b.a.ach)[0]; if(worst && !okBoth(worst.a,t)) rec.push(`خطة دعم مركّزة للصف ${gAr(worst.g)}${worst.g===8?'، ودمج أسئلة بنمط TIMSS في حصصه أسبوعيًا':''}.`);
+  const RS=results(D().students.filter(s=>s.subj[M.l]),M.l,M.pk);
+  const near=RS.filter(x=>x.p.counted&&x.p.pct>=WEAK&&x.p.pct<70).length;
+  if(near) rec.push(`متابعة وقائية للطلاب القريبين من حد الضعف (${near} طالبًا بين 65% و69.9%) بتقويم تكويني أسبوعي.`);
+  if(n>1) rec.push('تبادل الزيارات الصفية من الشعب الأعلى تحصيلًا إلى الشعب الأدنى، وتوظيف خبرات المعلمين الأعلى تحصيلًا.');
+  const mid8=RS.filter(x=>x.p.counted&&x.p.pct>=80&&x.p.pct<EXC).length;
+  rec.push(`برامج إثرائية للمتفوقين${mid8?`، وتحدي طلاب فئة 80% – 89.9% (${mid8} طالبًا) للانتقال إلى فئة المتفوقين`:''}.`);
+  return {pos,neg,rec};
+}
+function teacherNarrative(M){
+  const T_=M.teachers; if(!T_.length) return {line:'', desc:[], va:[]};
+  const hi=T_[0], lo=T_[T_.length-1], sh=n=>n.split(' ').filter(Boolean).slice(0,2).join(' ');
+  const line = T_.length>1 ? `الأعلى تحصيلًا: أ. ${sh(hi.name)} – الصف ${gAr(hi.g)} (${P1(hi.a.ach)}) – الأقل تحصيلًا: أ. ${sh(lo.name)} – الصف ${gAr(lo.g)} (${P1(lo.a.ach)}). النسب مرجّحة بعدد الطلاب الحاضرين.` : '';
+  const avgD=M.tot.ach, above=T_.filter(x=>x.a.ach>=avgD), below=T_.filter(x=>x.a.ach<avgD);
+  const desc=[];
+  if(above.length) desc.push(`${above.length} من ${T_.length} ${above.length===1?'نتيجة معلم':'نتائج معلمين'} عند متوسط القسم (${P1(avgD)}) أو أعلى منه: ${above.map(x=>`${sh(x.name)} (${gAr(x.g)})`).join('، ')}.`);
+  if(below.length) desc.push(`دون متوسط القسم: ${below.map(x=>`${sh(x.name)} – ${gAr(x.g)} (${P1(x.a.ach)})`).join('، ')}؛ يُقترح متابعتهم بزيارات صفية داعمة وتبادل الخبرات.`);
+  const pf=T_.filter(x=>x.a.passRate<M.t.pass); if(pf.length) desc.push(`لم يحقق مستهدف النجاح (${M.t.pass}%): ${pf.map(x=>`${sh(x.name)} – ${gAr(x.g)} (${P1(x.a.passRate)})`).join('، ')}.`);
+  const va=[];
+  if(!M.pp) va.push(`لا ينطبق؛ ${PKG[M.pk].label} هو أول تقييم متاح في هذا العام.`);
+  else { const v=T_.filter(x=>x.va!=null); const up=v.filter(x=>x.va>=0.5).sort((a,b)=>b.va-a.va), dn=v.filter(x=>x.va<=-0.5).sort((a,b)=>a.va-b.va);
+    va.push(`القيمة المضافة للقسم: ${fx(M.va)} نقطة مقارنةً بـ${PKG[M.pp].label}.`);
+    if(up.length) va.push(`قيمة مضافة إيجابية: ${up.map(x=>`${sh(x.name)} – ${gAr(x.g)} (${fx(x.va)})`).join('، ')}.`);
+    if(dn.length) va.push(`قيمة مضافة سلبية تحتاج متابعة: ${dn.map(x=>`${sh(x.name)} – ${gAr(x.g)} (${fx(x.va)})`).join('، ')}.`);
+    if(!up.length&&!dn.length) va.push('نتائج المعلمين مستقرة مقارنةً بالتقييم السابق.'); }
+  return {line, desc, va};
+}
+
+// ---------- صفحة تقارير القسم ----------
+function pDept(){
+  const d=D(), pk=st.pk;
+  const subs = role()==='coord' ? [mySubject()].filter(Boolean) : d.subjects;
+  if(!subs.length) return `<div class="sheet">${RH('تقارير القسم','')}${empty('لا توجد مادة مرتبطة بحسابك')}</div>`;
+  if(!subs.includes(st.dSub)) st.dSub=subs[0];
+  const l=st.dSub, M=deptModel(d,l,pk), N=teacherNarrative(M), F=deptFindings(M);
+  if(!M.tot.n) return `<div class="sheet">${RH('تقارير القسم','')}${empty('لا توجد نتائج لهذه المادة في الاختبار المحدد')}</div>`;
+  const tools=`<div class="panel noprint" style="max-width:1160px;margin:0 auto 12px"><div class="range-form">
+    ${subs.length>1?`<label>القسم <select data-set="dSub">${subs.map(x=>`<option ${x===l?'selected':''}>${esc(x)}</option>`).join('')}</select></label>`:''}
+    <button class="btn pri" data-act="dqdword">${ico('report')}التقرير الكمي والوصفي للقسم (Word)</button>
+    <button class="btn pri" data-act="dtestword">${ico('report')}تقرير الاختبار للقسم (Word)</button></div>
+    <p class="note">يُصدَّر التقريران بصيغة Word حسب نموذجي المدرسة، والتحليل الوصفي والتوصيات مقترحة من البيانات وقابلة للتعديل في الملف. الاختبار: <b>${esc(PKG[pk].label)}</b> (غيّره من الشريط العلوي).</p></div>`;
+  const gT=T('<th class="l">الصف</th><th>الحاضرون</th><th>النجاح</th><th>التحصيل</th><th>القيمة المضافة</th><th>90% فأعلى</th><th>دون 65%</th><th>راسب</th>',
+    M.grades.map(G=>`<tr><td class="l"><b>${gAr(G.g)}</b></td><td>${G.a.n}</td><td>${pc(G.a.passRate)}</td><td class="${toneCls(G.a.ach)}">${pc(G.a.ach)}</td><td>${G.pa&&G.pa.ach!=null?sgn(G.a.ach-G.pa.ach):'—'}</td><td>${pc(G.a.excRate)}</td><td>${G.a.weak}</td><td class="${G.a.fail?'c-fail':''}">${G.a.fail}</td></tr>`).join(''),
+    `<tr><td class="l">إجمالي القسم</td><td>${M.tot.n}</td><td>${pc(M.tot.passRate)}</td><td>${pc(M.tot.ach)}</td><td>${sgn(M.va)}</td><td>${pc(M.tot.excRate)}</td><td>${M.tot.weak}</td><td>${M.tot.fail}</td></tr>`);
+  const tT=T('<th class="l">اسم المعلم</th><th>الصف</th><th>الشعب</th><th>النجاح</th><th>التحصيل</th><th>القيمة المضافة</th>', M.teachers.map(x=>`<tr class="click" data-act="teacher" data-v="${esc(x.name)}"><td class="nm">${esc(x.name)}</td><td>${gAr(x.g)}</td><td>${esc(x.cls.join('، '))}</td><td>${pc(x.a.passRate)}</td><td class="${toneCls(x.a.ach)}">${pc(x.a.ach)}</td><td>${x.va==null?'لا ينطبق':sgn(x.va)}</td></tr>`).join(''),'','dense');
+  const ul=a=>`<ul class="ul">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  return tools + `<div class="sheet">${RH(`تقرير قسم ${l}`, `نتائج ${PKG[pk].label} — المستهدف: تحصيل ${M.t.ach}% ونجاح ${M.t.pass}%`, [['العام الدراسي',currentYear],['الاختبار',PKG[pk].label],['القسم',l],['تاريخ الإصدار',TODAY]])}
+    ${sec('نتائج الصفوف', gT + colChart(M.allCls.map(c=>c.c), [{name:'نسبة التحصيل',color:achColor,data:M.allCls.map(c=>c.a.ach)}], {target:M.t.ach, title:'نسبة التحصيل لكل شعبة', H:240}))}
+    ${sec('قراءة الصفوف', M.grades.map(G=>{ const x=gradeText(M,G); return `<div class="sub-h">الصف ${gAr(G.g)} — نجاح ${pc(G.a.passRate)}، تحصيل ${pc(G.a.ach)}</div>${ul(x.bullets)}<p><b>استنتاج:</b> ${esc(x.conc)}</p>`; }).join(''))}
+    ${sec('نتائج المعلمين (مرتبة تنازليًا حسب التحصيل)', tT + (N.line?`<p class="note">${esc(N.line)}</p>`:'') + `<div class="sub-h">تحليل وصفي لأداء المعلمين</div>${ul(N.desc)}<div class="sub-h">قراءة تحليلية للقيمة المضافة</div>${ul(N.va)}`)}
+    ${sec('نقاط القوة', ul(F.pos))}${sec('نقاط تحتاج إلى تحسين', ul(F.neg))}${sec('التوصيات', ul(F.rec))}
+  </div>`;
+}
+
+// ---------- Word: أدوات مشتركة ----------
+const DC='9A0F3E';
+const dText=(t,o={})=>W.p(W.run(t,{sz:o.sz||26,b:o.b,color:o.color,ltr:o.ltr}),{jc:o.jc||'left',after:o.after??60,before:o.before,keep:o.keep,line:o.line});
+const dRuns=(parts,o={})=>W.p(parts.map(([t,ro])=>W.run(t,{sz:o.sz||26,...(ro||{})})).join(''),{jc:o.jc||'left',after:o.after??60,before:o.before,keep:o.keep,line:o.line});
+const dList=(arr,o={})=>arr.map((x,i)=>W.p(W.run(o.num?`${i+1}. `:'• ',{b:true,color:DC,sz:o.sz||25})+W.run(x,{sz:o.sz||25,b:o.b}),{jc:'both',after:40,line:276})).join('');
+const dHead=t=>`<w:p><w:pPr><w:bidi/><w:keepNext/><w:pBdr><w:bottom w:val="single" w:sz="8" w:space="2" w:color="${DC}"/></w:pBdr><w:spacing w:before="220" w:after="100"/><w:jc w:val="left"/></w:pPr>${W.run(t,{b:true,sz:30,color:DC})}</w:p>`;
+const dSub=t=>`<w:p><w:pPr><w:bidi/><w:keepNext/><w:spacing w:before="120" w:after="40"/><w:jc w:val="left"/></w:pPr>${W.run('◄ ',{b:true,sz:26,color:DC})}${W.run(t,{b:true,sz:27,color:'14365D',u:true})}</w:p>`;
+const dBorders=(c='5A5A5A',sz=6)=>`<w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(b=>`<w:${b} w:val="single" w:sz="${sz}" w:color="${c}"/>`).join('')}</w:tblBorders>`;
+function dTable(widths, rows, o={}){
+  return `<w:tbl><w:tblPr><w:bidiVisual/><w:tblW w:w="${widths.reduce((a,b)=>a+b,0)}" w:type="dxa"/><w:jc w:val="center"/>${dBorders(o.border||'7A7A7A',o.bsz||6)}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${widths.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>${rows.join('')}</w:tbl>`;
+}
+const dRow=(cells,o={})=>`<w:tr><w:trPr>${o.head?'<w:tblHeader/>':''}${o.split?'':'<w:cantSplit/>'}${o.h?`<w:trHeight w:val="${o.h}"/>`:''}</w:trPr>${cells.join('')}</w:tr>`;
+const dC=(t,w,o={})=>wCell(String(t).split('\n').map(x=>W.p(W.run(x,{b:o.b,color:o.color,sz:o.sz||22,ltr:o.ltr??cwNum(x)}),{jc:o.jc||'center',after:0})).join(''),{w,fill:o.fill,span:o.span,va:o.va});
+function dTitleBox(t, usable){ const w=Math.round(usable*0.78); return dTable([w],[dRow([wCell(W.p(W.run(t,{b:true,sz:32,color:'FFFFFF'}),{jc:'center',after:0}),{w,fill:DC})],{h:620})],{border:DC,bsz:12}) + W.p('',{after:120}); }
+const b64bytes=s=>{ const b=atob(s.split(',')[1]); const u=new Uint8Array(b.length); for(let i=0;i<b.length;i++) u[i]=b.charCodeAt(i); return u; };
+// تغليف ملف Word: ترويسة بشعار المدرسة وتذييل بشريط المدرسة ورقم الصفحة
+async function packDocx(body, {title='تقرير', landscape=false}={}){
+  const png=await logoPng(), foot=b64bytes(FOOTER_IMG);
+  const pw=landscape?16838:11906, ph=landscape?11906:16838, M_=760, usable=pw-2*M_;
+  const NS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"';
+  const img=(rel,id,cx,cy)=>`<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="hf${id}"/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="hf${id}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rel}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
+  const lw=Math.round(Math.min(usable, 9800)*635), fw=Math.round(usable*635);
+  const header=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:hdr ${NS}><w:p><w:pPr><w:bidi/><w:jc w:val="center"/><w:spacing w:after="0"/></w:pPr>${png?img('rIdL',901,lw,Math.round(lw*LOGO_RATIO)):''}</w:p><w:p><w:pPr><w:bidi/><w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="${DC}"/></w:pBdr><w:spacing w:after="0"/></w:pPr></w:p></w:hdr>`;
+  const footer=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr ${NS}><w:p><w:pPr><w:bidi/><w:jc w:val="center"/><w:spacing w:after="0"/></w:pPr>${W.run(title+' — صفحة ',{sz:16,color:'808080'})}<w:r><w:rPr><w:sz w:val="16"/><w:color w:val="808080"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r></w:p><w:p><w:pPr><w:bidi/><w:jc w:val="center"/><w:spacing w:after="0"/></w:pPr>${img('rIdB',902,fw,Math.round(fw*FOOTER_RATIO))}</w:p></w:ftr>`;
+  const z=new JSZip();
+  z.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="jpg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`);
+  z.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`);
+  z.file('docProps/core.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>منصة تحليل الدرجات</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().slice(0,19)}Z</dcterms:created></cp:coreProperties>`);
+  z.file('word/_rels/document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rIdH" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rIdF" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/></Relationships>`);
+  z.file('word/_rels/header1.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${png?'<Relationship Id="rIdL" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>':''}</Relationships>`);
+  z.file('word/_rels/footer1.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdB" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/footer.jpg"/></Relationships>`);
+  z.file('word/styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Sakkal Majalla" w:hAnsi="Sakkal Majalla" w:eastAsia="Sakkal Majalla" w:cs="Sakkal Majalla"/><w:sz w:val="26"/><w:szCs w:val="26"/><w:lang w:val="en-US" w:bidi="ar-QA"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:bidi/><w:spacing w:after="60" w:line="264" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:pPr><w:bidi/></w:pPr><w:rPr><w:rtl/></w:rPr></w:style><w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:bidiVisual/></w:tblPr></w:style></w:styles>`);
+  z.file('word/settings.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:defaultTabStop w:val="720"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`);
+  z.file('word/header1.xml', header); z.file('word/footer1.xml', footer);
+  if(png) z.file('word/media/logo.png', png); z.file('word/media/footer.jpg', foot);
+  const sect=`<w:sectPr><w:headerReference w:type="default" r:id="rIdH"/><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="${pw}" w:h="${ph}"${landscape?' w:orient="landscape"':''}/><w:pgMar w:top="1900" w:right="${M_}" w:bottom="1350" w:left="${M_}" w:header="300" w:footer="250" w:gutter="0"/><w:bidi/></w:sectPr>`;
+  z.file('word/document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}${sect}</w:body></w:document>`);
+  return z.generateAsync({type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression:'DEFLATE'});
+}
+const USABLE_P = 11906-2*760;
+const YR = () => String(currentYear).replace('-','\u2011');   // شرطة لا تنكسر في Word
+
+// ---------- Word: التقرير الكمي والوصفي للقسم ----------
+function deptQdBody(M){
+  const u=USABLE_P, n=M.grades.length, labelW=Math.round(u*0.27), totW=Math.round(u*0.13), tgtW=Math.round(u*0.15), gw=Math.floor((u-labelW-totW-tgtW)/Math.max(1,n));
+  const grid=[labelW,...M.grades.map(()=>gw),totW,tgtW], rest=grid.slice(1).reduce((a,b)=>a+b,0);
+  const H=(t,w,o={})=>dC(t,w,{b:true,color:'FFFFFF',fill:DC,sz:o.sz||24,jc:o.jc,span:o.span});
+  const qv=(v,unit)=>qdVal(v,unit);
+  const pa=M.ptot, va=(a,b)=>(b&&b.ach!=null&&a.ach!=null)?a.ach-b.ach:null;
+  const rowsDef=[
+    ['نسبة النجاح في الاختبار.', G=>G.a.passRate, M.tot.passRate, '%', M.tot.passRate==null?'':M.tot.passRate>=M.t.pass?'محقق':'غير محقق', `المستهدف ${M.t.pass}%`],
+    ['نسبة التحصيل الأكاديمي.', G=>G.a.ach, M.tot.ach, '%', M.tot.ach==null?'':M.tot.ach>=M.t.ach?'محقق':'غير محقق', `المستهدف ${M.t.ach}%`],
+    ['القيمة المضافة في التحصيل الأكاديمي بين التقييمات.', G=>va(G.a,G.pa), va(M.tot,pa), 'pt', M.pp&&va(M.tot,pa)!=null?(va(M.tot,pa)>=0?'محقق':'غير محقق'):'', M.pp?`مقارنة بـ${PKG[M.pp].label}`:'لا يوجد تقييم سابق'],
+    ['نسبة الطلبة الحاصلين على 90% فأعلى', G=>G.a.excRate, M.tot.excRate, '%', '', ''],
+  ];
+  const hdr=dRow([wCell(W.p(W.run('الصفوف الدراسية',{b:true,color:'FFFFFF',sz:22}),{jc:'right',after:0})+W.p(W.run('بنود التقرير',{b:true,color:'FFFFFF',sz:22}),{jc:'left',after:0}),{w:labelW,fill:DC,diag:true}), ...M.grades.map(G=>H(gAr(G.g),gw)), H('إجمالي\nالمدرسة',totW), H('تحقيق\nالمستهدف',tgtW)],{head:true});
+  const rows=rowsDef.map(([lab,f,tot,unit,tg,hint])=>dRow([wCell(W.p(W.run(lab,{b:true,color:'FFFFFF',sz:22}),{jc:'left',after:0})+(hint?W.p(W.run(hint,{color:'F3D9E1',sz:17}),{jc:'left',after:0}):''),{w:labelW,fill:DC}), ...M.grades.map(G=>dC(qv(f(G),unit),gw,{ltr:true,sz:24})), dC(qv(tot,unit),totW,{b:true,ltr:true,fill:'F7E9EE',sz:24}), wCell(wDrop(tg),{w:tgtW})]));
+  // تفسير النتائج
+  const reasons=[], chal=[], sol=[], sorted=[...M.allCls].sort((a,b)=>b.a.ach-a.a.ach);
+  const rg=[...M.grades].sort((a,b)=>b.a.ach-a.a.ach);
+  if(rg.length>1) reasons.push(`أعلى الصفوف تحصيلاً الصف ${gAr(rg[0].g)} (${P1(rg[0].a.ach)}) وأدناها الصف ${gAr(rg[rg.length-1].g)} (${P1(rg[rg.length-1].a.ach)}).`);
+  if(sorted.length>1) reasons.push(`تراوح تحصيل الشعب بين ${P1(sorted[0].a.ach)} في الشعبة ${sorted[0].c} و${P1(sorted[sorted.length-1].a.ach)} في الشعبة ${sorted[sorted.length-1].c}.`);
+  if(M.va!=null) reasons.push(Math.abs(M.va)<0.5?`تحصيل القسم مستقر مقارنةً بـ${PKG[M.pp].label}.`:`${M.va>0?'ارتفع':'انخفض'} تحصيل القسم ${r1(Math.abs(M.va))} نقطة مقارنةً بـ${PKG[M.pp].label}.`);
+  reasons.push('الأسباب من وجهة نظر القسم: ............................................................');
+  M.grades.forEach(G=>{ if(G.a.weak) chal.push(`الصف ${gAr(G.g)}: ${G.a.weak} طالبًا دون 65%${G.a.fail?`، منهم ${G.a.fail} دون 50%`:''}.`); });
+  if(!chal.length) chal.push('لا يوجد طلاب دون 65% في هذا التقييم.');
+  chal.push('تحديات أخرى: ............................................................');
+  const F=deptFindings(M); F.rec.slice(0,4).forEach(x=>sol.push(x));
+  sol.push('حلول أخرى: ............................................................');
+  const blk=(t,a)=>W.p(W.run(t,{b:true,color:DC,sz:24}),{jc:'left',after:20})+a.map(x=>W.p(W.run('• '+x,{sz:23}),{jc:'left',after:20})).join('');
+  const span=n+2;
+  const interp=dRow([wCell(W.p(W.run('تفسير النتائج',{b:true,color:'FFFFFF',sz:23}),{jc:'center',after:0})+W.p(W.run('(الأسباب/ التحديات/ الحلول)',{b:true,color:'FFFFFF',sz:20}),{jc:'center',after:0}),{w:labelW,fill:DC}), wCell(blk('الأسباب:',reasons)+blk('التحديات:',chal)+blk('الحلول:',sol),{w:rest,span,va:'top'})],{split:true});
+  const fb=dRow([wCell(W.p(W.run('التغذية الراجعة من نائب المدير للشؤون الأكاديمية',{b:true,color:'FFFFFF',sz:22}),{jc:'center',after:0}),{w:labelW,fill:DC}), wCell(W.p(''),{w:rest,span,va:'top'})],{h:1300});
+  // صف التوقيع: اسم المنسق | الصفة | اسم النائب
+  const a1=Math.max(1,Math.ceil(span*0.4)), a2=Math.max(1,Math.floor((span-a1)/2)), a3=Math.max(1,span-a1-a2);
+  const wOf=(from,k)=>grid.slice(1+from,1+from+k).reduce((a,b)=>a+b,0);
+  const sg=dRow([wCell(W.p(W.run('اسم المنسق وتوقيعه',{b:true,color:'FFFFFF',sz:23}),{jc:'center',after:0}),{w:labelW,fill:DC}), dC(M.coord||'',wOf(0,a1),{b:true,span:a1,sz:24}), dC('نائب المدير للشؤون\nالأكاديمية',wOf(a1,a2),{b:true,color:'FFFFFF',fill:DC,span:a2}), dC(SETTINGS.deputy||'',wOf(a1+a2,a3),{b:true,span:a3,sz:24})],{h:700});
+  return dTitleBox(`نموذج تقرير كمي وصفي لتحليل نتائج قسم ${M.l}`, u)
+    + dRuns([['- الأستاذ الفاضل / ',{b:true}],[SETTINGS.deputy||'',{b:true,color:'1F4E85'}],[' نائب المدير للشؤون الأكاديمية بمدرسة حمزة بن عبدالمطلب الإعدادية للبنين بعد قراءة نتائج الطلبة لصفوف المدرسة في اختبار ',{}],[PKG[M.pk].label,{b:true,color:'1F4E85'}],[' للعام الأكاديمي ',{}],[YR(),{b:true,ltr:true,color:'1F4E85'}],[' نقدّم لكم تقريرًا كميًّا ووصفيًّا يوضّح نسب النجاح والتحصيل الأكاديمي ومستويات الطلبة المختلفة، وأسباب ارتفاع أو انخفاض نتائج الطلبة.',{}]],{jc:'both',line:320,after:200,sz:27})
+    + dTable(grid,[hdr,...rows,interp,fb,sg])
+    + dText('*القيمة المضافة = الفرق في نسبة التحصيل بالنقاط عن التقييم السابق. النسب للطلاب الحاضرين فقط، وتحقيق المستهدف قائمة اختيار قابلة للتعديل.',{sz:19,color:DC,before:120});
+}
+
+// ---------- Word: تقرير الاختبار للقسم ----------
+function deptTestBody(M){
+  const u=USABLE_P, N=teacherNarrative(M), F=deptFindings(M), S=deptStatsFor(), pk=M.pk, test=PKG[pk].label;
+  let b='';
+  b+=dRuns([['الفاضل مدير المدرسة المحترم: ',{b:true}],[SETTINGS.principal||'',{b:true,color:'1F4E85'}]],{after:20,sz:28});
+  b+=dRuns([['النائب الأكاديمي المحترم: ',{b:true}],[SETTINGS.deputy||'',{b:true,color:'1F4E85'}]],{after:160,sz:28});
+  b+=dRuns([['يرفع لكم قسم ',{}],[M.l,{b:true}],[' تقريرًا مفصلاً عن نتائج تقييم ',{}],[test,{b:true}],[' للعام الدراسي ',{}],[YR()+'م',{b:true,ltr:true}],[' مشفوعًا بالتالي:',{}]],{jc:'both',line:300,after:120,sz:27});
+  b+=dTitleBox(`تقرير قسم ${M.l} — ${test}`, u);
+  // أولاً وثانياً: إجراءات (نص قابل للتعديل)
+  b+=dHead('أولاً: الاستعدادات قبل الاختبار');
+  b+=dList([
+    `وفقًا لخطة التحصيل الأكاديمي للقسم وما تضمنته من إجراءات لرفع التحصيل، قمنا بما يلزم من استعدادات لاختبار ${test}، وتكليف الزملاء بإعداد الاختبارات وفق جداول المواصفات المعتمدة: (........................................).`,
+    'التأكيد على مطابقة الأسئلة للمعايير المحددة وشمولها لمهارات المادة، وتحري الدقة العلمية والصياغة الصحيحة، وأن تكون الأسئلة ترجمة لما درسه الطلاب.',
+    'الاجتماع بالطلاب الضعاف وتوجيههم إلى ضوابط الاختبار وأهمية المذاكرة الجادة، مع تقديم أوراق مراجعة علاجية.',
+    'التنويه خلال الزيارات الصفية عن موعد الاختبارات وكيفية الاستعداد لها، واستثمار دقائق من الحصص في التوجيه والإرشاد.',
+    'اعتماد الاختبارات من منسق القسم وفق توجيهات موجه المادة بعد إجراء التعديلات المطلوبة.',
+  ],{num:true});
+  b+=dHead('ثانياً: أثناء عملية الاختبارات');
+  b+=dList(['التواصل مع الكنترول وتجهيز المظاريف مرتبة وتسليمها لرئيس الكنترول قبل الاختبار بوقت كافٍ.','متابعة تنفيذ الاختبارات والتأكد من توزيع الأوراق على الطلاب دون أي مشكلات، وتسجيل أي ملاحظات على الاختبار من الفرق.','التصحيح بدقة وفق نماذج الإجابة المعتمدة، ورصد الدرجات في الوقت المحدد.'],{num:true});
+  // ثالثاً: قراءة للتحليل والنسب
+  b+=dHead('ثالثاً: قراءة للتحليل والنسب');
+  M.grades.forEach(G=>{ const x=gradeText(M,G);
+    b+=dSub(`الصف ${gAr(G.g)}`);
+    b+=dRuns([['نسبة النجاح: ',{b:true}],[P1(G.a.passRate),{b:true,ltr:true,color:G.a.passRate>=M.t.pass?'1D7A4E':'B3322D'}],['     نسبة التحصيل: ',{b:true}],[P1(G.a.ach),{b:true,ltr:true,color:G.a.ach>=M.t.ach?'1D7A4E':'B3322D'}]],{after:40});
+    b+=dText('تحليل وصفي:',{b:true,color:DC,after:20}); b+=dList(x.bullets);
+    b+=dRuns([['استنتاج: ',{b:true,color:DC}],[x.conc,{}]],{jc:'both',after:100,line:276});
+  });
+  // المعلمون
+  b+=dHead('المعلمون الأعلى والأقل تحصيلًا');
+  b+=dText(`نتائج المعلمين في تقييم ${test} (مرتبة تنازليًا حسب نسبة التحصيل)`,{b:true,jc:'center',sz:24,after:60});
+  const tw=[Math.round(u*0.27),Math.round(u*0.1),Math.round(u*0.21),Math.round(u*0.13),Math.round(u*0.14)]; tw.push(u-tw.reduce((a,c)=>a+c,0));
+  const th=['اسم المعلم','الصف','الشعب','نسبة النجاح','نسبة التحصيل','القيمة المضافة'].map((t,i)=>dC(t,tw[i],{b:true,color:'FFFFFF',fill:DC,sz:22}));
+  const tr=M.teachers.map((x,i)=>dRow([dC(x.name,tw[0],{b:true,jc:'left',sz:21,fill:i%2?'F7E9EE':null}), dC(gAr(x.g),tw[1],{sz:21}), dC(x.cls.join('، '),tw[2],{sz:20,ltr:false}), dC(P1(x.a.passRate),tw[3],{sz:22,color:x.a.passRate>=M.t.pass?'1D7A4E':'B3322D'}), dC(P1(x.a.ach),tw[4],{b:true,sz:22,color:x.a.ach>=M.t.ach?'1D7A4E':'B3322D'}), dC(x.va==null?'لا ينطبق':fx(x.va),tw[5],{sz:22,ltr:x.va!=null})]));
+  b+=dTable(tw,[dRow(th,{head:true}),...tr]);
+  if(N.line) b+=dText(N.line,{sz:20,color:'5D6878',before:60});
+  b+=dSub('تحليل وصفي لأداء المعلمين'); b+=dList(N.desc);
+  b+=dSub('قراءة تحليلية للقيمة المضافة'); b+=dList(N.va);
+  // ملاحظات عامة
+  b+=dHead(`ملاحظات عامة من خلال تحليل نتائج طلاب الصفوف (${M.grades.map(G=>gAr(G.g)).join(' – ')})`);
+  b+=dSub('نقاط القوة'); b+=dList(F.pos,{num:true});
+  b+=dSub('نقاط تحتاج إلى تحسين'); b+=dList(F.neg,{num:true});
+  b+=dSub('التوصيات'); b+=dList(F.rec,{num:true});
+  // رابعاً: الجدول الإجمالي
+  b+=dHead('رابعاً: نسب النجاح والتحصيل في جميع الصفوف');
+  const sw=[Math.round(u*0.3),Math.round(u*0.23),Math.round(u*0.23)]; sw.push(Math.round(u*0.24));
+  b+=dTable(sw,[dRow([dC(`إجمالي النتيجة — ${test}`,sw.reduce((a,c)=>a+c,0),{b:true,color:'FFFFFF',fill:DC,span:4,sz:24})],{head:true}),
+    dRow(['الصف','نسبة النجاح','نسبة التحصيل','القيمة المضافة'].map((t,i)=>dC(t,sw[i],{b:true,fill:'F3D9E1',sz:23}))),
+    ...M.grades.map(G=>dRow([dC(gAr(G.g),sw[0],{b:true}), dC(P1(G.a.passRate),sw[1]), dC(P1(G.a.ach),sw[2]), dC(G.pa&&G.pa.ach!=null?fx(G.a.ach-G.pa.ach):'لا ينطبق',sw[3],{ltr:!!(G.pa&&G.pa.ach!=null)})])),
+    dRow([dC('إجمالي القسم',sw[0],{b:true,fill:'F7E9EE'}), dC(P1(M.tot.passRate),sw[1],{b:true,fill:'F7E9EE'}), dC(P1(M.tot.ach),sw[2],{b:true,fill:'F7E9EE'}), dC(M.va==null?'لا ينطبق':fx(M.va),sw[3],{b:true,fill:'F7E9EE',ltr:M.va!=null})])]);
+  // خامساً: مقارنة بالأقسام
+  if(S&&S[pk]){ const pv=prevPkOf(S,pk), rows=Object.entries(S[pk]).map(([l,x])=>({l,a:x.all,va:pv&&S[pv][l]&&S[pv][l].all.ach!=null&&x.all.ach!=null?x.all.ach-S[pv][l].all.ach:null})).filter(x=>x.a.n).sort((a,c)=>(c.a.ach??-1)-(a.a.ach??-1));
+    if(rows.length>1){ b+=dHead('خامساً: مقارنة القسم بالأقسام الأخرى');
+      const cw=[Math.round(u*0.1),Math.round(u*0.32),Math.round(u*0.19),Math.round(u*0.19)]; cw.push(u-cw.reduce((a,c)=>a+c,0));
+      b+=dTable(cw,[dRow(['الترتيب','القسم','نسبة النجاح','نسبة التحصيل','القيمة المضافة'].map((t,i)=>dC(t,cw[i],{b:true,color:'FFFFFF',fill:DC,sz:22})),{head:true}),
+        ...rows.map((x,i)=>{ const me_=x.l===M.l, f=me_?'FBE9AC':null; return dRow([dC(String(i+1),cw[0],{fill:f,b:me_}), dC(x.l+(me_?' (القسم)':''),cw[1],{fill:f,b:me_,jc:'left'}), dC(P1(x.a.pass),cw[2],{fill:f,b:me_}), dC(P1(x.a.ach),cw[3],{fill:f,b:true}), dC(x.va==null?'—':fx(x.va),cw[4],{fill:f,b:me_,ltr:x.va!=null})]); })]);
+      const pos=rows.findIndex(x=>x.l===M.l)+1; if(pos) b+=dText(`ترتيب قسم ${M.l} في التحصيل: ${pos} من ${rows.length}.`,{b:true,sz:24,before:60});
+    } }
+  // التوصيات العامة
+  b+=dHead(`${S&&S[pk]?'سادساً':'خامساً'}: التوصيات العامة`);
+  b+=dList(['الاستمرار في تطبيق خطط رفع التحصيل الأكاديمي بجميع مساراتها، مع التركيز على الأنشطة العلاجية اليومية التي تستهدف سد الفجوات التعليمية وتحسين نواتج التعلم.','متابعة تنفيذ خطط التحسين بصورة منهجية بما يراعي احتياجات الفئات الثلاث من الطلاب (الضعاف – المتوسطين – المتفوقين).','تكثيف الجلسات الفردية الموجَّهة للطلاب منخفضي الأداء لمساعدتهم على تجاوز الصعوبات الأكاديمية من خلال دعم مباشر وتشخيص دقيق لمواطن الضعف.','تنفيذ برامج التقوية أسبوعيًا بما يتوافق مع تعليمات الإدارة المدرسية، لضمان وصول الدعم التعليمي لجميع الطلاب.','إعطاء فئة الطلاب متوسطي التحصيل اهتمامًا مستمرًا وتحفيزهم عبر التقدير والتشجيع للانتقال إلى مستوى أكاديمي أعلى.','الاستمرار في تطبيق الخطط الإثرائية للطلاب المتميزين، وتعزيز مهارات التفكير العليا لديهم من خلال أنشطة متقدمة وتحديات علمية نوعية.'],{num:true});
+  b+=W.p('',{after:120});
+  b+=dRuns([['منسق القسم: ',{b:true,color:DC}],[M.coord||'........................',{b:true}],['          التوقيع: ........................',{}]],{after:120});
+  b+=dText('نرجو إرفاق التالي:',{b:true,color:DC,after:20});
+  b+=dList(['الخطط العلاجية والإثرائية (المعيار الرابع للمعلمين).','تحليل القسم المبني على المهارات.','إرسال نسخة من البريد الإلكتروني إلى السيد مدير المدرسة.'],{num:true,sz:23});
+  // التعليقات
+  const cw2=[Math.round(u*0.5)]; cw2.push(u-cw2[0]);
+  b+=W.p('',{after:80});
+  b+=dTable(cw2,[dRow([dC('التعليق على التقرير',u,{b:true,color:'FFFFFF',fill:DC,span:2,sz:25})]),
+    dRow([dC(`تعليق النائب الأكاديمي\n${SETTINGS.deputy||''}`,cw2[0],{b:true,fill:'F3D9E1',sz:23}), dC(`تعليق مدير المدرسة\n${SETTINGS.principal||''}`,cw2[1],{b:true,fill:'F3D9E1',sz:23})]),
+    dRow([wCell(W.p(''),{w:cw2[0],va:'top'}), wCell(W.p(''),{w:cw2[1],va:'top'})],{h:1800}),
+    dRow([dC('التوقيع: ....................',cw2[0],{sz:22}), dC('التوقيع: ....................',cw2[1],{sz:22})])]);
+  return b;
+}
+Object.assign(ACT,{
+  async dqdword(){ if(!canSee('dept')) return; const M=deptModel(D(),st.dSub,st.pk); busy('جارٍ إنشاء ملف Word…'); try{ download(`التقرير الكمي والوصفي - قسم ${safeName(M.l)} - ${PK_SHORT[st.pk]} - ${currentYear}.docx`, await packDocx(deptQdBody(M),{title:`التقرير الكمي والوصفي لقسم ${M.l}`})); } finally{ busy(''); } },
+  async dtestword(){ if(!canSee('dept')) return; const M=deptModel(D(),st.dSub,st.pk); busy('جارٍ إنشاء ملف Word…'); try{ download(`تقرير اختبار ${safeName(PK_SHORT[st.pk])} - قسم ${safeName(M.l)} - ${currentYear}.docx`, await packDocx(deptTestBody(M),{title:`تقرير قسم ${M.l} — ${PKG[st.pk].label}`})); } finally{ busy(''); } },
+});
+
+// ---------- مطابقة أسماء المعلمين في ملف المستخدمين مع قوائم العام ----------
+function userMatchPanel(){
+  if(role()!=='admin') return '';
+  const raw=YEARS[currentYear]&&YEARS[currentYear].data; if(!raw) return '';
+  const ts=usersList().filter(x=>x.r==='teacher').map(x=>({u:x.username||x.u, n:x.name||x.n, s:x.s}));
+  if(!ts.length) return '';
+  const bad=ts.filter(x=>!teacherNameIn(raw,{n:x.n, s:x.s}));
+  const rows=bad.map(x=>{ const k=tkeyOf(x.n), first=k.split('|')[0];
+    const near=[...new Set(Object.values(raw.teachersByPkg||{}).flat().filter(t=>(!x.s||!t.subjectKey||sameSubject(t.subjectKey,x.s)) && tkeyOf(t.name).split('|')[0]===first).map(t=>t.name))].slice(0,3);
+    return `<tr><td class="l"><bdi dir="ltr">${esc(x.u)}</bdi></td><td class="l">${esc(x.n)}</td><td class="l">${esc(x.s||'')}</td><td class="l">${near.length?esc(near.join(' / ')):'<span class="c-mut">لا يوجد اسم قريب</span>'}</td></tr>`; }).join('');
+  return `<div class="panel"><h3>مطابقة المعلمين مع قوائم عام <bdi dir="ltr">${esc(currentYear)}</bdi></h3>
+    ${bad.length?`<div class="warn">${bad.length} من ${ts.length} معلماً لم تُطابَق أسماؤهم في ملف المستخدمين مع قوائم المعلمين لهذا العام، فلن تظهر لهم بيانات. صحّح الاسم في ملف المستخدمين ليطابق الاسم المقترح ثم ارفعه من جديد.</div>${T('<th class="l">اسم المستخدم</th><th class="l">الاسم في ملف المستخدمين</th><th class="l">المادة</th><th class="l">أسماء قريبة في قائمة المعلمين</th>',rows,'','dense')}`:`<p class="note" style="margin:0">جميع المعلمين في ملف المستخدمين (${ts.length}) مطابَقون مع قوائم هذا العام.</p>`}
+    <p class="note">تُقبل المطابقة تلقائياً إذا اتفق الاسم الأول والأخير، حتى لو اختلف الاسم الأوسط أو كتابة الهمزات والتاء المربوطة.</p></div>`;
+}
+
+// ===================================================================
+// شهادات التقدير للطلاب الحاصلين على الدرجة النهائية (PDF جاهز للطباعة)
+// ===================================================================
+const isFull100 = p => p && p.counted && p.pct>=99.999;
+function certList(){
+  const d=D(), pk=st.pk, list=scope();
+  const subs=labelsIn(list,pk);
+  if(st.cSub!=='__all' && !subs.includes(st.cSub)) st.cSub = subs.length===1 ? subs[0] : '__all';
+  const L = st.cSub==='__all' ? subs : [st.cSub];
+  const hits=[];
+  for(const s of list) for(const l of L){ const R=s.subj[l], p=R&&R.pkg&&R.pkg[pk]; if(isFull100(p)) hits.push({s,l,p}); }
+  hits.sort((a,b)=>byCls(a.s.cls,b.s.cls)||a.s.name.localeCompare(b.s.name,'ar')||a.l.localeCompare(b.l,'ar'));
+  if(st.cMode==='student'){ const m=new Map(); hits.forEach(h=>{ if(!m.has(h.s.id)) m.set(h.s.id,{s:h.s, ls:[]}); m.get(h.s.id).ls.push(h.l); }); return {subs, items:[...m.values()]}; }
+  return {subs, items:hits.map(h=>({s:h.s, ls:[h.l]}))};
+}
+const CERT_SEAL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="240" height="240"><defs><radialGradient id="cg" cx="40%" cy="35%"><stop offset="0" stop-color="#f6e3a1"/><stop offset=".55" stop-color="#d4a73d"/><stop offset="1" stop-color="#9c7419"/></radialGradient></defs>
+  <path d="M38 78 L26 116 L44 106 L54 118 L60 84Z M82 78 L94 116 L76 106 L66 118 L60 84Z" fill="#8a1538"/>
+  <g>${Array.from({length:24},(_,i)=>{ const a=i*15*Math.PI/180; return `<circle cx="${60+46*Math.cos(a)}" cy="${52+46*Math.sin(a)}" r="7" fill="url(#cg)"/>`; }).join('')}</g>
+  <circle cx="60" cy="52" r="44" fill="url(#cg)" stroke="#9c7419" stroke-width="1.5"/><circle cx="60" cy="52" r="35" fill="none" stroke="#fff8e1" stroke-width="1.6" stroke-dasharray="2 3"/>
+  <text x="60" y="47" text-anchor="middle" font-size="15" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Tahoma">الدرجة</text>
+  <text x="60" y="66" text-anchor="middle" font-size="15" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Tahoma">النهائية</text></svg>`;
+const CERT_SEAL_IMG = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CERT_SEAL);
+const CERT_CORNER = `<svg viewBox="0 0 100 100" width="92" height="92"><path d="M4 4 H62 M4 4 V62" stroke="#b08a2e" stroke-width="3" fill="none"/><path d="M12 12 H44 M12 12 V44" stroke="#8a1538" stroke-width="1.6" fill="none"/><path d="M4 4 Q30 10 34 34 Q10 30 4 4Z" fill="#8a1538" opacity=".9"/><circle cx="34" cy="34" r="4" fill="#b08a2e"/><path d="M40 20 q8 -8 16 0 q-8 8 -16 0Z M20 40 q-8 8 0 16 q8 -8 0 -16Z" fill="#b08a2e"/></svg>`;
+function certHtml(it, d, pk){
+  const s=it.s, multi=it.ls.length>1, l=it.ls[0];
+  const teacher = !multi ? (teacherOfClass(d, s.cls, l, pk)||'') : '';
+  const coord = !multi ? (coordName(l)||'') : '';
+  const subjTxt = multi ? `في المواد: <b>${it.ls.map(esc).join('، ')}</b>` : `في مادة <b>${esc(l)}</b>`;
+  const sig=(t,n)=>`<div><span>${t}</span><b>${esc(n||'')}</b><i></i></div>`;
+  return `<div class="cert"><div class="c-frame"><div class="c-in">
+    <span class="c-cn tl">${CERT_CORNER}</span><span class="c-cn tr">${CERT_CORNER}</span><span class="c-cn bl">${CERT_CORNER}</span><span class="c-cn br">${CERT_CORNER}</span>
+    <img class="c-logo" src="${LOGO}" alt="">
+    <div class="c-title">شهادة تقدير</div>
+    <div class="c-en">Certificate of Appreciation</div>
+    <p class="c-p">تتقدّم إدارة مدرسة حمزة بن عبد المطلب الإعدادية للبنين بخالص التهنئة والتقدير إلى الطالب</p>
+    <div class="c-name">${esc(s.name)}</div>
+    <p class="c-p">من الشعبة <b class="c-ltr">${esc(s.cls)}</b>، لحصوله على <b class="c-gold">الدرجة النهائية</b> ${subjTxt}<br>في ${esc(PKG[pk].label)} للعام الأكاديمي <b class="c-ltr">${esc(currentYear)}</b>، متمنّين له دوام التفوق والنجاح.</p>
+    <div class="c-sigs">${multi?'':sig('معلم المادة',teacher)+sig('منسق القسم',coord)}${sig('النائب الأكاديمي',SETTINGS.deputy)}${sig('مدير المدرسة',SETTINGS.principal)}</div>
+    <img class="c-seal" src="${CERT_SEAL_IMG}" alt="">
+    <div class="c-date">تاريخ الإصدار: ${esc(TODAY)}</div>
+  </div></div></div>`;
+}
+function pCerts(){
+  const d=D(), pk=st.pk; st.cMode=st.cMode||'subj'; if(st.cSub==null) st.cSub='__all';
+  const {subs, items}=certList();
+  const head=RH('شهادات التقدير', `للطلاب الحاصلين على الدرجة النهائية في ${PKG[pk].label}`);
+  const tools=`<div class="r-tools noprint">
+    <label class="f">المادة <select data-set="cSub">${subs.length>1?`<option value="__all" ${st.cSub==='__all'?'selected':''}>جميع المواد</option>`:''}${subs.map(l=>`<option ${st.cSub===l?'selected':''}>${esc(l)}</option>`).join('')}</select></label>
+    <label class="f">نوع الشهادة <select data-set="cMode"><option value="subj" ${st.cMode==='subj'?'selected':''}>شهادة لكل مادة</option><option value="student" ${st.cMode==='student'?'selected':''}>شهادة واحدة لكل طالب (كل مواده)</option></select></label>
+    <button class="btn pri" data-act="certpdf" ${items.length?'':'disabled'}>${ico('download')}تنزيل الشهادات PDF (${items.length})</button> <span id="certStatus" class="note"></span></div>`;
+  if(!items.length) return `<div class="sheet">${head}${tools}${empty('لا يوجد طلاب حاصلون على الدرجة النهائية ضمن هذا الاختيار')}</div>`;
+  const prev=`<div class="cert-prev"><div class="cert-scale">${certHtml(items[0],d,pk)}</div></div>`;
+  return `<div class="sheet">${head}${tools}
+    ${items.length>150?`<div class="warn noprint">عدد الشهادات كبير (${items.length}). يستغرق إنشاؤها عدة دقائق؛ يُفضَّل اختيار مادة أو شعبة من الشريط العلوي.</div>`:''}
+    ${sec('معاينة الشهادة', prev+'<p class="note">الشهادة بحجم A4 أفقي، جاهزة للطباعة على ورق مقوّى. اسم معلم المادة من قائمة المعلمين، واسم المنسق من الإعدادات، واسم المدير من جهة اعتماد التقارير.</p>')}
+    ${sec(`الطلاب (${items.length})`, T('<th>م</th><th class="l">اسم الطالب</th><th>الشعبة</th><th class="l">المادة</th>', items.map((x,i)=>`<tr class="click" data-act="student" data-v="${esc(x.s.id)}"><td>${i+1}</td><td class="nm">${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td class="l">${esc(x.ls.join('، '))}</td></tr>`).join(''),'','dense'))}
+  </div>`;
+}
+async function certsPdf(){
+  const d=D(), pk=st.pk, {items}=certList(); if(!items.length) return;
+  if(typeof html2canvas==='undefined' || typeof jspdf==='undefined'){ alert('مكتبات PDF لم تُحمَّل. افتح الصفحة مع اتصال بالإنترنت مرة واحدة.'); return; }
+  const box=$('#certStatus'), host=document.createElement('div'); host.className='cert-host'; document.body.appendChild(host);
+  try{
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const pdf=new jspdf.jsPDF({unit:'mm', format:'a4', orientation:'l', compress:true});
+    for(let i=0;i<items.length;i++){
+      if(box) box.textContent=`جارٍ إنشاء الشهادات… ${i+1} من ${items.length}`;
+      host.innerHTML=certHtml(items[i],d,pk); await frame();
+      const img=host.querySelector('img'); if(img && !img.complete) await img.decode().catch(()=>{});
+      const cv=await html2canvas(host.firstElementChild,{scale:1.6, backgroundColor:'#ffffff', logging:false});
+      if(i) pdf.addPage('a4','l');
+      pdf.addImage(cv.toDataURL('image/jpeg',0.9),'JPEG',0,0,297,210);
+    }
+    const nm=`شهادات التقدير - ${st.cSub==='__all'?'جميع المواد':safeName(st.cSub)}${st.cls!=='all'?' - '+safeName(st.cls):''} - ${PK_SHORT[pk]} - ${currentYear}.pdf`;
+    download(nm, pdf.output('blob'));
+    if(box) box.textContent=`تم: ${items.length} شهادة.`;
+  }catch(e){ console.error(e); alert('تعذّر إنشاء الشهادات: '+(e.message||e)); }
+  finally{ host.remove(); }
+}
+Object.assign(ACT,{ certpdf(){ certsPdf(); } });
+
 // ===================================================================
 // دعم القرار: أبرز الملاحظات، ملف الطالب الشامل، الإنذار الاستباقي،
 // تحليل النمو، جودة البيانات، مهامي
@@ -4488,7 +4715,7 @@ function opsInit(){
   // أزرار الشريط العلوي: بحث ونسخ الرابط
   const _rt2=renderToolbar; renderToolbar=function(){ _rt2(); const sp=$('#toolbar .sp'); if(sp && me()) sp.insertAdjacentHTML('afterend', `<button class="btn sm pal-btn" data-act="palette" title="بحث سريع (Ctrl + K)">${ico('search')}<span class="bl">بحث</span><kbd class="bl">Ctrl K</kbd></button><button class="btn sm icon" data-act="copylink" title="نسخ رابط هذا التقرير">${ico('link')}</button>`); const pdfB=$('#toolbar [data-act="pdfpage"]'); if(pdfB && st.page==='committee' && role()==='admin' && D()) pdfB.insertAdjacentHTML('beforebegin', `<button class="btn sm" data-act="cword" title="تنزيل تقرير لجنة التحصيل بصيغة Word">${ico('report')}<span class="bl">تنزيل Word</span></button>`); };
   // إعدادات الأمان
-  const _ps=pSettings; pSettings=function(){ const h=_ps(); const i=h.lastIndexOf('</div>'); return h.slice(0,i)+securityPanel()+h.slice(i); };
+  const _ps=pSettings; pSettings=function(){ const h=_ps(); const i=h.lastIndexOf('</div>'); return h.slice(0,i)+userMatchPanel()+securityPanel()+h.slice(i); };
   // تسجيل تعديلات الإعدادات (مجمّعة)
   const CFG_LABEL={targets:'الأهداف',subjectTargets:'أهداف المواد',targetPass:'مستهدف النجاح',targetAch:'مستهدف التحصيل',coordinators:'منسقو الأقسام',principal:'اسم مدير المدرسة',deputy:'اسم النائب الأكاديمي',committee:'أعضاء لجنة التحصيل',idleMin:'مدة الخروج التلقائي'};
   let cfgSet=new Set(), cfgT=null;
@@ -4644,7 +4871,7 @@ function standalone(title, html){
   const t=document.createElement('template'); t.innerHTML=html;
   t.content.querySelectorAll('.noprint,.r-tools,.tabs,textarea,input,select,button').forEach(e=>e.remove());
   t.content.querySelectorAll('[data-act]').forEach(e=>{ e.removeAttribute('data-act'); e.removeAttribute('data-v'); e.classList.remove('click'); });
-  const css=[...document.querySelectorAll('head style')].map(x=>x.textContent).join('\n');
+  const css=document.querySelector('style').textContent;
   return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>${css}
@@ -4799,35 +5026,7 @@ function cohortRows(){
 }
 
 // ===== التشغيل =====
-// ===================================================================
-// واجهة 2026: ترتيب الشريط العلوي في صفّين (التنقل / السياق)
-// ===================================================================
-function uiInitials(n){ const w=String(n||'').replace(/[()]/g,' ').trim().split(/\s+/).filter(x=>x && !/^(عبد|ال)$/.test(x)); return (w[0]||'؟').charAt(0); }
-function uiArrangeToolbar(){
-  const tb=$('#toolbar'); if(!tb || !me() || tb.querySelector('.tb-top')) return;
-  const q=s=>tb.querySelector(s);
-  const grp=(NAV.find(g=>g.items.some(i=>i[0]===st.page))||{}).g||'';
-  const top=document.createElement('div'); top.className='tb-top';
-  const ctx=document.createElement('div'); ctx.className='tb-ctx';
-  const menu=q('[data-act="menu"]'); if(menu){ menu.classList.add('icon'); top.appendChild(menu); }
-  top.insertAdjacentHTML('beforeend', `<div class="tb-title"><small>${esc(grp)}</small><b>${esc(TITLES[st.page]||'')}</b></div><span class="tb-sp"></span>`);
-  [q('[data-act="palette"]'), q('[data-act="copylink"]'), q('#themeBtn')].forEach(x=>x&&top.appendChild(x));
-  const u=me(), ub=q('.ubadge'), lo=q('[data-act="logout"]');
-  if(ub){ const box=document.createElement('div'); box.className='tb-user'; box.appendChild(ub); box.insertAdjacentHTML('beforeend', `<span class="av" aria-hidden="true">${esc(uiInitials(u.n))}</span>`); if(lo){ lo.classList.add('icon'); box.appendChild(lo); } top.appendChild(box); }
-  // السياق: المرشحات ثم الإجراءات
-  const pv=q('.authbar > label.f.pv'), narrow=matchMedia('(max-width:960px)').matches;
-  if(pv && !narrow) top.insertBefore(pv, top.querySelector('.tb-user'));
-  tb.querySelectorAll(':scope > label.f').forEach(x=>ctx.appendChild(x));
-  if(pv && narrow) ctx.appendChild(pv);
-  ctx.insertAdjacentHTML('beforeend','<span class="sp"></span>');
-  [...tb.querySelectorAll(':scope > button.btn')].forEach(x=>ctx.appendChild(x));
-  tb.textContent=''; tb.append(top, ctx);
-}
-function uiInit(){
-  const _rt3=renderToolbar; renderToolbar=function(){ _rt3(); uiArrangeToolbar(); };
-}
-
-(async()=>{ opsInit(); uiInit(); await load(); if(await cloudDetect()){ cloudBoot(); return; } if(restoreSession()){ syncFilters(); if(['teacher','coord'].includes(role()) && D() && !location.hash) st.page='my'; applyHash(); renderAll(); } else showLogin(); })();
+(async()=>{ opsInit(); await load(); if(await cloudDetect()){ cloudBoot(); return; } if(restoreSession()){ syncFilters(); if(['teacher','coord'].includes(role()) && D() && !location.hash) st.page='my'; applyHash(); renderAll(); } else showLogin(); })();
 
 </script>
 </body>
