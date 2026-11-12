@@ -490,9 +490,12 @@ kbd{font:600 10.5px/1 var(--font);border:1px solid var(--line-2);border-bottom-w
 .c-in::before{content:"";position:absolute;inset:8px;border:1px solid rgba(176,138,46,.55)}
 .c-cn{position:absolute;width:92px;height:92px}.c-cn svg{width:100%;height:100%}
 .c-cn.tl{top:4px;left:4px;transform:scaleX(1)}.c-cn.tr{top:4px;right:4px;transform:scaleX(-1)}.c-cn.bl{bottom:4px;left:4px;transform:scaleY(-1)}.c-cn.br{bottom:4px;right:4px;transform:scale(-1,-1)}
-.c-logo{height:92px;max-width:640px;object-fit:contain;display:block;margin:0 auto 4px}
-.c-title{font-family:"Aref Ruqaa","IBM Plex Sans Arabic",serif;font-size:66px;line-height:1.15;color:#8a1538;font-weight:700;margin-top:2px}
-.c-en{font-family:Georgia,"Times New Roman",serif;font-size:17px;letter-spacing:4px;color:#b08a2e;text-transform:uppercase;margin:-2px 0 12px}
+.c-logo{height:84px;max-width:640px;object-fit:contain;display:block;margin:0 auto 4px}
+.c-title{font-family:"Aref Ruqaa","IBM Plex Sans Arabic",serif;font-size:62px;line-height:1.5;color:#8a1538;font-weight:700;margin-top:-6px;padding-bottom:6px}
+.c-title-en{font-family:Georgia,"Times New Roman",serif;font-size:54px;line-height:1.3;color:#8a1538;font-weight:700;font-style:italic;margin:8px 0 14px;letter-spacing:.5px}
+.c-en-cert .c-seal{top:474px;left:50%;margin-left:-50px;width:100px;height:100px}
+.c-en-cert .c-p{font-family:Georgia,"Times New Roman",serif;font-size:19.5px;line-height:1.75;max-width:740px;margin-left:auto;margin-right:auto}
+.c-en{font-family:Georgia,"Times New Roman",serif;font-size:16px;letter-spacing:4px;color:#b08a2e;text-transform:uppercase;margin:2px 0 10px;position:relative;z-index:1}
 .c-p{font-size:21px;line-height:2;margin:6px 0;color:#3b2f22}
 .c-name{display:inline-block;font-size:40px;font-weight:700;color:#14365d;margin:6px 0 4px;padding:0 40px 6px;border-bottom:2px solid #b08a2e;min-width:420px}
 .c-gold{color:#9c7419}
@@ -1378,7 +1381,7 @@ function pData(){
     <div class="panel"><h3>ملفات عام <bdi dir="ltr">${esc(currentYear)}</bdi></h3><div class="ups">${cards}</div></div>
     ${qualityBanner()}
     ${summary}
-    ${typeof versionsPanel==='function'?versionsPanel():''}
+    ${typeof republishPanel==='function'?republishPanel():''}${typeof versionsPanel==='function'?versionsPanel():''}
     ${backupPanel()}
   </div>`;
 }
@@ -3876,7 +3879,8 @@ function computeDeptStats(d){
 const DS_CACHE=new WeakMap();
 function deptStatsFor(y=currentYear){
   const Y=YEARS[y]; if(!Y) return null;
-  if(!CLOUD || isFull()){ if(!Y.data) return null; if(!DS_CACHE.has(Y.data)) DS_CACHE.set(Y.data, computeDeptStats(Y.data)); return DS_CACHE.get(Y.data); }
+  // البيانات المحمّلة كاملة عند مدير النظام والإدارة (ومنها معاينة صلاحية منسق)، فتُحسب مباشرة
+  if(!CLOUD || FULL_ROLES.includes((AUTH.user||{}).r)){ if(!Y.data) return null; if(!DS_CACHE.has(Y.data)) DS_CACHE.set(Y.data, computeDeptStats(Y.data)); return DS_CACHE.get(Y.data); }
   return Y.deptStats || null;
 }
 const PKS_ORDER=['mid1','end1','mid2','end2','year'];
@@ -3886,7 +3890,7 @@ function mySubject(){ const d=D(); if(d&&d.scoped&&d.scoped.subject) return d.sc
 // ---------- صفحة مقارنة الأقسام ----------
 function pDeptCmp(){
   const S=deptStatsFor(), pk=st.pk;
-  if(!S || !S[pk]) return `<div class="sheet">${RH('مقارنة الأقسام','')}${empty('لا تتوفر إحصاءات الأقسام لهذا الاختبار بعد','<br>تُنشر تلقائياً عندما يفتح مدير النظام المنصة بعد التحديث، أو بعد رفع الملفات.')}</div>`;
+  if(!S || !S[pk]) return `<div class="sheet">${RH('مقارنة الأقسام','')}${empty('لا تتوفر إحصاءات الأقسام لهذا الاختبار بعد', role()==='admin'?'':'<br>اطلب من مدير النظام فتح المنصة بحسابه، أو الضغط على "إعادة نشر بيانات العام الآن" في صفحة الأعوام والملفات، ثم حدّث هذه الصفحة.')}</div>`;
   const pv=prevPkOf(S,pk), mine=mySubject();
   const rows=Object.entries(S[pk]).map(([l,x])=>{ const p=pv&&S[pv][l]; return {l, a:x.all, va:(p&&p.all.ach!=null&&x.all.ach!=null)?x.all.ach-p.all.ach:null, t:targetOf(l), g:x.g}; }).filter(x=>x.a.n);
   const rk=(f)=>{ const s=[...rows].filter(x=>f(x)!=null).sort((a,b)=>f(b)-f(a)); return x=>s.indexOf(x)+1; };
@@ -4221,29 +4225,50 @@ function certList(){
   if(st.cMode==='student'){ const m=new Map(); hits.forEach(h=>{ if(!m.has(h.s.id)) m.set(h.s.id,{s:h.s, ls:[]}); m.get(h.s.id).ls.push(h.l); }); return {subs, items:[...m.values()]}; }
   return {subs, items:hits.map(h=>({s:h.s, ls:[h.l]}))};
 }
-const CERT_SEAL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="240" height="240"><defs><radialGradient id="cg" cx="40%" cy="35%"><stop offset="0" stop-color="#f6e3a1"/><stop offset=".55" stop-color="#d4a73d"/><stop offset="1" stop-color="#9c7419"/></radialGradient></defs>
+const sealSvg = (l1,l2,fs=15) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="240" height="240"><defs><radialGradient id="cg" cx="40%" cy="35%"><stop offset="0" stop-color="#f6e3a1"/><stop offset=".55" stop-color="#d4a73d"/><stop offset="1" stop-color="#9c7419"/></radialGradient></defs>
   <path d="M38 78 L26 116 L44 106 L54 118 L60 84Z M82 78 L94 116 L76 106 L66 118 L60 84Z" fill="#8a1538"/>
   <g>${Array.from({length:24},(_,i)=>{ const a=i*15*Math.PI/180; return `<circle cx="${60+46*Math.cos(a)}" cy="${52+46*Math.sin(a)}" r="7" fill="url(#cg)"/>`; }).join('')}</g>
   <circle cx="60" cy="52" r="44" fill="url(#cg)" stroke="#9c7419" stroke-width="1.5"/><circle cx="60" cy="52" r="35" fill="none" stroke="#fff8e1" stroke-width="1.6" stroke-dasharray="2 3"/>
-  <text x="60" y="47" text-anchor="middle" font-size="15" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Tahoma">الدرجة</text>
-  <text x="60" y="66" text-anchor="middle" font-size="15" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Tahoma">النهائية</text></svg>`;
-const CERT_SEAL_IMG = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CERT_SEAL);
+  <text x="60" y="47" text-anchor="middle" font-size="${fs}" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Georgia, Tahoma">${l1}</text>
+  <text x="60" y="66" text-anchor="middle" font-size="${fs}" font-weight="700" fill="#5a3e06" font-family="IBM Plex Sans Arabic, Georgia, Tahoma">${l2}</text></svg>`;
+const CERT_SEAL_IMG = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sealSvg('الدرجة','النهائية'));
+const CERT_SEAL_EN = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sealSvg('FULL','MARK',16));
+const isEnglishSubj = l => /انجليز|إنجليز|english/i.test(String(l));
+const PK_EN = {mid1:'First Term Mid-Term Assessment', end1:'First Term End-of-Term Assessment', mid2:'Second Term Mid-Term Assessment', end2:'Second Term End-of-Term Assessment', year:'Final Examination (First Round)'};
+const stripTitle = x => String(x||'').replace(/^\s*(?:الأستاذ|الاستاذ|أ\.|ا\.|أ\/|د\.)\s*/,'');
+const sameName = (a,b) => { a=stripTitle(a); b=stripTitle(b); return !!a && !!b && (norm(a)===norm(b) || tkeyOf(a)===tkeyOf(b)); };
 const CERT_CORNER = `<svg viewBox="0 0 100 100" width="92" height="92"><path d="M4 4 H62 M4 4 V62" stroke="#b08a2e" stroke-width="3" fill="none"/><path d="M12 12 H44 M12 12 V44" stroke="#8a1538" stroke-width="1.6" fill="none"/><path d="M4 4 Q30 10 34 34 Q10 30 4 4Z" fill="#8a1538" opacity=".9"/><circle cx="34" cy="34" r="4" fill="#b08a2e"/><path d="M40 20 q8 -8 16 0 q-8 8 -16 0Z M20 40 q-8 8 0 16 q8 -8 0 -16Z" fill="#b08a2e"/></svg>`;
 function certHtml(it, d, pk){
-  const s=it.s, multi=it.ls.length>1, l=it.ls[0];
+  const s=it.s, multi=it.ls.length>1, l=it.ls[0], en=!multi && isEnglishSubj(l);
   const teacher = !multi ? (teacherOfClass(d, s.cls, l, pk)||'') : '';
   const coord = !multi ? (coordName(l)||'') : '';
-  const subjTxt = multi ? `في المواد: <b>${it.ls.map(esc).join('، ')}</b>` : `في مادة <b>${esc(l)}</b>`;
   const sig=(t,n)=>`<div><span>${t}</span><b>${esc(n||'')}</b><i></i></div>`;
-  return `<div class="cert"><div class="c-frame"><div class="c-in">
-    <span class="c-cn tl">${CERT_CORNER}</span><span class="c-cn tr">${CERT_CORNER}</span><span class="c-cn bl">${CERT_CORNER}</span><span class="c-cn br">${CERT_CORNER}</span>
+  // المنسق هو معلم الشعبة نفسه: توقيع واحد بالصفتين
+  const tSigs = multi ? '' : sameName(teacher,coord) ? sig('معلم ومنسق المادة',teacher) : sig('معلم المادة',teacher)+sig('منسق القسم',coord);
+  const sigs = `<div class="c-sigs">${tSigs}${sig('النائب الأكاديمي',SETTINGS.deputy)}${sig('مدير المدرسة',SETTINGS.principal)}</div>`;
+  const corners = `<span class="c-cn tl">${CERT_CORNER}</span><span class="c-cn tr">${CERT_CORNER}</span><span class="c-cn bl">${CERT_CORNER}</span><span class="c-cn br">${CERT_CORNER}</span>`;
+  if(en){
+    let dt=''; try{ dt=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }catch(e){}
+    return `<div class="cert c-en-cert"><div class="c-frame"><div class="c-in">${corners}
+    <img class="c-logo" src="${LOGO}" alt="">
+    <div class="c-title-en">Certificate of Appreciation</div>
+    <p class="c-p" dir="ltr">The administration of Hamza Bin Abdul Muttalib Preparatory School for Boys proudly presents this certificate to</p>
+    <div class="c-name">${esc(s.name)}</div>
+    <p class="c-p" dir="ltr">of class <b>${esc(s.cls)}</b>, for achieving <b class="c-gold">the full mark</b> in <b>English Language</b> in the ${esc(PK_EN[pk]||PKG[pk].label)} of the academic year <b>${esc(currentYear)}</b>. We wish him continued excellence and success.</p>
+    ${sigs}
+    <img class="c-seal" src="${CERT_SEAL_EN}" alt="">
+    <div class="c-date" dir="ltr">Issue date: ${esc(dt)}</div>
+  </div></div></div>`;
+  }
+  const subjTxt = multi ? `في المواد: <b>${it.ls.map(esc).join('، ')}</b>` : `في مادة <b>${esc(l)}</b>`;
+  return `<div class="cert"><div class="c-frame"><div class="c-in">${corners}
     <img class="c-logo" src="${LOGO}" alt="">
     <div class="c-title">شهادة تقدير</div>
     <div class="c-en">Certificate of Appreciation</div>
     <p class="c-p">تتقدّم إدارة مدرسة حمزة بن عبد المطلب الإعدادية للبنين بخالص التهنئة والتقدير إلى الطالب</p>
     <div class="c-name">${esc(s.name)}</div>
     <p class="c-p">من الشعبة <b class="c-ltr">${esc(s.cls)}</b>، لحصوله على <b class="c-gold">الدرجة النهائية</b> ${subjTxt}<br>في ${esc(PKG[pk].label)} للعام الأكاديمي <b class="c-ltr">${esc(currentYear)}</b>، متمنّين له دوام التفوق والنجاح.</p>
-    <div class="c-sigs">${multi?'':sig('معلم المادة',teacher)+sig('منسق القسم',coord)}${sig('النائب الأكاديمي',SETTINGS.deputy)}${sig('مدير المدرسة',SETTINGS.principal)}</div>
+    ${sigs}
     <img class="c-seal" src="${CERT_SEAL_IMG}" alt="">
     <div class="c-date">تاريخ الإصدار: ${esc(TODAY)}</div>
   </div></div></div>`;
@@ -4261,11 +4286,11 @@ function pCerts(){
   return `<div class="sheet">${head}${tools}
     ${items.length>150?`<div class="warn noprint">عدد الشهادات كبير (${items.length}). يستغرق إنشاؤها عدة دقائق؛ يُفضَّل اختيار مادة أو شعبة من الشريط العلوي.</div>`:''}
     ${sec('معاينة الشهادة', prev+'<p class="note">الشهادة بحجم A4 أفقي، جاهزة للطباعة على ورق مقوّى. اسم معلم المادة من قائمة المعلمين، واسم المنسق من الإعدادات، واسم المدير من جهة اعتماد التقارير.</p>')}
-    ${sec(`الطلاب (${items.length})`, T('<th>م</th><th class="l">اسم الطالب</th><th>الشعبة</th><th class="l">المادة</th>', items.map((x,i)=>`<tr class="click" data-act="student" data-v="${esc(x.s.id)}"><td>${i+1}</td><td class="nm">${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td class="l">${esc(x.ls.join('، '))}</td></tr>`).join(''),'','dense'))}
+    ${sec(`الطلاب (${items.length})`, T('<th>م</th><th class="l">اسم الطالب</th><th>الشعبة</th><th class="l">المادة</th><th class="noprint">الشهادة</th>', items.map((x,i)=>`<tr><td>${i+1}</td><td class="nm click" data-act="student" data-v="${esc(x.s.id)}">${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td class="l">${esc(x.ls.join('، '))}</td><td class="noprint"><button class="btn sm" data-act="certone" data-v="${i}" title="شهادة هذا الطالب فقط">${ico('download')}شهادة</button></td></tr>`).join(''),'','dense'))}
   </div>`;
 }
-async function certsPdf(){
-  const d=D(), pk=st.pk, {items}=certList(); if(!items.length) return;
+async function certsPdf(only=null){
+  const d=D(), pk=st.pk, all=certList().items, items=only!=null?[all[only]].filter(Boolean):all; if(!items.length) return;
   if(typeof html2canvas==='undefined' || typeof jspdf==='undefined'){ alert('مكتبات PDF لم تُحمَّل. افتح الصفحة مع اتصال بالإنترنت مرة واحدة.'); return; }
   const box=$('#certStatus'), host=document.createElement('div'); host.className='cert-host'; document.body.appendChild(host);
   try{
@@ -4279,13 +4304,13 @@ async function certsPdf(){
       if(i) pdf.addPage('a4','l');
       pdf.addImage(cv.toDataURL('image/jpeg',0.9),'JPEG',0,0,297,210);
     }
-    const nm=`شهادات التقدير - ${st.cSub==='__all'?'جميع المواد':safeName(st.cSub)}${st.cls!=='all'?' - '+safeName(st.cls):''} - ${PK_SHORT[pk]} - ${currentYear}.pdf`;
+    const nm = items.length===1 ? `شهادة تقدير - ${safeName(items[0].s.name)} - ${safeName(items[0].ls.join('، '))} - ${PK_SHORT[pk]}.pdf` : `شهادات التقدير - ${st.cSub==='__all'?'جميع المواد':safeName(st.cSub)}${st.cls!=='all'?' - '+safeName(st.cls):''} - ${PK_SHORT[pk]} - ${currentYear}.pdf`;
     download(nm, pdf.output('blob'));
     if(box) box.textContent=`تم: ${items.length} شهادة.`;
   }catch(e){ console.error(e); alert('تعذّر إنشاء الشهادات: '+(e.message||e)); }
   finally{ host.remove(); }
 }
-Object.assign(ACT,{ certpdf(){ certsPdf(); } });
+Object.assign(ACT,{ certpdf(){ certsPdf(); }, certone(v){ certsPdf(+v); } });
 
 // ===================================================================
 // دعم القرار: أبرز الملاحظات، ملف الطالب الشامل، الإنذار الاستباقي،
@@ -4612,6 +4637,12 @@ async function versionsLoad(y){
   }catch(e){ VERS={y, list:[], err:e.message||String(e)}; }
   if(st.page==='data') renderView();
 }
+function republishPanel(){
+  if(!CLOUD || role()!=='admin' || !D()) return '';
+  return `<div class="panel"><h3>نشر بيانات العام لجميع المستخدمين</h3><p class="note" style="margin-top:0">يُعيد نشر بيانات عام <bdi dir="ltr">${esc(currentYear)}</bdi> في قاعدة البيانات بأحدث صيغة: إحصاءات مقارنة الأقسام للمنسقين، ومفاتيح مطابقة أسماء المعلمين. يتم ذلك تلقائياً عند الرفع، واستخدم الزر إذا لم تظهر مقارنة الأقسام أو بيانات معلم.</p>
+    <button class="btn" data-act="republish">إعادة نشر بيانات العام الآن</button></div>`;
+}
+Object.assign(ACT,{ async republish(){ if(!CLOUD||role()!=='admin') return; await cloudPublishYear(currentYear); audit('إعادة نشر بيانات العام', currentYear); busy('تم النشر. يرى المستخدمون التحديث عند فتح المنصة أو تحديث الصفحة.'); setTimeout(()=>busy(''),3500); } });
 function versionsPanel(){
   if(!canSee('data')) return '';
   if(!VERS || VERS.y!==currentYear){ versionsLoad(currentYear); return `<div class="panel"><h3>النسخ السابقة لعام <bdi dir="ltr">${esc(currentYear)}</bdi></h3><p class="note">جارٍ التحميل…</p></div>`; }
