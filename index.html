@@ -3190,7 +3190,7 @@ function committeeHead(title, sub, pk){
 }
 function committeeFoot(){
   const members = String(SETTINGS.committee||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>{ const [n,r]=x.split(/\s*[—–-]\s*/); return {n, r:r||'عضو'}; });
-  const memT = members.length ? T('<th>م</th><th class="l">الاسم</th><th class="l">الصفة</th><th>التوقيع</th>', members.map((m,i)=>`<tr><td>${i+1}</td><td class="l">${esc(m.n)}</td><td class="l">${esc(m.r)}</td><td style="min-width:140px"></td></tr>`).join(''))
+  const memT = members.length ? T('<th>م</th><th class="l">الاسم</th><th class="l">الصفة</th><th>التوقيع</th>', members.map((m,i)=>`<tr><td>${i+1}</td><td class="l">${esc(m.n)}</td><td class="l">${esc(m.r)}</td><td style="min-width:140px">${sigImgH(sigT(m.n))}</td></tr>`).join(''))
     : '<p class="note noprint">أضف أسماء أعضاء اللجنة من صفحة "الإعدادات والأهداف" لتظهر هنا للتوقيع.</p>';
   return `<div class="keep">${sec('أعضاء لجنة التحصيل الأكاديمي', memT)}
   <div class="sig two"><div>${esc(SETTINGS.deputy)}<br>النائب الأكاديمي${sigImgH('dep')}</div><div>اعتماد مدير المدرسة<br>${esc(SETTINGS.principal)}${sigImgH('pri')}</div></div></div>`;
@@ -4088,7 +4088,8 @@ function cwTable(tbl, usable){
       const color = isHead ? 'FFFFFF' : cwToneOf(c);
       const bold = isHead || isFoot || grp || th || !!c.querySelector('b') || c.classList.contains('nm')&&false;
       const jc = c.classList.contains('l') || c.classList.contains('nm') ? 'left' : 'center';
-      return wCell(cwPara(t,{b:bold, sz:small, color, jc, after:0}), {w, span, fill});
+      const sim=c.querySelector('img.sig-img');
+      return wCell(cwPara(t,{b:bold, sz:small, color, jc, after:0})+(sim?wSigP(sim.dataset.k,1200):''), {w, span, fill});
     }).join('');
     return `<w:tr><w:trPr>${isHead?'<w:tblHeader/>':''}<w:cantSplit/></w:trPr>${cells}</w:tr>`;
   }).join('');
@@ -5430,17 +5431,21 @@ const sigKind = l => { const x=String(l||'').trim(); if(/مدير المدرسة
 const sigNameKey = n => norm(n).replace(/(^|\s)(عبد|ابو|أبو)\s+/g,'$1$2').replace(/\s+/g,' ').trim();
 const sigIdOf = n => { const s=sigNameKey(n); let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))>>>0; return 't'+h.toString(36); };
 const tsigs = () => (SETTINGS.tsigs=SETTINGS.tsigs||{});
-// توقيع شخص بالاسم: مطابقة تامة، ثم الاسم الأول والأخير، ثم احتواء كلمات الاسم المختصر في الاسم الكامل (إذا كانت المطابقة وحيدة)
+// توقيع شخص بالاسم: يطابق الاسم الكامل أو الاسم كما كُتب في ملف التواقيع (مطابقة تامة، ثم الاسم الأول والأخير، ثم احتواء الكلمات، ثم الاسم الأول مع أي كلمة لاحقة)
+const sigStrip = n => String(n||'').replace(/^\s*(أ\s*\.|ا\s*\.|د\s*\.|الأستاذ|الاستاذ|الأستاذة|المعلم|المعلمة)\s*/,'').trim();
 function sigT(name){
   if(!name) return null; const T=tsigs(), ids=Object.keys(T); if(!ids.length) return null;
-  const nk=sigNameKey(name); if(!nk) return null;
-  const ex=ids.find(id=>sigNameKey(T[id].name)===nk); if(ex) return ex;
-  const tk=typeof tkeyOf==='function'?tkeyOf(name):''; if(tk){ const c=ids.filter(id=>tkeyOf(T[id].name)===tk); if(c.length===1) return c[0]; }
-  const words=new Set(nk.split(' '));
-  const c=ids.filter(id=>{ const w=sigNameKey(T[id].name).split(' ').filter(Boolean); return w.length>=2 && w.every(x=>words.has(x)); });
-  if(c.length===1) return c[0];
-  const c2=ids.filter(id=>{ const w=sigNameKey(T[id].name).split(' ').filter(Boolean); const nw=nk.split(' '); return nw.length>=2 && nw.every(x=>w.includes(x)); });
-  return c2.length===1 ? c2[0] : null;
+  const nk=sigNameKey(sigStrip(name)); if(!nk) return null; const nw=nk.split(' ').filter(Boolean);
+  const keys=id=>[T[id].name, T[id].word].filter(Boolean).map(x=>sigNameKey(sigStrip(x)));
+  const one=f=>{ const c=ids.filter(id=>keys(id).some(f)); return c.length===1?c[0]:null; };
+  const tk=x=>{ const w=x.split(' ').filter(Boolean); return w.length?w[0]+'|'+w[w.length-1]:''; };
+  const r = one(k=>k===nk)
+    || one(k=>tk(k)===tk(nk))
+    || one(k=>{ const kw=k.split(' '); return kw.length>=2 && kw.every(x=>nw.includes(x)); })
+    || one(k=>{ const kw=k.split(' '); return nw.length>=2 && nw.every(x=>kw.includes(x)); })
+    || one(k=>{ const kw=k.split(' '); return kw.length>=2 && nw.length>=2 && kw[0]===nw[0] && (kw.slice(1).includes(nw[nw.length-1]) || nw.slice(1).includes(kw[kw.length-1])); })
+    || null;
+  return r;
 }
 const sigData = k => k==='dep'||k==='pri' ? (SIG_IMG[k]?{src:SIG_IMG[k], ar:SIG_AR[k]}:null) : (tsigs()[k]||null);
 const sigImgH = k => { const d=k&&sigData(k); return d ? `<img class="sig-img${k==='dep'||k==='pri'?'':' tsig'}" data-k="${k}" src="${d.src}" alt="">` : ''; };
@@ -5528,6 +5533,7 @@ function tsigPanel(){
     <p class="note" style="margin-top:0">ارفع ملف Word فيه جدول (الاسم | التوقيع) كما في كشف الحضور، ويمكن رفع أكثر من ملف. تُقرأ صورة توقيع كل اسم وتُطابَق مع أسماء المعلمين في المنصة، ثم تظهر التواقيع تلقائياً في خانات «المعلم» و«منسق القسم» في جميع التقارير والشهادات وملفات Word وPDF. توقيعا مدير المدرسة ونائب المدير للشؤون الأكاديمية ثابتان.</p>
     <div class="range-form"><label class="btn pri">رفع ملف التواقيع (Word)<input type="file" accept=".docx" multiple hidden data-tsigup="1"></label>${ids.length?`<span class="note">${ids.length} توقيعاً محفوظاً</span>`:''}</div>
     ${TSIG_MSG?`<div class="note" style="margin-top:8px">${esc(TSIG_MSG)}</div>`:''}
+    ${(()=>{ const d=D(); if(!d||!d.teachersByPkg) return ''; const ppl=[...new Set([...Object.values(d.teachersByPkg).flat().map(t=>t.name), ...Object.values(SETTINGS.coordinators||{}).map(c=>c&&c.name)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar')); const miss=ppl.filter(n=>!sigT(n)); return `<p class="note" style="margin-top:8px">المعلمون والمنسقون في بيانات العام الحالي: <b>${ppl.length-miss.length}</b> لهم توقيع من ${ppl.length}.${miss.length?` بلا توقيع: ${miss.map(esc).join('، ')}.`:''}</p>`; })()}
     ${rows?T('<th class="l">الاسم في المنصة</th><th>التوقيع</th><th class="l">تصحيح المطابقة</th><th></th>', rows,'','dense'):''}</div>`;
 }
 document.addEventListener('change', e=>{
