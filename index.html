@@ -784,6 +784,39 @@ kbd{font:600 10.5px/1 var(--font);border:1px solid var(--line-2);border-bottom-w
 .nn-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-end:4px;vertical-align:middle}
 .nn-catread{margin:8px 0 4px;padding:8px 14px;border:1px solid var(--line);border-inline-start:4px solid var(--navy);border-radius:8px;background:var(--paper-2)}
 @media screen and (max-width:760px){ .nn-catsum{grid-template-columns:repeat(3,1fr)} }
+/* ===== بوستر النتائج ===== */
+.nn-pwrap{width:1123px;margin:0 auto 24px;transform-origin:top center}
+@media screen and (max-width:1200px){ .nn-pwrap{transform:scale(.62);height:990px} }
+.nn-poster{width:1123px;height:1587px;box-sizing:border-box;direction:rtl;text-align:right;background:#FAF6EF;color:#2B2118;display:flex;flex-direction:column;overflow:hidden;line-height:1.4;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+.nn-poster *{box-sizing:border-box}
+.nn-poster .pl{height:150px;background:#FFFDF8;display:flex;align-items:center;justify-content:center;border-bottom:6px solid #C9A13B}.nn-poster .pl img{width:700px;height:119px;object-fit:contain}
+.nn-poster .ph{background:#7A1F2B;padding:26px 64px 28px;color:#FAF3E6}.nn-poster .ph small{display:block;font-size:20px;font-weight:700;color:#F3D68A}.nn-poster .ph h1{margin:4px 0;font-size:56px;font-weight:800;line-height:1.25;color:#FAF3E6}.nn-poster .ph p{margin:0;font-size:21px;color:#EBDACB}
+.nn-poster .pks{padding:24px 64px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.nn-poster .pk{background:#FFFDF8;border:1.5px solid #E3D7C3;border-top:6px solid #7A1F2B;border-radius:16px;padding:16px 22px;display:flex;flex-direction:column}
+.nn-poster .pk span{font-size:21px;font-weight:700}.nn-poster .pk b{font-size:64px;font-weight:800;line-height:1.15;color:#7A1F2B}.nn-poster .pk small{font-size:16px;color:#5A4A3E}
+.nn-poster .pk.g{background:#FFF8E6;border-color:#EBD9A6;border-top-color:#C9A13B}.nn-poster .pk.g b{color:#8A6A12}
+.nn-poster .plv{padding:20px 64px 0;display:flex;flex-direction:column;gap:9px}
+.nn-poster .plh{display:flex;align-items:baseline;gap:14px}.nn-poster .plh b{font-size:42px;font-weight:800;color:#2E7D4F}.nn-poster .plh span{font-size:24px;font-weight:700}
+.nn-poster .pst{display:flex;height:28px;border-radius:14px;overflow:hidden}.nn-poster .pst i{display:block;height:100%}
+.nn-poster .plg{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:16px;color:#4A3D33}.nn-poster .plg span{display:flex;align-items:center;gap:6px}.nn-poster .plg i{width:13px;height:13px;border-radius:7px;display:inline-block}
+.nn-poster .pbx{background:#FFFDF8;border:1.5px solid #E3D7C3;border-radius:18px;padding:16px 26px;display:flex;flex-direction:column;gap:6px}
+.nn-poster > .pbx{margin:20px 64px 0}
+.nn-poster h2{margin:0;font-size:26px;font-weight:700;color:#7A1F2B}
+.nn-poster .pbh{display:flex;justify-content:space-between;align-items:baseline}.nn-poster .pbh small{font-size:15px;color:#5A4A3E}
+.nn-poster .pbr{display:grid;grid-template-columns:250px 1fr 84px;gap:16px;align-items:center}.nn-poster .pbr span{font-size:18px;font-weight:500}.nn-poster .pbr b{font-size:20px;font-weight:800;color:#7A1F2B;text-align:left}
+.nn-poster .ptr{height:18px;background:#EDE4D4;border-radius:9px;overflow:hidden;display:flex}.nn-poster .ptr i{display:block;height:100%;border-radius:9px}
+.nn-poster .p2{padding:20px 64px 0;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.nn-poster .pgs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.nn-poster .pg{border:1.5px solid #E3D7C3;border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;align-items:center}.nn-poster .pg span{font-size:17px;font-weight:700}.nn-poster .pg b{font-size:30px;font-weight:800;color:#7A1F2B}.nn-poster .pg small{font-size:14px;color:#2E6B45}
+.nn-poster .pg.best{border:2px solid #C9A13B;background:#FFF8E6}
+.nn-poster .pva{margin-top:8px;border-top:1px solid #E3D7C3;padding-top:8px;display:flex;flex-direction:column;gap:3px}.nn-poster .pvh{font-size:16px;font-weight:700;color:#7A1F2B}.nn-poster .pvr{display:flex;justify-content:space-between;align-items:center;font-size:15px}.nn-poster .pvr bdi{font-size:18px;font-weight:800}.nn-poster .pv-up{color:#2E7D4F}.nn-poster .pv-dn{color:#B3322D}
+.nn-poster .pgr{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #E3D7C3;padding-bottom:6px}.nn-poster .pgr:last-child{border:0}
+.nn-poster .pgr small{display:block;font-size:14px;color:#5A4A3E}.nn-poster .pgr b{font-size:19px}.nn-poster .pgr em{font-style:normal;font-size:26px;font-weight:800}
+.nn-poster .c-lit{color:#7A1F2B}.nn-poster .c-sci{color:#2A5D8F}.nn-poster .c-oth{color:#8A6A12}
+.nn-poster .pf{margin-top:auto;background:#7A1F2B;padding:20px 64px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.nn-poster .pf b{display:block;font-size:27px;font-weight:800;color:#F3D68A}.nn-poster .pf span{font-size:16px;color:#EBDACB}
+.nn-poster .psg{display:flex;gap:36px}.nn-poster .psg div{display:flex;flex-direction:column;align-items:center}.nn-poster .psg small{font-size:14px;color:#EBDACB}.nn-poster .psg b{font-size:18px;color:#FAF3E6}
+.nn-poster .psrc{padding:8px 64px 10px;font-size:13px;color:#6E5F52;background:#F2EADC}
 @media screen and (max-width:960px){ .nn-read,.nn-grp{grid-template-columns:1fr} .nn-cards{grid-template-columns:1fr 1fr} }
 
 .sig-img{display:block;height:54px;max-width:170px;object-fit:contain;margin:4px auto 0}
@@ -1348,7 +1381,7 @@ const ico = k => `<svg viewBox="0 0 24 24">${ICON[k]||''}</svg>`;
 const NAV = [
   {g:'الرئيسية', items:[['my','مهامي','check']]},
   {g:'البيانات', items:[['data','الأعوام والملفات','upload'],['quality','جودة البيانات','shield'],['audit','سجل العمليات','history'],['settings','الإعدادات والأهداف','gear']]},
-  {g:'تقارير عامة', items:[['exec','لوحة القياس','gauge'],['committee','تقرير لجنة التحصيل','report'],['final','نتائج الدور الأول من 100','sheet'],['compare','مقارنة الصفوف والشعب','layers'],['years','مقارنة الأعوام الدراسية','cal'],['nn','تحليل الشبكة الوطنية','net'],['nnhonor','تكريم المتميزين','trophy']]},
+  {g:'تقارير عامة', items:[['exec','لوحة القياس','gauge'],['committee','تقرير لجنة التحصيل','report'],['final','نتائج الدور الأول من 100','sheet'],['compare','مقارنة الصفوف والشعب','layers'],['years','مقارنة الأعوام الدراسية','cal'],['nn','تحليل الشبكة الوطنية','net'],['nnhonor','تكريم المتميزين','trophy'],['nnposter','بوستر النتائج','trophy']]},
   {g:'المواد', items:[['subjects','تحليل المواد','book'],['tiers','تصنيف الطلاب','tiers'],['dist','توزيع الدرجات','dist'],['progress','تطور الأداء','trend']]},
   {g:'القسم', items:[['dept','تقارير القسم','report'],['deptcmp','مقارنة الأقسام','layers']]},
   {g:'الشعب والمعلمون', items:[['class','تقرير شعبة','cls'],['qd','التقرير الكمي والوصفي','report'],['plan','خطة تحسين الأداء','trend'],['growth','تحليل النمو','growth'],['teachers','تقارير المعلمين','user']]},
@@ -1365,7 +1398,7 @@ function RH(title, sub, meta){
       <div class="ttl"><h1>${esc(title)}</h1>${sub?`<p>${sub}</p>`:''}</div>
       <div class="meta">${m.map(([k,v])=>`<span>${esc(k)}</span><span><bdi>${esc(v)}</bdi></span>`).join('')}</div>
     </div>
-    ${['audit','quality','nn','nnhonor'].includes(st.page)?'':`<div class="basis">أساس الحساب: ${(st.page==='final'||(st.page==='years'?(st.ycPk==='year'||st.ycPk==='auto'):st.pk==='year'))?'درجات الدور الأول من 100 كما وردت في الملف الرسمي':'التقييم الرئيسي'}. نسب التحصيل والنجاح للطلاب الحاضرين فقط، ويُستبعد منها الغائب والمعذور والمحروم.</div>`}
+    ${['audit','quality','nn','nnhonor','nnposter'].includes(st.page)?'':`<div class="basis">أساس الحساب: ${(st.page==='final'||(st.page==='years'?(st.ycPk==='year'||st.ycPk==='auto'):st.pk==='year'))?'درجات الدور الأول من 100 كما وردت في الملف الرسمي':'التقييم الرئيسي'}. نسب التحصيل والنجاح للطلاب الحاضرين فقط، ويُستبعد منها الغائب والمعذور والمحروم.</div>`}
   </div>`;
 }
 let SEC_NO=0;
@@ -1524,7 +1557,7 @@ function renderNav(){
   let risk=0; if(d){ try{ risk=scope().filter(s=>riskOf(s,d,st.pk).score>=60).length; }catch(e){} }
   if(!me()){ $('#nav').innerHTML=''; return; }
   $('#nav').innerHTML = NAV.map(g=>({...g, items:g.items.filter(([id])=>canSee(id))})).filter(g=>g.items.length).map(g=>`<h4>${g.g}</h4>${g.items.map(([id,l,ic])=>{
-    const dis = !d && !['data','years','settings','audit','nn','nnhonor'].includes(id) && isFull();
+    const dis = !d && !['data','years','settings','audit','nn','nnhonor','nnposter'].includes(id) && isFull();
     const cnt = id==='risk' && risk ? `<span class="cnt">${risk}</span>` : '';
     return `<button data-act="nav" data-v="${id}" class="${st.page===id?'on':''}" ${dis?'disabled':''}>${ico(ic)}<span>${l}</span>${cnt}</button>`;
   }).join('')}`).join('');
@@ -1553,8 +1586,8 @@ function renderView(){
   if(!canSee(st.page)) st.page='exec';
   const d=D();
   if(!d && !isFull() && st.page!=='nn'){ $('#view').innerHTML=`<div class="sheet">${empty('لا توجد بيانات ضمن صلاحيتك', `<br>${esc(scopeMissing())}<br>اختر عاماً دراسياً آخر من الشريط العلوي، أو راجع مدير النظام.`)}</div>`; return; }
-  if(!d && !['data','years','settings','audit','nn','nnhonor'].includes(st.page)) st.page = canSee('data') ? 'data' : 'settings';
-  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent, my:pMy, growth:pGrowth, quality:pQuality, audit:pAudit, dept:pDept, deptcmp:pDeptCmp, certs:pCerts, nn:pNN, nnhonor:pNNHonor};
+  if(!d && !['data','years','settings','audit','nn','nnhonor','nnposter'].includes(st.page)) st.page = canSee('data') ? 'data' : 'settings';
+  const P={data:pData, settings:pSettings, committee:pCommittee, range:pRange, qd:pQD, plan:pPlan, export:pExport, exec:pExec, final:pFinal, compare:pCompare, years:pYears, subjects:pSubjects, tiers:pTiers, dist:pDist, progress:pProgress, class:pClass, teachers:pTeachers, honor:pHonor, risk:pRisk, student:pStudent, my:pMy, growth:pGrowth, quality:pQuality, audit:pAudit, dept:pDept, deptcmp:pDeptCmp, certs:pCerts, nn:pNN, nnhonor:pNNHonor, nnposter:pNNPoster};
   let html;
   try{ html=P[st.page](); }catch(e){ console.error(e); html=`<div class="sheet">${empty('تعذّر إنشاء التقرير', `<br><small>${esc(e.message)}</small>`)}</div>`; }
   $('#view').innerHTML=html;
@@ -2161,8 +2194,8 @@ const ROLES = {
   admin:     {label:'مدير النظام',      deny:[]},
   principal: {label:'مدير المدرسة',     deny:['data','audit']},
   vp:        {label:'النائب الأكاديمي',  deny:['data','audit']},
-  coord:     {label:'منسق مادة',        deny:['data','settings','quality','audit','nnhonor']},
-  teacher:   {label:'معلم',             deny:['data','settings','quality','audit','dept','deptcmp','nnhonor']},
+  coord:     {label:'منسق مادة',        deny:['data','settings','quality','audit','nnhonor','nnposter']},
+  teacher:   {label:'معلم',             deny:['data','settings','quality','audit','dept','deptcmp','nnhonor','nnposter']},
 };
 const FULL_ROLES = ['admin','principal','vp'];
 const EMERGENCY = {u:'admin', n:'مدير النظام (حساب الطوارئ)', r:'admin', s:'', emergency:true};
@@ -5405,9 +5438,9 @@ if(typeof JSZip!=='undefined' && !JSZip.prototype.__sig){ const _gen=JSZip.proto
 // الشبكة الوطنية: رفع تقارير الشبكة لكل تقرير وكل عام، وتقرير تحليلي احترافي
 // بالرسوم والقراءات والإحصاءات، وتقرير تكريم المتميزين بعد كل تقييم
 // ===================================================================
-const NN_REPORTS = [['r1','التقرير الأول','mid1'],['r2','التقرير الثاني','end1'],['r3','التقرير الثالث','mid2'],['r4','التقرير الرابع','end2'],['final','تقرير نهاية العام','year']];
-const NN_RLABEL = Object.fromEntries(NN_REPORTS.map(x=>[x[0],x[1]]));
-const NN_RSHORT = {r1:'الأول', r2:'الثاني', r3:'الثالث', r4:'الرابع', final:'نهاية العام'};
+const NN_REPORTS = [['r1','التقرير الأول','mid1'],['r2','التقرير الثاني','end1'],['r3','التقرير الثالث','mid2'],['r4','التقرير الرابع','end2'],['final','النتائج النهائية للعام','year']];
+const NN_RLABEL = Object.fromEntries(NN_REPORTS.map(x=>[x[0],x[1]])); NN_RLABEL.all='التقرير المجمّع للعام';
+const NN_RSHORT = {r1:'الأول', r2:'الثاني', r3:'الثالث', r4:'الرابع', final:'النهائي', all:'المجمّع'};
 const NN_TYPES = {school:'المدرسة', grade:'الصفوف', section:'الشعب', teacher:'المعلمون', cats:'أعداد الطلاب حسب التصنيف', students:'درجات الطلاب التفصيلية', other:'تقرير إضافي'};
 const NN_CATS = ['ممتاز','جيد جداً','جيد','مقبول','ضعيف','ضعيف جداً'];
 const NN_CCOL = {'ممتاز':'#1d7a4e','جيد جداً':'#5a9e57','جيد':'#2a62a6','مقبول':'#c9a13b','ضعيف':'#d07a24','ضعيف جداً':'#b3322d'};
@@ -5530,7 +5563,35 @@ const nnVA = (y=currentYear) => (YEARS[y]&&YEARS[y].cards.nn&&YEARS[y].cards.nn.
 
 // ---------- التخزين (داخل بيانات العام، ويُنقل مع النسخة الاحتياطية) ----------
 const nnStore = y => { const Y=YEARS[y]; if(!Y) return null; if(!Y.cards.nn) Y.cards.nn={files:[], sheets:[], reports:{}}; return Y.cards.nn; };
-const nnRep = (y=currentYear) => (YEARS[y]&&YEARS[y].cards.nn&&YEARS[y].cards.nn.reports)||{};
+const nnRepRaw = (y=currentYear) => (YEARS[y]&&YEARS[y].cards.nn&&YEARS[y].cards.nn.reports)||{};
+// النتائج النهائية: إن لم يُرفع تقرير نهائي، تُحسب من درجات الطلاب في التقارير الأربعة (مجموع العلامات ÷ مجموع الدرجات العظمى)
+const NN_FINAL_CACHE={};
+function nnFinalCalc(y){
+  const R=nnRepRaw(y), ks=['r1','r2','r3','r4']; if(!ks.every(k=>R[k]&&R[k].students)) return null;
+  const S_=ks.map(k=>R[k].students.ex||R[k].students.all); const sig=y+'|'+S_.map(x=>x.students.length).join(',')+'|'+ks.map(k=>R[k].teacher?1:0).join('');
+  if(NN_FINAL_CACHE[y]&&NN_FINAL_CACHE[y].sig===sig) return NN_FINAL_CACHE[y].F;
+  // الدرجة العظمى لكل تقرير/صف/مادة = القيمة الأكثر تكراراً لـ (العلامة ÷ النسبة)
+  const mx={}; S_.forEach((X,i)=>X.students.forEach(s=>{ if(s[3]>0&&s[4]!=null){ const k=i+'|'+String(s[1]).split('/')[0]+'|'+s[2], m=Math.round(s[4]/s[3]*1000)/10; (mx[k]=mx[k]||{})[m]=(mx[k][m]||0)+1; } }));
+  const mxOf=k=>{ const o=mx[k]; if(!o) return null; return +Object.entries(o).sort((a,b)=>b[1]-a[1])[0][0]; };
+  const by={}; S_.forEach((X,i)=>X.students.forEach(s=>{ if(s[3]==null) return; const mm=s[4]!=null&&s[3]>0?s[4]/s[3]*100:mxOf(i+'|'+String(s[1]).split('/')[0]+'|'+s[2]); if(!mm) return; const mark=s[4]!=null?s[4]:s[3]*mm/100; const k=s[0]+'|'+s[1]+'|'+s[2]; const o=by[k]=by[k]||{n:s[0],c:s[1],l:s[2],m:0,M:0}; o.m+=mark; o.M+=mm; }));
+  const students=Object.values(by).map(o=>[o.n,o.c,o.l,nnR2(o.m/o.M*100),nnR2(o.m),'']);
+  const agg=a=>({ach:nnR2(avg(a)), pass:nnR2(a.filter(v=>v>=50).length/a.length*100)});
+  const gOf=c=>+String(c).split('/')[0]||null;
+  const bySec={}, byGL={}, byL={}; students.forEach(s=>{ (bySec[s[1]+'|'+s[2]]=bySec[s[1]+'|'+s[2]]||[]).push(s[3]); (byGL[gOf(s[1])+'|'+s[2]]=byGL[gOf(s[1])+'|'+s[2]]||[]).push(s[3]); (byL[s[2]]=byL[s[2]]||[]).push(s[3]); });
+  const sections=Object.entries(bySec).map(([k,a])=>{ const [cls,l]=k.split('|'); return {g:gOf(cls), l, sec:String(+String(cls).split('/')[1]), cls, ...agg(a)}; });
+  const gs=[...new Set(sections.map(s=>s.g))].sort();
+  const grades=gs.map(g=>({g, total:false, subj:Object.fromEntries(Object.keys(byL).filter(l=>byGL[g+'|'+l]).map(l=>[l,agg(byGL[g+'|'+l])]))})).concat([{g:null,total:true,subj:Object.fromEntries(Object.entries(byL).map(([l,a])=>[l,agg(a)]))}]);
+  const subjT=Object.values(grades[grades.length-1].subj), sAch=avg(subjT.map(x=>x.ach)), sPass=avg(subjT.map(x=>x.pass));
+  const cls=sAch>=90?'ممتاز':sAch>=80?'جيد جداً':sAch>=70?'جيد':sAch>=60?'مقبول':'ضعيف';
+  // المعلمون: آخر تقرير يُسند فيه المعلم للشعبة
+  const tmap={}; ks.forEach(k=>{ const T_=R[k].teacher&&(R[k].teacher.ex||R[k].teacher.all); if(T_) T_.teachers.forEach(t=>t.secs.forEach(x=>{ tmap[t.l+'|'+x.cls]={name:t.name,l:t.l,g:t.g}; })); });
+  const tb={}; Object.entries(tmap).forEach(([k,t])=>{ const sc=sections.find(x=>x.l+'|'+x.cls===k); if(!sc) return; const kk=norm(t.name)+'|'+t.l+'|'+t.g; (tb[kk]=tb[kk]||{name:t.name,l:t.l,g:t.g,secs:[]}).secs.push({sec:sc.sec,cls:sc.cls,pass:sc.pass,ach:sc.ach}); });
+  const teachers=Object.values(tb).map(t=>({...t, total:{pass:nnR2(avg(t.secs.map(x=>x.pass))), ach:nnR2(avg(t.secs.map(x=>x.ach)))}}));
+  const W=o=>({ex:{...o, variant:'ex', report:'final', year:y, computed:true}});
+  const F={__virtual:true, school:W({type:'school',school:{pass:nnR2(sPass),ach:nnR2(sAch),cls}}), grade:W({type:'grade',grades}), section:W({type:'section',sections}), teacher:W({type:'teacher',teachers}), students:W({type:'students',students})};
+  NN_FINAL_CACHE[y]={sig,F}; return F;
+}
+const nnRep = (y=currentYear) => { const R=nnRepRaw(y); if(R.final) return R; const F=nnFinalCalc(y); return F?{...R, final:F}:R; };
 let NN_MSG=null;
 async function nnUpload(files){
   if(!canSee('data') || !files.length) return;
@@ -5725,8 +5786,8 @@ function nnSigs(){
 // ---------- لوحة الرفع ----------
 function nnUploadPanel(){
   if(!canSee('data')) return '';
-  const years=[...new Set([...Object.keys(YEARS).filter(y=>Object.keys(nnRep(y)).length||nnVA(y))])].sort();
-  const rows=years.flatMap(y=>NN_REPORTS.filter(x=>nnRep(y)[x[0]]).map(([k,l])=>{ const types=Object.entries(nnRep(y)[k]); return `<tr${y===currentYear?' class="cur"':''}><td><bdi dir="ltr">${esc(y)}</bdi></td><td class="l"><b>${l}</b></td><td class="l" style="white-space:normal">${types.map(([t,v])=>`${esc(t.startsWith('other_')?(v.ex||v.all).title:NN_TYPES[t])} <small class="c-mut">(${[v.ex?'دون الغائبين':'',v.all?'مع الغائبين':''].filter(Boolean).join(' + ')})</small>`).join('، ')}</td><td><button class="btn sm danger" data-act="nndel" data-v="${esc(y+'|'+k)}">حذف</button></td></tr>`; }).concat(nnVA(y)?[`<tr${y===currentYear?' class="cur"':''}><td><bdi dir="ltr">${esc(y)}</bdi></td><td class="l"><b>القيمة المضافة</b></td><td class="l" style="white-space:normal">${Object.entries(nnVA(y)).map(([lv,p])=>`حسب ${lv==='school'?'المدرسة':lv==='grade'?'الصفوف':'الشعب'} <small class="c-mut">(${NN_PAIRS.filter(([k])=>p.rows.some(r=>r.v[k]!=null)).map(([,l])=>l).join('، ')||'لا قيم'})</small>`).join('، ')}</td><td><button class="btn sm danger" data-act="nndel" data-v="${esc(y+'|va')}">حذف</button></td></tr>`]:[])).join('');
+  const years=[...new Set([...Object.keys(YEARS).filter(y=>Object.keys(nnRepRaw(y)).length||nnVA(y))])].sort();
+  const rows=years.flatMap(y=>NN_REPORTS.filter(x=>nnRepRaw(y)[x[0]]).map(([k,l])=>{ const types=Object.entries(nnRepRaw(y)[k]); return `<tr${y===currentYear?' class="cur"':''}><td><bdi dir="ltr">${esc(y)}</bdi></td><td class="l"><b>${l}</b></td><td class="l" style="white-space:normal">${types.map(([t,v])=>`${esc(t.startsWith('other_')?(v.ex||v.all).title:NN_TYPES[t])} <small class="c-mut">(${[v.ex?'دون الغائبين':'',v.all?'مع الغائبين':''].filter(Boolean).join(' + ')})</small>`).join('، ')}</td><td><button class="btn sm danger" data-act="nndel" data-v="${esc(y+'|'+k)}">حذف</button></td></tr>`; }).concat(nnVA(y)?[`<tr${y===currentYear?' class="cur"':''}><td><bdi dir="ltr">${esc(y)}</bdi></td><td class="l"><b>القيمة المضافة</b></td><td class="l" style="white-space:normal">${Object.entries(nnVA(y)).map(([lv,p])=>`حسب ${lv==='school'?'المدرسة':lv==='grade'?'الصفوف':'الشعب'} <small class="c-mut">(${NN_PAIRS.filter(([k])=>p.rows.some(r=>r.v[k]!=null)).map(([,l])=>l).join('، ')||'لا قيم'})</small>`).join('، ')}</td><td><button class="btn sm danger" data-act="nndel" data-v="${esc(y+'|va')}">حذف</button></td></tr>`]:[])).join('');
   return `<div class="panel noprint" style="max-width:1160px;margin:0 auto 12px"><h3>ملفات الشبكة الوطنية</h3>
     <p class="note" style="margin-top:0">ارفع ملفات Excel المنزّلة من الشبكة كما هي (كلها معاً). يتعرّف النظام تلقائياً على <b>العام</b> و<b>رقم التقرير</b> و<b>نوعه</b> و<b>نسخة الاحتساب</b>؛ فتُحفظ تقارير العام الماضي في عامها، وتُحفظ تقارير القيمة المضافة وأي تقرير جديد وتُعرض.</p>
     <div class="range-form"><label>إذا لم يُذكر رقم التقرير في الملف <select data-set="nnUp">${NN_REPORTS.map(([k,l])=>`<option value="${k}" ${st.nnUp===k?'selected':''}>${l}</option>`).join('')}</select></label>
@@ -5740,12 +5801,13 @@ function pNN(){
   const ks=Object.keys(nnRep()).sort(nnOrd); st.nnV=st.nnV||'ex';
   const head0=RH('تقرير تحليل نتائج الشبكة الوطنية','',[['العام الدراسي',currentYear],['تاريخ الإصدار',TODAY]]);
   if(!ks.length) return nnUploadPanel()+`<div class="sheet">${head0}${empty('لم تُرفع تقارير الشبكة الوطنية لهذا العام بعد', canSee('data')?'<br>ارفع الملفات من اللوحة أعلاه.':'<br>يرفعها مدير النظام، ثم تصل إليك مع النسخة الاحتياطية.')}</div>`;
+  if(ks.filter(k=>k!=='final').length>=2 && st.nnR==='all') return pNNAll(ks);
   if(!ks.includes(st.nnR)) st.nnR=ks[ks.length-1];
   const rk=st.nnR, M=nnModel(rk), pk=nnPrevKey(rk), P=pk?nnModel(pk):null, py=nnPrevYear(rk), PY=py?nnModel(rk,py):null, F=nnReading(M,P,PY), f=x=>pc(x);
   if(!M.subjects.length && !M.sections.length) return nnUploadPanel()+`<div class="sheet">${head0}${empty('لا توجد بيانات ضمن صلاحيتك في هذا التقرير', role()==='teacher'?'<br>يجب أن يطابق اسمك اسمك في تقرير المعلمين بالشبكة.':'')}</div>`;
-  const tools=`<div class="r-tools noprint"><label class="f">التقرير <select data-set="nnR">${ks.map(k=>`<option value="${k}" ${k===rk?'selected':''}>${NN_RLABEL[k]}</option>`).join('')}</select></label>
+  const tools=`<div class="r-tools noprint"><label class="f">التقرير ${nnRSel(ks,rk)}</label>
     <label class="f">الاحتساب <select data-set="nnV"><option value="ex" ${st.nnV==='ex'?'selected':''}>دون المنقطعين والغائبين</option><option value="all" ${st.nnV==='all'?'selected':''}>مع المنقطعين والغائبين</option></select></label>
-    <span class="sp"></span><button class="btn sm pri" data-act="nnword">${ico('report')}تنزيل Word</button><button class="btn sm" data-act="nnpdf">${ico('download')}تنزيل PDF</button></div>`;
+    <span class="sp"></span>${isFull()?`<button class="btn sm" data-act="nav" data-v="nnposter">${ico('trophy')}بوستر التقرير</button>`:''}<button class="btn sm pri" data-act="nnword">${ico('report')}تنزيل Word</button><button class="btn sm" data-act="nnpdf">${ico('download')}تنزيل PDF</button></div>`;
   const S2=(t,b,h='')=>sec(t,b,h);
   let h='';
   const S=M.sum, C=nnCatAgg(M.cats), k=[];
@@ -5826,6 +5888,147 @@ function pNN(){
   h+=`<div class="keep">${nnSigs()}</div>`;
   return nnUploadPanel() + `<div class="sheet">${RH('تقرير تحليل نتائج الشبكة الوطنية', `${NN_RLABEL[rk]} — ${st.nnV==='ex'?'دون احتساب المنقطعين والغائبين':'مع احتساب المنقطعين والغائبين'}`, [['العام الدراسي',currentYear],['التقرير',NN_RLABEL[rk]],['النطاق',nnScopeName()],['تاريخ الإصدار',TODAY]])}${tools}${h}</div>`;
 }
+
+// ---------- اختيار التقرير (مع التقرير المجمّع) ----------
+function nnRSel(ks, rk, withAll=true){
+  const real=ks.filter(k=>k!=='final');
+  const opts=ks.map(k=>`<option value="${k}" ${k===rk?'selected':''}>${NN_RLABEL[k]}${k==='final'&&nnRep()[k]&&nnRep()[k].__virtual?' (محسوبة)':''}</option>`);
+  if(withAll && real.length>=2) opts.push(`<option value="all" ${rk==='all'?'selected':''}>${NN_RLABEL.all}</option>`);
+  return `<select data-set="nnR">${opts.join('')}</select>`;
+}
+
+// ---------- التقرير المجمّع لجميع تقارير العام ----------
+function pNNAll(ksIn){
+  const ks=ksIn.filter(k=>k!=='final'), hasF=ksIn.includes('final');
+  const Ms=ks.map(k=>nnModel(k)), MF=hasF?nnModel('final'):null, last=Ms[Ms.length-1], first=Ms[0];
+  const sg=d=>(d>0?'+':'')+r1(d), f=x=>pc(x), d2=(a,b)=>a!=null&&b!=null?a-b:null, dc=d=>d==null?'':d>=0?'c-exc':'c-fail';
+  const S2=(t,b,h='')=>sec(t,b,h);
+  const tools=`<div class="r-tools noprint"><label class="f">التقرير ${nnRSel(ksIn,'all')}</label><span class="sp"></span>${isFull()?`<button class="btn sm" data-act="nav" data-v="nnposter">${ico('trophy')}بوستر التقرير</button>`:''}<button class="btn sm pri" data-act="nnword">${ico('report')}تنزيل Word</button><button class="btn sm" data-act="nnpdf">${ico('download')}تنزيل PDF</button></div>`;
+  let h='';
+  const ref=MF||last, k=[];
+  if(ref.sum){ k.push(kpi(MF?'التحصيل النهائي':'تحصيل آخر تقرير',f(ref.sum.ach),`المستهدف ${ref.TS.ach}%`,ref.sum.ach>=ref.TS.ach?'exc':'weak')); k.push(kpi(MF?'النجاح النهائي':'نجاح آخر تقرير',f(ref.sum.pass),`المستهدف ${ref.TS.pass}%`,ref.sum.pass>=ref.TS.pass?'exc':'weak')); }
+  if(ref.sum&&ref.sum.cls) k.push(kpi('التصنيف',esc(ref.sum.cls),MF?'للنتائج النهائية':NN_RLABEL[last.rk],'exc'));
+  const best=[...Ms].filter(m=>m.sum).sort((a,b)=>b.sum.ach-a.sum.ach)[0]; if(best) k.push(kpi('أعلى تقرير تحصيلاً',NN_RSHORT[best.rk],f(best.sum.ach),'exc'));
+  if(first.sum&&last.sum&&first!==last){ const d=last.sum.ach-first.sum.ach; k.push(kpi(`من ${NN_RSHORT[first.rk]} إلى ${NN_RSHORT[last.rk]}`,sgn(d),'التغيّر في التحصيل',d>=0?'exc':'fail')); }
+  h+=`<div class="kpis">${k.join('')}</div>`;
+  // ملخص تنفيذي
+  const subsAll=[...new Set(Ms.flatMap(m=>m.subjects.map(s=>s.l)))];
+  const sv=(m,l)=>{ const s=m&&m.subjects.find(x=>x.l===l); return s?s:null; };
+  const dsub=subsAll.map(l=>({l, d:d2(sv(last,l)?.ach, sv(first,l)?.ach), fin:sv(MF,l)?.ach})).filter(x=>x.d!=null).sort((a,b)=>b.d-a.d);
+  let ex=`يجمع هذا التقرير نتائج ${nnScopeName()} في ${ks.length} تقارير للشبكة الوطنية للعام ${currentYear}${MF?' مع النتائج النهائية للعام':''}.`;
+  if(Ms.every(m=>m.sum)) ex+=` تراوحت نسبة التحصيل بين ${f(Math.min(...Ms.map(m=>m.sum.ach)))} و${f(Math.max(...Ms.map(m=>m.sum.ach)))}، ونسبة النجاح بين ${f(Math.min(...Ms.map(m=>m.sum.pass)))} و${f(Math.max(...Ms.map(m=>m.sum.pass)))}.`;
+  if(MF&&MF.sum) ex+=` بلغت النتيجة النهائية ${f(MF.sum.ach)} تحصيلاً و${f(MF.sum.pass)} نجاحاً${MF.sum.cls?` بتصنيف "${MF.sum.cls}"`:''}.`;
+  if(dsub.length>1) ex+=` أكثر المواد تحسناً بين ${NN_RLABEL[first.rk]} و${NN_RLABEL[last.rk]}: ${dsub[0].l} (${sg(dsub[0].d)})، وأكثرها تراجعاً: ${dsub[dsub.length-1].l} (${sg(dsub[dsub.length-1].d)}).`;
+  h+=`<div class="nn-exec"><b>الملخص التنفيذي</b><p>${esc(ex)}</p></div>`;
+  // ملخص التقارير
+  const fullP=m=>{ const a=m.students.filter(s=>s[3]!=null); return a.length?a.filter(s=>s[3]>=99.99).length/a.length*100:null; };
+  const catP=(m,cs)=>{ const C=nnCatAgg(m.cats); return C.n?cs.reduce((a,c)=>a+C.o[c],0)/C.n*100:null; };
+  const allM=MF?[...Ms,MF]:Ms, lab=m=>m.rk==='final'?'النتائج النهائية':NN_RLABEL[m.rk];
+  h+=S2('ملخص التقارير', `<figure class="chart"><figcaption>نسبة التحصيل والنجاح عبر تقارير العام</figcaption>${lineChart([{name:'نسبة التحصيل',data:Ms.map(m=>m.sum&&m.sum.ach),color:CC.navy},{name:'نسبة النجاح',data:Ms.map(m=>m.sum&&m.sum.pass),color:CC.green}], Ms.map(m=>NN_RSHORT[m.rk]))}</figure>`
+    + T('<th class="l">التقرير</th><th>التحصيل</th><th>النجاح</th><th>التصنيف</th><th>ممتاز</th><th>ضعيف وضعيف جداً</th><th>الدرجة الكاملة</th><th>التغيّر في التحصيل</th>', allM.map((m,i)=>{ const p=i>0&&m.rk!=='final'?Ms[i-1]:null, d=p&&m.sum&&p.sum?m.sum.ach-p.sum.ach:null;
+      return `<tr${m.rk==='final'?' class="cur"':''}><td class="l"><b>${lab(m)}</b></td><td class="${toneCls(m.sum&&m.sum.ach)}"><b>${f(m.sum&&m.sum.ach)}</b></td><td>${f(m.sum&&m.sum.pass)}</td><td>${esc(m.sum&&m.sum.cls||'—')}</td><td>${f(catP(m,['ممتاز']))}</td><td>${f(catP(m,['ضعيف','ضعيف جداً']))}</td><td>${f(fullP(m))}</td><td class="${dc(d)}">${d==null?'—':sgn(d)}</td></tr>`; }).join(''),'','dense')
+    + (MF&&nnRep()['final'].__virtual?'<p class="note">النتائج النهائية محسوبة من درجات الطلاب في التقارير الأربعة: مجموع علامات الطالب في المادة ÷ مجموع الدرجات العظمى (بدون الأنشطة)، ثم التحصيل = متوسط نسب الطلاب، والنجاح = نسبة من حصلوا على 50% فأكثر — بالطريقة نفسها التي تحسب بها الشبكة كل تقرير.</p>':''));
+  // المواد عبر التقارير
+  const COLS=['#c9a13b','#2a62a6','#1d7a4e','#7a1f2b','#5b4a8a'];
+  const subs=[...subsAll].sort((a,b)=>(sv(ref,b)?.ach??-1)-(sv(ref,a)?.ach??-1));
+  h+=S2('المواد عبر التقارير', colChart(subs.map(nnSL), allM.map((m,i)=>({name:lab(m), color:m.rk==='final'?'#3a2a1a':COLS[i%COLS.length], data:subs.map(l=>sv(m,l)?.ach??null)})), {H:300, title:'نسبة التحصيل لكل مادة في كل تقرير'})
+    + T('<th class="l">المادة</th>'+allM.map(m=>`<th>${m.rk==='final'?'النهائي':NN_RSHORT[m.rk]}</th>`).join('')+`<th>من ${NN_RSHORT[first.rk]} إلى ${NN_RSHORT[last.rk]}</th>`, subs.map(l=>{ const d=d2(sv(last,l)?.ach, sv(first,l)?.ach); return `<tr><td class="l">${esc(l)}</td>${allM.map(m=>{ const v=sv(m,l)?.ach; return `<td class="h ${heat(v)}">${nf(v)}</td>`; }).join('')}<td class="${dc(d)}"><b>${sgn(d)}</b></td></tr>`; }).join(''),'','heat')+LEG_HEAT);
+  // الصفوف عبر التقارير
+  const gs=[...new Set(Ms.flatMap(m=>m.grades))].filter(Boolean).sort();
+  const gAvg=(m,g)=>m?avg(m.subjects.map(s=>(s.byG.find(x=>x.g===g)||{}).ach).filter(v=>v!=null)):null;
+  if(gs.length>1) h+=S2('الصفوف عبر التقارير', T('<th class="l">الصف</th>'+allM.map(m=>`<th>${m.rk==='final'?'النهائي':NN_RSHORT[m.rk]}</th>`).join('')+'<th>التغيّر</th>', gs.map(g=>{ const d=d2(gAvg(last,g),gAvg(first,g)); return `<tr><td class="l">الصف ${GRADE_AR[g]||g}</td>${allM.map(m=>{ const v=gAvg(m,g); return `<td class="h ${heat(v)}">${nf(v)}</td>`; }).join('')}<td class="${dc(d)}"><b>${sgn(d)}</b></td></tr>`; }).join(''),'','heat')
+    + T('<th class="l">المادة</th>'+gs.map(g=>`<th>${GRADE_AR[g]||g}<br><small>${NN_RSHORT[first.rk]} ← ${NN_RSHORT[last.rk]}</small></th>`).join(''), subs.map(l=>`<tr><td class="l">${esc(l)}</td>${gs.map(g=>{ const a=(sv(first,l)?.byG||[]).find(x=>x.g===g)?.ach, b=(sv(last,l)?.byG||[]).find(x=>x.g===g)?.ach, d=d2(b,a); return `<td class="${dc(d)}">${nf(b)} <small>(${sgn(d)})</small></td>`; }).join('')}</tr>`).join(''),'','dense'));
+  // الشعب: الأكثر تحسناً وتراجعاً، والمتكرر دون المستهدف
+  const sk=s=>s.l+'|'+s.cls, sm=Ms.map(m=>Object.fromEntries(m.sections.map(s=>[sk(s),s])));
+  const keys=[...new Set(Ms.flatMap(m=>m.sections.map(sk)))];
+  const ch=keys.map(k=>{ const a=sm[0][k], b=sm[sm.length-1][k]; return a&&b&&a.ach!=null&&b.ach!=null?{k, cls:b.cls, l:b.l, a:a.ach, b:b.ach, d:b.ach-a.ach}:null; }).filter(Boolean).sort((x,y)=>y.d-x.d);
+  if(ch.length>6){ const n=Math.min(10,Math.floor(ch.length/2)), tb=a=>T('<th>الشعبة</th><th class="l">المادة</th>'+ks.map(x=>`<th>${NN_RSHORT[x]}</th>`).join('')+'<th>التغيّر</th>', a.map(x=>`<tr><td><b>${esc(x.cls)}</b></td><td class="l">${esc(x.l)}</td>${sm.map(m=>`<td>${nf(m[x.k]&&m[x.k].ach)}</td>`).join('')}<td class="${dc(x.d)}"><b>${sgn(x.d)}</b></td></tr>`).join(''),'','dense');
+    h+=S2(`الشعب من ${NN_RLABEL[first.rk]} إلى ${NN_RLABEL[last.rk]}`, `<div class="sub-h nn-gtitle">الأكثر تحسناً</div>${tb(ch.slice(0,n))}<div class="sub-h nn-gtitle">الأكثر تراجعاً</div>${tb(ch.slice(-n).reverse())}`); }
+  const persist=keys.map(k=>{ const rows=sm.map(m=>m[k]).filter(Boolean); const below=rows.filter(s=>s.ach<targetOf(s.l).ach||s.pass<targetOf(s.l).pass).length; return below>=Math.max(2,Math.ceil(ks.length*0.75))?{k,s:rows[rows.length-1],below}:null; }).filter(Boolean).sort((a,b)=>b.below-a.below||a.s.ach-b.s.ach);
+  if(persist.length) h+=S2(`شعب دون المستهدف بشكل متكرر (${persist.length})`, T('<th>الشعبة</th><th class="l">المادة</th>'+ks.map(x=>`<th>${NN_RSHORT[x]}</th>`).join('')+'<th>مرات دون المستهدف</th>', persist.map(x=>`<tr><td><b>${esc(x.s.cls)}</b></td><td class="l">${esc(x.s.l)}</td>${sm.map(m=>{ const v=m[x.k]; return `<td class="${v&&v.ach<targetOf(v.l).ach?'c-fail':''}">${nf(v&&v.ach)}</td>`; }).join('')}<td class="c-fail"><b>${x.below} من ${ks.length}</b></td></tr>`).join(''),'','dense')+'<p class="note">شعب كانت دون مستهدف التحصيل أو النجاح في ثلاثة أرباع التقارير على الأقل؛ أولوية للخطط العلاجية.</p>');
+  // المعلمون عبر التقارير
+  const tA=m=>{ const by={}; m.teachers.forEach(t=>{ const kk=norm(t.name)+'|'+t.l; const o=by[kk]=by[kk]||{name:t.name,l:t.l,secs:[]}; o.secs.push(...t.secs); }); return Object.fromEntries(Object.entries(by).map(([kk,o])=>[kk,{...o, ach:avg(o.secs.map(x=>x.ach).filter(v=>v!=null))}])); };
+  const TA=allM.map(tA), tk=[...new Set(TA.flatMap(o=>Object.keys(o)))];
+  if(tk.length){ const depts=[...new Set(tk.map(x=>x.split('|')[1]))].sort((a,b)=>a.localeCompare(b,'ar'));
+    h+=S2(role()==='teacher'?'نتائجي عبر التقارير':'المعلمون عبر التقارير', depts.map(l=>{ const rows=tk.filter(x=>x.split('|')[1]===l).map(x=>({x, o:TA.find(o=>o[x])[x], v:TA.map(o=>o[x]?o[x].ach:null)})).sort((a,b)=>((b.v[b.v.length-1]??b.v[ks.length-1])??-1)-((a.v[a.v.length-1]??a.v[ks.length-1])??-1));
+      return `<div class="sub-h nn-dhd">قسم ${esc(l)} <small>— ${rows.length} معلمين</small></div>`+T('<th class="l">المعلم</th>'+allM.map(m=>`<th>${m.rk==='final'?'النهائي':NN_RSHORT[m.rk]}</th>`).join('')+`<th>من ${NN_RSHORT[first.rk]} إلى ${NN_RSHORT[last.rk]}</th>`, rows.map(r=>{ const d=d2(r.v[ks.length-1],r.v[0]); return `<tr><td class="nm">${esc(r.o.name)}</td>${r.v.map(v=>`<td class="h ${heat(v)}">${nf(v)}</td>`).join('')}<td class="${dc(d)}"><b>${sgn(d)}</b></td></tr>`; }).join(''),'','heat dense'); }).join('')+'<p class="note">تحصيل المعلم = متوسط نسب التحصيل في شعبه بالمادة في كل تقرير.</p>'); }
+  // المستويات عبر التقارير
+  if(allM.some(m=>m.cats.length)) h+=S2('مستويات الطلاب عبر التقارير', `<div class="nn-snap nn-catbox"><div class="nn-dist">${allM.map(m=>{ const a=nnCatAgg(m.cats); return a.n?`<div class="nn-dr"><span class="lb">${lab(m)}</span>${nnCatBar(a)}<span class="vl">${a.n}</span></div>`:''; }).join('')}</div>${NN_LEG}</div>`
+    + T('<th class="l">التقرير</th>'+NN_CATS.map(c=>`<th>${c}</th>`).join(''), allM.map(m=>{ const a=nnCatAgg(m.cats); return a.n?`<tr><td class="l">${lab(m)}</td>${NN_CATS.map(c=>`<td>${a.o[c]}<br><small class="c-mut">${r1(a.o[c]/a.n*100)}%</small></td>`).join('')}</tr>`:''; }).join(''),'','dense'));
+  // القيمة المضافة كاملة
+  const va=nnVASection({...last, rk:'final'}); if(va) h+=S2('القيمة المضافة عبر التقارير', va);
+  // القراءة
+  const pos=[], neg=[], rec=[];
+  dsub.filter(x=>x.d>=1).slice(0,3).forEach(x=>pos.push(`تحسّن ${x.l} بمقدار ${r1(x.d)} نقطة بين ${NN_RLABEL[first.rk]} و${NN_RLABEL[last.rk]}.`));
+  dsub.filter(x=>x.d<=-1).reverse().slice(0,3).forEach(x=>neg.push(`تراجع ${x.l} بمقدار ${r1(Math.abs(x.d))} نقطة بين ${NN_RLABEL[first.rk]} و${NN_RLABEL[last.rk]}.`));
+  const stable=subsAll.filter(l=>Ms.every(m=>{ const s=sv(m,l); return s&&s.ach>=s.t.ach&&s.pass>=s.t.pass; })); if(stable.length) pos.push(`مواد حققت المستهدف في جميع التقارير: ${stable.join('، ')}.`);
+  const unst=subsAll.filter(l=>Ms.some(m=>{ const s=sv(m,l); return s&&!(s.ach>=s.t.ach&&s.pass>=s.t.pass); })); if(unst.length) neg.push(`مواد كانت دون المستهدف في تقرير واحد على الأقل: ${unst.join('، ')}.`);
+  if(persist.length) neg.push(`${persist.length} نتيجة شعبة دون المستهدف بشكل متكرر.`);
+  unst.forEach(l=>rec.push(`متابعة خطة ${l} العلاجية للعام القادم بناءً على التقارير التي لم يتحقق فيها المستهدف.`));
+  if(persist.length) rec.push('زيارات صفية ودعم مركّز للشعب المتكرر انخفاضها، وتبادل الخبرات مع الشعب الأكثر تحسناً.');
+  rec.push('توظيف هذا التقرير المجمّع في خطة التحسين المدرسية ومستهدفات العام القادم.');
+  const ul=a=>a.length?`<ul class="ul">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="note">لا يوجد.</p>';
+  h+=S2('قراءة وتحليل', `<div class="nn-read"><div class="pos"><div class="sub-h">جوانب القوة</div>${ul(pos)}</div><div class="neg"><div class="sub-h">جوانب تحتاج إلى تحسين</div>${ul(neg)}</div></div><div class="sub-h">التوصيات</div>${ul(rec)}`);
+  h+=`<div class="keep">${nnSigs()}</div>`;
+  return nnUploadPanel() + `<div class="sheet">${RH('التقرير المجمّع لنتائج الشبكة الوطنية', `${ks.map(x=>NN_RSHORT[x]).join(' · ')}${MF?' · النتائج النهائية':''} — دون احتساب المنقطعين والغائبين`, [['العام الدراسي',currentYear],['التقارير',String(ks.length)],['النطاق',nnScopeName()],['تاريخ الإصدار',TODAY]])}${tools}${h}</div>`;
+}
+
+// ---------- بوستر ملخص التقرير (A3) ----------
+function nnPosterHtml(rk){
+  const M=nnModel(rk), pk=nnPrevKey(rk), P=pk&&rk!=='final'?nnModel(pk):null; if(!M.sum) return '';
+  const f=x=>x==null?'—':r1(x)+'%', C=nnCatAgg(M.cats), cp=c=>C.n?C.o[c]/C.n*100:0;
+  const subs=[...M.subjects].filter(s=>s.ach!=null).sort((a,b)=>b.ach-a.ach);
+  const gb=M.grades.map(g=>({g, ach:avg(M.subjects.map(s=>(s.byG.find(x=>x.g===g)||{}).ach).filter(v=>v!=null)), pass:avg(M.subjects.map(s=>(s.byG.find(x=>x.g===g)||{}).pass).filter(v=>v!=null))})).filter(x=>x.ach!=null);
+  const topG=[...gb].sort((a,b)=>b.ach-a.ach)[0];
+  const full=M.students.filter(s=>s[3]!=null&&s[3]>=99.99).length, nres=M.students.filter(s=>s[3]!=null).length;
+  const okN=subs.filter(s=>s.ach>=s.t.ach&&s.pass>=s.t.pass).length;
+  const grp=NN_GROUPS.map(([k,l])=>{ const a=subs.filter(s=>s.grp===k); return a.length?{k,l,b:a[0]}:null; }).filter(Boolean);
+  const title=rk==='final'?'النتائج النهائية للعام الدراسي':'ملخص نتائج '+NN_RLABEL[rk];
+  const dAch=P&&P.sum?M.sum.ach-P.sum.ach:null;
+  const COL={'ممتاز':'#2e7d4f','جيد جداً':'#7fb069','جيد':'#2a5d8f','مقبول':'#c9a13b','ضعيف':'#c2671b','ضعيف جداً':'#9e2a2b'};
+  const kp=(l,v,s,gold)=>`<div class="pk${gold?' g':''}"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+  // القيمة المضافة المختصرة
+  const V=nnVA(M.y); let vaLine='';
+  if(V&&V.school){ const n={r1:1,r2:2,r3:3,r4:4,final:4}[rk], pref={r2:'1-2',r3:'1-3',r4:'3-4',final:'3-4'}[rk];
+    if(pref&&+pref.split('-')[1]<=n){ const rs=V.school.rows.filter(r=>r.v[pref]!=null&&Math.abs(r.v[pref])>=0.01).sort((a,b)=>b.v[pref]-a.v[pref]); if(rs.length>1){ const fv=v=>{ const x=Math.abs(v)<0.005?0:v; return `<bdi dir="ltr" class="${x>=0?'pv-up':'pv-dn'}">${x>0?'+':''}${x.toFixed(2)}</bdi>`; }, top=rs[0], low=rs[rs.length-1];
+      vaLine=`<div class="pva"><div class="pvh">القيمة المضافة (${NN_PLABEL[pref]})</div><div class="pvr"><span>الأعلى: ${esc(nnSL(top.l))}</span>${fv(top.v[pref])}</div><div class="pvr"><span>الأدنى: ${esc(nnSL(low.l))}</span>${fv(low.v[pref])}</div></div>`; } } }
+  return `<div class="nn-poster" id="nnPoster">
+  <div class="pl"><img src="${LOGO}" alt=""></div>
+  <div class="ph"><small>الشبكة الوطنية — ${esc(rk==='final'?'النتائج النهائية':NN_RLABEL[rk])} · العام الدراسي ${esc(M.y)}</small><h1>${esc(title)}</h1><p>${esc(SETTINGS.school||'مدرسة حمزة بن عبد المطلب الإعدادية للبنين')} — الصفوف السابع والثامن والتاسع</p></div>
+  <div class="pks">${kp('نسبة التحصيل',f(M.sum.ach),`المستهدف ${M.TS.ach}%${dAch!=null?` · ${sgn(dAch)} عن ${NN_RSHORT[pk]}`:''}`)}${kp('نسبة النجاح',f(M.sum.pass),`المستهدف ${M.TS.pass}%`)}${kp('تصنيف المدرسة',esc(M.sum.cls||'—'),`${okN} من ${subs.length} مواد حققت المستهدف`,true)}</div>
+  ${C.n?`<div class="plv"><div class="plh"><b>${r1(cp('ممتاز'))}%</b><span>من النتائج في مستوى «ممتاز»${nres?` — و${r1(full/nres*100)}% بالدرجة الكاملة`:''}</span></div>
+    <div class="pst">${NN_CATS.map(c=>`<i style="width:${cp(c)}%;background:${COL[c]}"></i>`).join('')}</div>
+    <div class="plg">${NN_CATS.map(c=>`<span><i style="background:${COL[c]}"></i>${c} ${r1(cp(c))}%</span>`).join('')}</div></div>`:''}
+  <div class="pbx"><div class="pbh"><h2>التحصيل حسب المادة</h2><small>المستهدف ${M.TS.ach}%</small></div>
+    ${subs.map((s,i)=>`<div class="pbr"><span>${esc(s.l)}</span><div class="ptr"><i style="width:${Math.max(0,Math.min(100,s.ach))}%;background:${i<3?'#c9a13b':s.ach>=s.t.ach?'#7a1f2b':'#c2671b'}"></i></div><b>${f(s.ach)}</b></div>`).join('')}</div>
+  <div class="p2">
+    <div class="pbx"><h2>حسب الصف</h2><div class="pgs">${gb.map(x=>`<div class="pg${topG&&x.g===topG.g?' best':''}"><span>${GRADE_AR[x.g]||x.g}</span><b>${f(x.ach)}</b><small>نجاح ${f(x.pass)}</small></div>`).join('')}</div>${vaLine}</div>
+    <div class="pbx"><h2>الأقسام المتميزة</h2>${grp.map(g=>`<div class="pgr"><div><small>${esc(g.l)}</small><b>${esc(g.b.l)}</b></div><em class="c-${g.k}">${f(g.b.ach)}</em></div>`).join('')}</div>
+  </div>
+  <div class="pf"><div><b>شركاؤنا في النجاح</b><span>متابعتكم اليومية وانتظام أبنائكم في الحضور سرّ استمرار التميّز</span></div>
+    <div class="psg"><div><small>نائب المدير للشؤون الأكاديمية</small><b>${esc(SETTINGS.deputy||'')}</b></div><div><small>مدير المدرسة</small><b>${esc(SETTINGS.principal||'')}</b></div></div></div>
+  <div class="psrc">المصدر: الشبكة الوطنية — ${esc(rk==='final'?'النتائج النهائية (محسوبة من التقارير الأربعة)':NN_RLABEL[rk])} ${esc(M.y)}، دون احتساب الطلاب الغائبين والمنقطعين</div>
+</div>`;
+}
+function pNNPoster(){
+  const ks=Object.keys(nnRep()).sort(nnOrd);
+  const head=RH('بوستر ملخص النتائج','',[['العام الدراسي',currentYear]]);
+  if(!ks.length) return `<div class="sheet">${head}${empty('لم تُرفع تقارير الشبكة الوطنية لهذا العام بعد')}</div>`;
+  if(!ks.includes(st.nnR)) st.nnR=ks.includes('final')?'final':ks[ks.length-1];
+  const rk=st.nnR;
+  const tools=`<div class="r-tools noprint" style="max-width:1123px;margin:0 auto 10px"><label class="f">التقرير ${nnRSel(ks,rk,false)}</label><span class="sp"></span><button class="btn sm" data-act="nav" data-v="nn">${ico('net')}تقرير التحليل</button><button class="btn sm pri" data-act="nnposterpdf">${ico('download')}تنزيل PDF (A3)</button><button class="btn sm" data-act="nnposterpng">${ico('download')}تنزيل صورة PNG</button></div>`;
+  return `${tools}<div class="nn-pwrap">${nnPosterHtml(rk)||empty('لا توجد بيانات كافية لهذا التقرير')}</div>`;
+}
+async function nnPosterCanvas(){
+  const el=document.getElementById('nnPoster'); if(!el||typeof html2canvas==='undefined') throw new Error('البوستر غير جاهز');
+  const wrap=el.parentElement, old=wrap.style.cssText; wrap.style.cssText='transform:none;width:1123px;height:1587px;overflow:visible';
+  try{ await (document.fonts&&document.fonts.ready); return await html2canvas(el,{scale:2.5, backgroundColor:'#FAF6EF', logging:false, width:1123, height:1587, windowWidth:1400}); } finally{ wrap.style.cssText=old; }
+}
+const nnPosterName = () => `بوستر ${st.nnR==='final'?'النتائج النهائية':NN_RLABEL[st.nnR]||''} - ${currentYear}`;
+Object.assign(ACT,{
+  async nnposterpng(){ if(!isFull()) return; busy('جارٍ إنشاء الصورة…'); await frame(); try{ const cv=await nnPosterCanvas(); const b=await new Promise(r=>cv.toBlob(r,'image/png')); download(safeName(nnPosterName())+'.png', b); }catch(e){ console.error(e); alert('تعذّر إنشاء الصورة: '+(e.message||e)); } finally{ busy(''); } },
+  async nnposterpdf(){ if(!isFull()) return; busy('جارٍ إنشاء ملف PDF…'); await frame(); try{ const cv=await nnPosterCanvas(); const J=window.jspdf&&window.jspdf.jsPDF; if(!J) throw new Error('مكتبة PDF غير محمّلة'); const pdf=new J({orientation:'portrait', unit:'mm', format:'a3'}); pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,297,420); download(safeName(nnPosterName())+'.pdf', pdf.output('blob')); }catch(e){ console.error(e); alert('تعذّر إنشاء ملف PDF: '+(e.message||e)); } finally{ busy(''); } },
+});
 
 // ---------- تقرير التكريم بعد كل تقييم ----------
 function nnHonorModel(rk){
