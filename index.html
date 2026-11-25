@@ -2562,7 +2562,7 @@ const cacheKey = y => `cloud:${(me()&&me().u)||''}:${role()}:${y}`;
 async function cacheGet(y, stamp){ try{ const c=await STORE.get(cacheKey(y)); return c && stamp && c.stamp===stamp ? c : null; }catch(e){ return null; } }
 function cachePut(y, v){ try{ STORE.set(cacheKey(y), v).catch(()=>{}); }catch(e){} }
 
-const META_V=3;   // 3: نشر نسخ الشبكة الوطنية لكل قسم ومعلم let CLOUD_UPGRADE=[];
+const META_V=3; let CLOUD_UPGRADE=[];
 async function loadYearCloud(y, stamp){
   const db=CLOUD.db, r=role(), yref=db.collection('years').doc(y);
   let c=await cacheGet(y, stamp);
